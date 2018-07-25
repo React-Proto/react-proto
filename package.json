@@ -19,7 +19,11 @@
     "electron": "^2.0.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-rnd": "^8.0.2"
+    "react-redux": "^5.0.7",
+    "react-rnd": "^8.0.2",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
