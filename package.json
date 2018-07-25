@@ -4,16 +4,21 @@
   "description": "Boilerplate for React apps",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
+    "start": "webpack --mode development --watch --hot",
     "build": "webpack --mode production",
     "electron": "electron ."
   },
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^1.4.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-rnd": "^8.0.2"
+    "react-redux": "^5.0.7",
+    "react-rnd": "^8.0.2",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
