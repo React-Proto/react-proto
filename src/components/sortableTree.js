@@ -13,12 +13,12 @@ class SortableComponents extends Component {
         {
           title: "App",
           expanded: true,
-          children: [{ title: "index" }, { title: "header" }]
+          children: [{ title: "index" }]
         },
         {
           title: "Sun",
           expanded: true,
-          children: [{ title: "Mercury" }, { title: "Venus" }, {title: "Earth"}]
+          children: [{ title: "Mercury" }, { title: "Venus" }, { title: "Earth" }, { title: "Mars" }, { title: "Saturn" }]
         }
       ]
     };
