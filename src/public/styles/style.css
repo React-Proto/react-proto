@@ -1,20 +1,75 @@
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+}
+
 body {
-   margin: 0;
-   padding: 0;
+  margin: 0;
+  padding: 0;
+  font-family: "Open sans", sans-serif;
+  font-weight: 400;
+}
+
+header {
+  background-color: black;
+  color: white;
+  font-size: 14px;
+  height: 23px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  box-shadow: 0px 3px 3px rgba(0,0,0, 0.2);
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  -webkit-app-region: drag;
+}
+
+.app {
+  margin-top: 23px;
 }
 
 .app-container {
-   display: flex;
-   width: 100%;
-   height: 100vh;
+  display: flex;
+  width: 100%;
+  height: 100vh;
 }
 
 .column {
   width: 20%;
+  padding: 20px;
+  background: #fff;
 }
 
 .main {
   border-left: 1px solid grey;
   border-right: 1px solid grey;
+  background: #fff;
   flex: 1;
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  position: fixed;
+  margin-top: 23px;
+  top: 0;
+  left: 20;
+}
+
+h1 {
+  color: #ccc;
+}
+
+.btn {
+  font-size: 16px;
 }
