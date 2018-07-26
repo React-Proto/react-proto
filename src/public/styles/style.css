@@ -1,3 +1,20 @@
-h1 {
-  color: blue;
+body {
+   margin: 0;
+   padding: 0;
+}
+
+.app-container {
+   display: flex;
+   width: 100%;
+   height: 100vh;
+}
+
+.column {
+  width: 20%;
+}
+
+.main {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  flex: 1;
 }
