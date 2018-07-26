@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import Rnd from 'react-rnd';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import SortableComponents from './sortableTree.jsx'
 import '../public/styles/style.css';
 
 class App extends Component {
