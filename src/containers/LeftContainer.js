@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class LeftContainer extends Component {
   render() {
@@ -6,6 +6,6 @@ export default class LeftContainer extends Component {
       <div className="column">
         Left Container
       </div>
-    )
+    );
   }
 }

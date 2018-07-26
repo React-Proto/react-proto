@@ -10,11 +10,11 @@ body {
 }
 
 .column {
-   background-color: blue;
-   width: 20%;
+  width: 20%;
 }
 
 .main {
-   background-color: green;
-   flex: 1;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  flex: 1;
 }

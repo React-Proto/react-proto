@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class RightContainer extends Component {
   render() {
@@ -6,6 +6,6 @@ export default class RightContainer extends Component {
       <div className="column">
         Right container
       </div>
-    )
+    );
   }
 }
