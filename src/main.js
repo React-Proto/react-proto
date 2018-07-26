@@ -14,7 +14,6 @@ function createWindow() {
    });
 
    // and load the index.html of the app.
-   console.log(__dirname);
    mainWindow.loadURL(`file://${__dirname}/../dist/index.html`);
 
 

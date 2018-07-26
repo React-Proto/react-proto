@@ -1,4 +1,4 @@
-import * as types from '../constants/actionTypes';
+import * as types from '../actionTypes/actionTypes';
 
 export default (state = [], action) => {
   let componets;

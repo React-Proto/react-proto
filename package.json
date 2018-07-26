@@ -4,7 +4,7 @@
   "description": "Boilerplate for React apps",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack --mode development --watch --hot",
+    "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "electron": "electron ."
   },
