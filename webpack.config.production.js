@@ -1,8 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const DIST_DIR = path.join(__dirname, 'dist');
+const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
 
 module.exports = {
@@ -15,9 +16,8 @@ module.exports = {
     ],
   },
   output: {
-    filename: 'js/bundle.[hash].js',
-    path: DIST_DIR,
-    publicPath: '/',
+    filename: 'js/bundle.js',
+    path: BUILD_DIR,
   },
   devtool: 'source-map',
   module: {
@@ -76,8 +76,16 @@ module.exports = {
       template: 'public/index.html',
     }),
     new ExtractTextPlugin({
-      filename: 'styles/styles.[hash].css',
+      filename: 'styles/style.css',
       allChunks: true,
     }),
+    new CopyWebpackPlugin([
+      {
+        from: 'public/images/**/*',
+        to: 'images/',
+        flatten: true,
+        force: true,
+      },
+    ]),
   ],
 };

@@ -4,12 +4,14 @@
   "description": "An application for prototyping React components.",
   "main": "src/main.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open --hot",
-    "prebuild": "rimraf dist",
-    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js",
-    "dev": "webpack -d --config webpack.config.development.js --watch --hot",
+    "prestart": "npm run clear_build",
+    "start": "webpack --config webpack.config.development.js",
+    "prebuild": "npm run clear_build",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
+    "dev_server": "webpack-dev-server --config webpack.config.development.js",
     "electron": "electron .",
-    "lint": "eslint ."
+    "clear_build": "rimraf build",
+    "linter": "eslint src"
   },
   "author": "Blessing Ebowe, Brian Taylor, Erik Gunther",
   "license": "MIT",
@@ -19,10 +21,12 @@
     "electron": "^2.0.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-hot-loader": "^4.3.4",
     "react-redux": "^5.0.7",
     "react-rnd": "^8.0.2",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
+    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
@@ -32,6 +36,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.0",
@@ -42,6 +47,7 @@
     "eslint-plugin-react": "^7.10.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.1.0",
+    "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.3",

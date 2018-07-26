@@ -4,21 +4,22 @@ const {
   Menu,
   shell,
 } = require('electron');
-// const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-function createWindow() {
+const createWindow = () => {
   // Create the browser window.
+  // eslint-disable-next-line
+  const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 900,
+    width,
+    height,
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/../dist/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../build/index.html`);
 
   const template = [{
     label: 'File',
@@ -32,74 +33,37 @@ function createWindow() {
   },
   {
     label: 'Edit',
-    submenu: [{
-      role: 'undo',
-    },
-    {
-      role: 'redo',
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'cut',
-    },
-    {
-      role: 'copy',
-    },
-    {
-      role: 'paste',
-    },
-    {
-      role: 'pasteandmatchstyle',
-    },
-    {
-      role: 'delete',
-    },
-    {
-      role: 'selectall',
-    },
+    submenu: [
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { role: 'pasteandmatchstyle' },
+      { role: 'delete' },
+      { role: 'selectall' },
     ],
   },
   {
     label: 'View',
-    submenu: [{
-      role: 'reload',
-    },
-    {
-      role: 'forcereload',
-    },
-    {
-      role: 'toggledevtools',
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'resetzoom',
-    },
-    {
-      role: 'zoomin',
-    },
-    {
-      role: 'zoomout',
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'togglefullscreen',
-    },
+    submenu: [
+      { role: 'reload' },
+      { role: 'forcereload' },
+      { role: 'toggledevtools' },
+      { type: 'separator' },
+      { role: 'resetzoom' },
+      { role: 'zoomin' },
+      { role: 'zoomout' },
+      { type: 'separator' },
+      { role: 'togglefullscreen' },
     ],
   },
   {
     role: 'window',
-    submenu: [{
-      role: 'minimize',
-    },
-    {
-      role: 'close',
-    },
+    submenu: [
+      { role: 'minimize' },
+      { role: 'close' },
     ],
   },
   {
@@ -126,34 +90,16 @@ function createWindow() {
   if (process.platform === 'darwin') {
     template.unshift({
       label: app.getName(),
-      submenu: [{
-        role: 'about',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'services',
-        submenu: [],
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'hide',
-      },
-      {
-        role: 'hideothers',
-      },
-      {
-        role: 'unhide',
-      },
-      {
-        type: 'separator',
-      },
-      {
-        role: 'quit',
-      },
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'services', submenu: [] },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
       ],
     });
 
@@ -162,31 +108,16 @@ function createWindow() {
       type: 'separator',
     }, {
       label: 'Speech',
-      submenu: [{
-        role: 'startspeaking',
-      },
-      {
-        role: 'stopspeaking',
-      },
-      ],
+      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
     });
 
     // Window menu
-    template[4].submenu = [{
-      role: 'close',
-    },
-    {
-      role: 'minimize',
-    },
-    {
-      role: 'zoom',
-    },
-    {
-      type: 'separator',
-    },
-    {
-      role: 'front',
-    },
+    template[4].submenu = [
+      { role: 'close' },
+      { role: 'minimize' },
+      { role: 'zoom' },
+      { type: 'separator' },
+      { role: 'front' },
     ];
   }
 
@@ -203,7 +134,7 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
-}
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
