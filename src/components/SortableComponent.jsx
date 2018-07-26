@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import SortableTree from "react-sortable-tree";
+import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
 // import './style.css';
 
-class SortableComponents extends Component {
+class SortableComponent extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       treeData: [
         {
-          title: "App",
+          title: 'App',
           expanded: true,
-          children: [{ title: "index" }]
+          children: [{ title: 'index' }],
         },
         {
-          title: "Sun",
+          title: 'Sun',
           expanded: true,
-          children: [{ title: "Mercury" }, { title: "Venus" }, { title: "Earth" }, { title: "Mars" }, { title: "Saturn" }]
-        }
-      ]
+          children: [{ title: 'Mercury' }, { title: 'Venus' }, { title: 'Earth' }, { title: 'Mars' }, { title: 'Saturn' }],
+        },
+      ],
     };
   }
 
@@ -36,4 +35,4 @@ class SortableComponents extends Component {
   }
 }
 
-export default SortableComponents;
+export default SortableComponent;

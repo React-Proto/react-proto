@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import SortableComponents from '../components/SortableComponents.jsx'
+import SortableComponent from '../components/SortableComponent.jsx';
 
 export default class RightContainer extends Component {
   render() {
     return (
       <div className="column">
-        <SortableComponents />
+        <SortableComponent />
       </div>
     );
   }
