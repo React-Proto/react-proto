@@ -12,20 +12,23 @@ const mapDispatchToProps = dispatch => ({
 
 class LeftContainer extends Component {
   state = {
-    input: '',
+    inputValue: '',
   }
 
   handleChange = (event) => {
     this.setState({
-      input: event.target.value,
+      inputValue: event.target.value,
     });
   }
 
   render() {
+    const { addComponent } = this.props;
+    const { inputValue } = this.state;
+
     return (
       <div className="column">
         <input type="text" placeholder="Add Component" onChange={event => this.handleChange(event)} />
-        <button onClick={() => this.props.addComponent(this.state.input)}>Add</button>
+        <button onClick={() => addComponent(inputValue)}>Add</button>
       </div >
     );
   }

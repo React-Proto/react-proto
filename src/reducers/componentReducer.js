@@ -1,4 +1,4 @@
-import * as types from '../actionTypes/index';
+import * as types from '../actionTypes';
 
 const componentReducer = (state = [], action) => {
   switch (action.type) {

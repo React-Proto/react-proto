@@ -5,7 +5,6 @@ const {
   shell,
   dialog,
 } = require('electron');
-const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -21,7 +20,6 @@ function openFile() {
     }],
   });
 
-  console.log('files', files);
   // if no files
   if (!files) return;
   const file = files[0];

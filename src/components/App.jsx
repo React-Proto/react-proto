@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import LeftContainer from '../containers/LeftContainer';
-import MainContainer from '../containers/MainContainer';
-import RightContainer from '../containers/RightContainer';
+import LeftContainer from '../containers/LeftContainer.jsx';
+import MainContainer from '../containers/MainContainer.jsx';
+import RightContainer from '../containers/RightContainer.jsx';
 // import Rnd from 'react-rnd';
 import '../public/styles/style.css';
 
