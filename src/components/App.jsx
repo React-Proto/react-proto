@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import Rnd from 'react-rnd';
-import LeftContainer from '../containers/LeftContainer';
-import MainContainer from '../containers/MainContainer';
-import RightContainer from '../containers/RightContainer';
+import LeftContainer from '../containers/LeftContainer.jsx';
+import MainContainer from '../containers/MainContainer.jsx';
+import RightContainer from '../containers/RightContainer.jsx';
 // import Rnd from 'react-rnd';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import '../public/styles/style.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="app-container">
-        <LeftContainer />
-        <MainContainer />
-        <RightContainer />
+      <div className="app">
+        <header>React Proto</header>
+        <div className="app-container">
+          <LeftContainer />
+          <MainContainer />
+          <RightContainer />
+        </div>
       </div>
     );
   }

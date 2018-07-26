@@ -1,1 +1,8 @@
-// import * as types from '../constants/actionTypes.js';
+import { ADD_COMPONENT } from '../actionTypes/index';
+
+export function addComponent(name) {
+  return {
+    type: ADD_COMPONENT,
+    payload: name,
+  };
+}
