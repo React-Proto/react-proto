@@ -3,11 +3,32 @@ const {
   BrowserWindow,
   Menu,
   shell,
+  dialog,
 } = require('electron');
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+// Open image file
+function openFile() {
+  // Opens file dialog looking for markdown
+  const files = dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{
+      name: 'Images', extensions: ['jpeg', 'png', 'gif', 'pdf'],
+    }],
+  });
+
+  console.log('files', files);
+  // if no files
+  if (!files) return;
+  const file = files[0];
+
+  // Send fileContent to renderer
+  mainWindow.webContents.send('new-file', file);
+}
 
 const createWindow = () => {
   // Create the browser window.
@@ -16,6 +37,7 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width,
     height,
+    titleBarStyle: 'hidden',
   });
 
   // and load the index.html of the app.
@@ -24,10 +46,10 @@ const createWindow = () => {
   const template = [{
     label: 'File',
     submenu: [{
-      label: 'Save File',
-      accelerator: 'CmdOrCtrl+S',
+      label: 'Open File',
+      accelerator: 'CmdOrCtrl+O',
       click() {
-        mainWindow.webContents.send('save-file');
+        openFile();
       },
     }],
   },
@@ -125,7 +147,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(menu);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
