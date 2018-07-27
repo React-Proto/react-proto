@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import UploadedImage from '../components/UploadedImage.jsx';
 
-const { ipcRenderer } = window.require('electron');
+const { ipcRenderer } = require('electron');
 
 export default class MainContainer extends Component {
   state = {

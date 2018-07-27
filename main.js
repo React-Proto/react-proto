@@ -5,10 +5,16 @@ const {
   shell,
   dialog,
 } = require('electron');
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS,
+} = require('electron-devtools-installer');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+const isDev = process.env['NODE_ENV'] === 'development';
 
 // Open image file
 function openFile() {
@@ -35,11 +41,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width,
     height,
-    titleBarStyle: 'hidden',
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/../build/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/build/index.html`);
 
   const template = [{
     label: 'File',
@@ -159,7 +164,19 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  if(isDev) {
+		installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+      .then((name) => {
+        console.log(`Added Extension:  ${name}`);
+        createWindow();
+      })
+      .catch((err) => console.log('An error occurred: ', err));
+  }
+	else {
+		createWindow();
+	}
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

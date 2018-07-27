@@ -9,14 +9,14 @@ class SortableComponent extends Component {
     this.state = {
       treeData: [
         {
-          title: 'App',
+          title: 'DrawingComponentComponent',
           expanded: true,
           children: [{ title: 'index' }],
         },
         {
-          title: 'Sun',
+          title: 'DrawingComponentComponent',
           expanded: true,
-          children: [{ title: 'Mercury' }, { title: 'Venus' }, { title: 'Earth' }, { title: 'Mars' }, { title: 'Saturn' }],
+          children: [{ title: 'MercuryComponent' }, { title: 'Venus' }, { title: 'DrawingComponent' }, { title: 'Mars' }, { title: 'DrawingComponent' }],
         },
       ],
     };
