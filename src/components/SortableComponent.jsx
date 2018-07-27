@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import SortableTree from 'react-sortable-tree';
 import 'react-sortable-tree/style.css';
-// import './style.css';
 
 class SortableComponent extends Component {
   constructor(props) {
@@ -10,14 +9,14 @@ class SortableComponent extends Component {
     this.state = {
       treeData: [
         {
-          title: 'App',
+          title: 'DrawingComponentComponent',
           expanded: true,
           children: [{ title: 'index' }],
         },
         {
-          title: 'Sun',
+          title: 'DrawingComponentComponent',
           expanded: true,
-          children: [{ title: 'Mercury' }, { title: 'Venus' }, { title: 'Earth' }, { title: 'Mars' }, { title: 'Saturn' }],
+          children: [{ title: 'MercuryComponent' }, { title: 'Venus' }, { title: 'DrawingComponent' }, { title: 'Mars' }, { title: 'DrawingComponent' }],
         },
       ],
     };
@@ -25,7 +24,7 @@ class SortableComponent extends Component {
 
   render() {
     return (
-      <div style={{ height: 800 }}>
+      <div style={{ height: '100%' }}>
         <SortableTree
           treeData={this.state.treeData}
           onChange={treeData => this.setState({ treeData })}

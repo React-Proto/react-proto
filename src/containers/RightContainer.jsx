@@ -33,7 +33,7 @@ export default class RightContainer extends Component {
       },
     ];
     return (
-      <div className="column">
+      <div className="column right">
         <Export
           componentData={componentData}
           exportFiles={this.exportFiles}
@@ -41,6 +41,7 @@ export default class RightContainer extends Component {
         />
         <SortableComponent />
       </div>
+
     );
   }
 }
