@@ -4,17 +4,22 @@ const {
   Menu,
   shell,
   dialog,
+  ipcMain,
 } = require('electron');
+
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } = require('electron-devtools-installer');
+const fs = require('fs');
+const createFiles = require('./src/utils/createFiles');
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-const isDev = process.env['NODE_ENV'] === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 // Open image file
 function openFile() {
@@ -22,7 +27,7 @@ function openFile() {
   const files = dialog.showOpenDialog(mainWindow, {
     properties: ['openFile'],
     filters: [{
-      name: 'Images', extensions: ['jpeg', 'png', 'gif', 'pdf'],
+      name: 'Images', extensions: ['jpeg', 'jpg', 'png', 'gif', 'pdf'],
     }],
   });
 
@@ -33,6 +38,28 @@ function openFile() {
   // Send fileContent to renderer
   mainWindow.webContents.send('new-file', file);
 }
+
+
+// Choose directory and export files
+ipcMain.on('export-files', (event, data) => {
+  const directory = dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory'],
+  });
+
+  // if no directory
+  if (!directory) return;
+  const dir = directory[0];
+  const path = `${dir}/components`;
+
+  if (fs.existsSync(path)) {
+    createFiles(data, path);
+  } else {
+    fs.mkdir(path, (err) => {
+      if (err) return console.error(err);
+      createFiles(data, path);
+    });
+  }
+});
 
 const createWindow = () => {
   // Create the browser window.
@@ -165,17 +192,16 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  if(isDev) {
-		installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
+  if (isDev) {
+    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then((name) => {
         console.log(`Added Extension:  ${name}`);
         createWindow();
       })
-      .catch((err) => console.log('An error occurred: ', err));
+      .catch(err => console.log('An error occurred: ', err));
+  } else {
+    createWindow();
   }
-	else {
-		createWindow();
-	}
 });
 
 // Quit when all windows are closed.
