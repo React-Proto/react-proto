@@ -13,7 +13,7 @@ const {
   REDUX_DEVTOOLS,
 } = require('electron-devtools-installer');
 const fs = require('fs');
-const createFiles = require('./src/utils/createFiles');
+const createFiles = require('./src/utils/createFiles.util.js');
 
 
 // Keep a global reference of the window object, if you don't, the window will

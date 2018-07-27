@@ -5,7 +5,7 @@ const componentReducer = (state = [{ name: 'Erik' }], action) => {
     case types.ADD_COMPONENT:
       console.log(action.payload);
       return {
-        state,
+
       };
     default:
       return state;

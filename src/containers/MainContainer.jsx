@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import UploadedImage from '../components/UploadedImage.jsx';
+import MainContainerHeader from '../components/MainContainerHeader.jsx';
 
 const { ipcRenderer } = require('electron');
 
@@ -9,8 +10,8 @@ export default class MainContainer extends Component {
     height: 800,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     ipcRenderer.on('new-file', (event, file) => {
       this.setState({
@@ -33,21 +34,35 @@ export default class MainContainer extends Component {
     });
   }
 
+  removeImage = () => {
+    this.setState({
+      image: '',
+    });
+  }
+
+  updateImage = () => {
+    console.log('update image');
+  }
+
   render() {
     const { image, height } = this.state;
 
     return (
-      <div className="main">
-        <UploadedImage
-          height={height}
+      <div className="main-container">
+        <MainContainerHeader
           image={image}
           increaseHeight={this.increaseHeight}
           decreaseHeight={this.decreaseHeight}
+          removeImage={this.removeImage}
+          updateImage={this.updateImage}
+
         />
-        {image ? <div className="buttons">
-          <button className="btn increase" onClick={() => this.increaseHeight()}>+</button>
-          <button className="btn decrease" onClick={() => this.decreaseHeight()}>-</button>
-        </div> : ''}
+        <div className="main">
+          <UploadedImage
+            height={height}
+            image={image}
+          />
+        </div>
       </div>
     );
   }

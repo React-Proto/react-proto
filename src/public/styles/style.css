@@ -38,29 +38,12 @@ header {
   padding: 10px;
 }
 
-.main {
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
-  background: #fff;
-  flex: 1;
-  overflow: scroll;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 /*
 /////////////////////////////////////////// 
 BUTTONS
 /////////////////////////////////////////////
 */
-
-.buttons {
-  position: fixed;
-  margin-top: 23px;
-  top: 0;
-  left: 20;
-}
 
 .btn {
   font-size: 16px;
@@ -84,6 +67,36 @@ h1 {
   color: #ccc;
 }
 
+.main {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  background: #fff;
+  flex: 1;
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: scroll;
+}
+
+.main-header {
+  display: flex;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+
+.main-header-buttons {
+  display: flex;
+}
+
 
 /*
 /////////////////////////////////////////// 
@@ -97,10 +110,6 @@ RIGHT COLUMN
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.btn {
-  font-size: 16px;
 }
 
 /* Sortable tree sorting */
