@@ -1,12 +1,16 @@
 import * as types from '../actionTypes';
+import componentReducerUtil from '../utils/componentReducer.util';
 
-const componentReducer = (state = [{ name: 'Erik' }], action) => {
+const { addComponent } = componentReducerUtil;
+const initialApplicationState = {
+  totalComponents: 0,
+  components: [],
+};
+
+const componentReducer = (state = initialApplicationState, action) => {
   switch (action.type) {
     case types.ADD_COMPONENT:
-      console.log(action.payload);
-      return {
-        state,
-      };
+      return addComponent(action.payload.title, state);
     default:
       return state;
   }

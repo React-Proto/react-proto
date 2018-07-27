@@ -32,12 +32,12 @@ const styles = theme => ({
 
 
 const LeftColExpansionPanel = (props) => {
-  const { classes, name } = props;
+  const { classes, title } = props;
   return (
     <div className={classes.root}>
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>{name}</Typography>
+          <Typography className={classes.heading}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
@@ -74,3 +74,7 @@ export default withStyles(styles)(LeftColExpansionPanel);
 //   <FormControlLabel value="stateful" control={<Radio />} label="Stateful" />
 // </RadioGroup>
 // </FormControl>
+
+LeftColExpansionPanel.propTypes = {
+  title: PropTypes.string,
+};
