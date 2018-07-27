@@ -29,7 +29,7 @@ class LeftContainer extends Component {
     const { inputValue } = this.state;
 
     return (
-      <div className="column">
+      <div className="column left">
         <input type="text" placeholder="Add Component" onChange={event => this.handleChange(event)} />
         <button onClick={() => addComponent(inputValue)}>Add</button>
         {components.map((component, i) => <LeftColExpansionPanel key={i} name={component.name} /> )}

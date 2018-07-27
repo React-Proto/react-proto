@@ -4,24 +4,15 @@
 # Install dependencies
 npm install
 
-# Build files
-npm run build
+# Run application
+npm start
 
-# Run application with electron
-npm run electron
-
-# Run application on browser
-npm run dev_server
-
-# Clear build folder
-npm run clear_build
-
-# Run Linter
-npm run linter
-
-# For development environment with electron....
-npm run start
+# For development environment...
+npm run dev
 
 # on another terminal
 npm run electron
+
+# Run Linter
+npm run linter
 ```

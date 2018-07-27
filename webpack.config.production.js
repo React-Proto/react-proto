@@ -2,12 +2,14 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
 
 module.exports = {
   mode: 'production',
+  target: 'electron-renderer',
   context: SRC_DIR,
   entry: {
     app: './index.js',
@@ -19,7 +21,6 @@ module.exports = {
     filename: 'js/bundle.js',
     path: BUILD_DIR,
   },
-  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -72,6 +73,7 @@ module.exports = {
     },
   },
   plugins: [
+    new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
