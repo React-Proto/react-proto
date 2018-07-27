@@ -76,8 +76,8 @@ module.exports = {
     ]),
   ],
   devServer: {
-		contentBase: BUILD_DIR,
-		hot: true
-	},
+    contentBase: BUILD_DIR,
+    hot: true,
+  },
   watch: true,
 };

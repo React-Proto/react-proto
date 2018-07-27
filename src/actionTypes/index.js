@@ -1,1 +1,2 @@
 export const ADD_COMPONENT = 'ADD_COMPONENT';
+export const DELETE_COMPONENT = 'DELETE_COMPONENT';
