@@ -2,18 +2,24 @@
   "name": "react_proto",
   "version": "1.0.0",
   "description": "An application for prototyping React components.",
-  "main": "src/main.js",
+  "main": "main.js",
+  "homepage": "https://cs-eevee.github.io/react-proto/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CS-Eevee/react-proto"
+  },
   "scripts": {
-    "prestart": "npm run clear_build",
-    "start": "webpack --config webpack.config.development.js",
-    "prebuild": "npm run clear_build",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "dev_server": "webpack-dev-server --config webpack.config.development.js",
-    "electron": "electron .",
-    "clear_build": "rimraf build",
+    "prestart": "webpack --config webpack.config.production.js",
+    "start": "electron .",
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
+    "electron": "cross-env NODE_ENV=development electron .",
     "linter": "eslint src"
   },
-  "author": "Blessing Ebowe, Brian Taylor, Erik Gunther",
+  "contributors": [
+    "Blessing Ebowe <blessingebowe.repo@gmail.com> (https://www.linkedin.com/in/blessingebowe/)",
+    "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brian-taylor-1a41a29a/)",
+    "Erik Guntner <erikguntner@gmail.com> (https://www.linkedin.com/in/erik-guntner-9aa324b9/)"
+  ],
   "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^1.4.1",
@@ -21,7 +27,6 @@
     "electron": "^2.0.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-hot-loader": "^4.3.4",
     "react-redux": "^5.0.7",
     "react-rnd": "^8.0.2",
     "react-sortable-tree": "^2.2.0",
@@ -37,10 +42,11 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "eslint": "^4.19.0",
+    "electron-devtools-installer": "^2.2.4",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
@@ -54,7 +60,6 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
     "webpack": "^4.4.0",
-    "webpack-cli": "^2.0.13",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-cli": "^2.0.13"
   }
 }
