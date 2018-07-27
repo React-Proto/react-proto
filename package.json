@@ -47,6 +47,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "electron-devtools-installer": "^2.2.4",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.13.0",
