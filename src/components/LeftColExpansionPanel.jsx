@@ -5,6 +5,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
+import Input from '@material-ui/core/Input';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import Radio from '@material-ui/core/Radio';
 // import RadioGroup from '@material-ui/core/RadioGroup';
@@ -30,9 +31,9 @@ const styles = theme => ({
   },
 });
 
-
 const LeftColExpansionPanel = (props) => {
-  const { classes, title } = props;
+  const { classes, title, index, id, handleColorChange, color } = props;
+  // console.log(color, index, id);
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -41,13 +42,21 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Typography>
-            Is this going to be a stateful component?
+            STATEFUL?
           </Typography>
           <Switch
           // checked={this.state.checkedB}
           // onChange={this.handleChange('checkedB')}
           value="checkedB"
           color="primary"
+        />
+        <Input
+          type="color"
+          disableUnderline={true}
+          value={color}
+          onChange={(event) => {
+            handleColorChange({ color: event.target.value, index, id });
+          }}
         />
         </ExpansionPanelDetails>
       </ExpansionPanel>
@@ -78,3 +87,5 @@ export default withStyles(styles)(LeftColExpansionPanel);
 LeftColExpansionPanel.propTypes = {
   title: PropTypes.string,
 };
+
+// pass id and remove the index but you are just going to use this index
