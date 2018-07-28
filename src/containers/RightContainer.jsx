@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+// import * as actions from '../actions/components';
 import SortableComponent from '../components/SortableComponent.jsx';
 import Export from '../components/Export.jsx';
 
 const { ipcRenderer } = window.require('electron');
 
-export default class RightContainer extends Component {
+class RightContainer extends Component {
   state = {
 
-  }
-
-  fileSelectedHandler = (event) => {
-    console.log(event);
   }
 
   exportFiles = (data) => {
@@ -18,24 +17,12 @@ export default class RightContainer extends Component {
   }
 
   render() {
-    const componentData = [
-      {
-        name: 'Button',
-        state: true,
-      },
-      {
-        name: 'Card',
-        state: false,
-      },
-      {
-        name: 'Container',
-        state: true,
-      },
-    ];
+    const { components } = this.props;
+
     return (
       <div className="column right">
         <Export
-          componentData={componentData}
+          componentData={components}
           exportFiles={this.exportFiles}
           fileSelectedHandler={this.fileSelectedHandler}
         />
@@ -45,3 +32,18 @@ export default class RightContainer extends Component {
     );
   }
 }
+
+const mapStateToProps = store => ({
+  components: store.components.components,
+});
+
+// const mapDispatchToProps = dispatch => ({
+
+// });
+
+RightContainer.propTypes = {
+  components: PropTypes.array.isRequired,
+};
+
+
+export default connect(mapStateToProps)(RightContainer);

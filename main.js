@@ -6,14 +6,13 @@ const {
   dialog,
   ipcMain,
 } = require('electron');
-
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } = require('electron-devtools-installer');
 const fs = require('fs');
-const createFiles = require('./src/utils/createFiles');
+const createFiles = require('./src/utils/createFiles.util.js');
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -59,6 +58,11 @@ ipcMain.on('export-files', (event, data) => {
       createFiles(data, path);
     });
   }
+});
+
+// Update file
+ipcMain.on('update-file', (event) => {
+  openFile();
 });
 
 const createWindow = () => {

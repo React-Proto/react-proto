@@ -30,6 +30,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-draggable": "^3.0.5",
     "react-redux": "^5.0.7",
     "react-rnd": "^8.0.2",
     "react-sortable-tree": "^2.2.0",

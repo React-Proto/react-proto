@@ -44,11 +44,11 @@ const LeftColExpansionPanel = (props) => {
             Is this going to be a stateful component?
           </Typography>
           <Switch
-          // checked={this.state.checkedB}
-          // onChange={this.handleChange('checkedB')}
-          value="checkedB"
-          color="primary"
-        />
+            // checked={this.state.checkedB}
+            // onChange={this.handleChange('checkedB')}
+            value="checkedB"
+            color="primary"
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
