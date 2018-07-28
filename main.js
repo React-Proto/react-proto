@@ -6,7 +6,6 @@ const {
   dialog,
   ipcMain,
 } = require('electron');
-
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
@@ -59,6 +58,11 @@ ipcMain.on('export-files', (event, data) => {
       createFiles(data, path);
     });
   }
+});
+
+// Update file
+ipcMain.on('update-file', (event) => {
+  openFile();
 });
 
 const createWindow = () => {

@@ -7,6 +7,7 @@ import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
+import SimpleModal from './SimpleModal.jsx';
 // import classNames from 'classnames';
 
 const style = {
@@ -22,46 +23,49 @@ const styles = theme => ({
 
 const MainContainerHeader = (props) => {
   const {
-    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage,
+    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage, open, handleOpen,
   } = props;
 
   return (
     <div className="main-header">
       <div className="main-header-buttons" style={{ marginRight: 'auto' }}>
-        <Tooltip title="zoom in" enterDelay={500} leaveDelay={100}>
+        <Tooltip title="zoom in">
           <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => increaseHeight()}>
             <ZoomInIcon />
           </Button>
         </Tooltip>
-        <Tooltip title="zoom out" enterDelay={500} leaveDelay={100}>
+        <Tooltip title="zoom out">
           <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => decreaseHeight()}>
             <ZoomOutIcon />
           </Button>
         </Tooltip>
       </div>
-      <div className="main-header-buttons">
-        <Tooltip title="remove image" enterDelay={500} leaveDelay={100}>
-          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => removeImage()}>
+      <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
+        <Tooltip title="remove image">
+          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
             <DeleteOutlineIcon />
           </Button>
         </Tooltip>
-        <Tooltip title="update image" enterDelay={500} leaveDelay={100}>
+        <Tooltip title="update image">
           <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => updateImage()}>
             <ImageSearchIcon />
           </Button>
         </Tooltip>
       </div>
+      <SimpleModal open={open} removeImage={removeImage} image={image} />
     </div>
   );
 };
 
 MainContainerHeader.propTypes = {
-  increaseHeight: PropTypes.func.isRequired,
-  decreaseHeight: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
   image: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  increaseHeight: PropTypes.func.isRequired,
+  decreaseHeight: PropTypes.func.isRequired,
   removeImage: PropTypes.func.isRequired,
   updateImage: PropTypes.func.isRequired,
+  handleOpen: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);

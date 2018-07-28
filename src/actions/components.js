@@ -1,8 +1,14 @@
-import { ADD_COMPONENT } from '../actionTypes/index';
+import {
+  ADD_COMPONENT,
+  DELETE_COMPONENT,
+} from '../actionTypes/index';
 
-export function addComponent(name) {
-  return {
-    type: ADD_COMPONENT,
-    payload: name,
-  };
-}
+export const addComponent = title => ({
+  type: ADD_COMPONENT,
+  payload: { title },
+});
+
+export const deleteComponent = index => ({
+  type: DELETE_COMPONENT,
+  payload: { index },
+});

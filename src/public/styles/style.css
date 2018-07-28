@@ -28,14 +28,16 @@ header {
 
 .column {
   width: 25%;
-  padding: 20px;
   background: #fff;
+}
+
+.left {
+  padding: 20px;
   overflow: scroll;
 }
 
-.column.right {
+.column .right {
   width: 25%;
-  padding: 10px;
 }
 
 
@@ -82,7 +84,8 @@ h1 {
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
 .main-header {
@@ -95,6 +98,7 @@ h1 {
 
 .main-header-buttons {
   display: flex;
+  font-size: 12px;
 }
 
 
@@ -119,6 +123,10 @@ RIGHT COLUMN
 
 .rst__moveHandle, .rst__loadingHandle {
   width: 40px;
+}
+
+.rst_tree {
+  overflow: scroll;
 }
 
 .rst__rowLabel {
