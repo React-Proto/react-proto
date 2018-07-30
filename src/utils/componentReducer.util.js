@@ -33,11 +33,6 @@ const componentReducerUtil = {
       component,
       ...state.components.slice(index + 1),
     ];
-    // access components array
-    // grab ...components and slice(0, index),
-    // grab the component to be update {....comp[id], color},
-    // ...component slice(i)
-    // return new array
 
     return {
       ...state,
