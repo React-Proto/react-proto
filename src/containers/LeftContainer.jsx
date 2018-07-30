@@ -16,6 +16,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
   addComponent: title => dispatch(actions.addComponent(title)),
   handleColorChange: ({ color, index, id }) => dispatch(actions.updateColor({ color, index, id })),
+  deleteComponent: ({ index, id }) => dispatch(actions.deleteComponent({ index, id })),
 });
 
 class LeftContainer extends Component {
@@ -34,6 +35,10 @@ class LeftContainer extends Component {
     this.setState({
       inputValue: '',
     });
+  }
+
+  handleDeleteComponent = ({ index, id }) => {
+    this.props.deleteComponent({ index, id });
   }
 
   render() {
@@ -56,7 +61,12 @@ class LeftContainer extends Component {
               />
             </Grid>
             <Grid item xs={2}>
-              <Button variant='fab' mini color='primary' aria-label='Add' onClick={this.handleAddComponent} disabled={!this.state.inputValue}>
+              <Button
+                variant='fab'
+                mini color='primary'
+                aria-label='Add'
+                onClick={this.handleAddComponent} 
+                disabled={!this.state.inputValue}>
                 <AddIcon />
               </Button>
             </Grid>
@@ -65,7 +75,11 @@ class LeftContainer extends Component {
         <div className='expansionPanel'>
           {
             components.map(
-              (component, i) => <LeftColExpansionPanel key={i} index={i} handleColorChange={handleColorChange} { ...component }/>,
+              (component, i) => <LeftColExpansionPanel
+                key={i}
+                index={i}
+                handleDeleteComponent={this.handleDeleteComponent}
+                handleColorChange={handleColorChange} { ...component } />,
             )
           }
         </div>
@@ -78,5 +92,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(LeftContainer);
 
 LeftContainer.propTypes = {
   addComponent: PropTypes.func,
+  deleteComponent: PropTypes.func,
   components: PropTypes.array,
 };

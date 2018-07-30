@@ -7,13 +7,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import Radio from '@material-ui/core/Radio';
-// import RadioGroup from '@material-ui/core/RadioGroup';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import FormControl from '@material-ui/core/FormControl';
-// import FormLabel from '@material-ui/core/FormLabel';
 import Switch from '@material-ui/core/Switch';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const styles = theme => ({
   root: {
@@ -32,8 +28,7 @@ const styles = theme => ({
 });
 
 const LeftColExpansionPanel = (props) => {
-  const { classes, title, index, id, handleColorChange, color } = props;
-  // console.log(color, index, id);
+  const { classes, title, index, id, handleColorChange, color, handleDeleteComponent } = props;
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -58,6 +53,14 @@ const LeftColExpansionPanel = (props) => {
             handleColorChange({ color: event.target.value, index, id });
           }}
         />
+        <IconButton
+          className={classes.button}
+          onClick={() => {
+            handleDeleteComponent({ index, id });
+          }}
+          aria-label="Delete">
+          <DeleteIcon />
+        </IconButton>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>
@@ -70,22 +73,6 @@ LeftColExpansionPanel.propTypes = {
 
 export default withStyles(styles)(LeftColExpansionPanel);
 
-
-// <FormControl component="fieldset" required className={classes.formControl}>
-// <FormLabel component="legend">Stateful?</FormLabel>
-// <RadioGroup
-//   aria-label="Stateful"
-//   name="stateful"
-//   className={classes.group}
-//   // value={this.state.value}
-//   // onChange={this.handleChange}
-// >
-//   <FormControlLabel value="stateful" control={<Radio />} label="Stateful" />
-// </RadioGroup>
-// </FormControl>
-
 LeftColExpansionPanel.propTypes = {
   title: PropTypes.string,
 };
-
-// pass id and remove the index but you are just going to use this index
