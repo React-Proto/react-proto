@@ -28,14 +28,45 @@ header {
 
 .column {
   width: 25%;
-  padding: 20px;
   background: #fff;
+}
+
+.left {
+  padding: 20px;
   overflow: scroll;
 }
 
-.column.right {
+.column .right {
   width: 25%;
-  padding: 10px;
+}
+
+
+/*
+/////////////////////////////////////////// 
+BUTTONS
+/////////////////////////////////////////////
+*/
+
+.btn {
+  font-size: 16px;
+}
+
+/*
+/////////////////////////////////////////// 
+LEFT COLUMN
+/////////////////////////////////////////////
+*/
+
+
+
+/*
+/////////////////////////////////////////// 
+MAIN COLUMN
+/////////////////////////////////////////////
+*/
+
+h1 {
+  color: #ccc;
 }
 
 .main {
@@ -49,41 +80,25 @@ header {
   align-items: center;
 }
 
-/*
-/////////////////////////////////////////// 
-BUTTONS
-/////////////////////////////////////////////
-*/
-
-.buttons {
-  position: fixed;
-  margin-top: 23px;
-  top: 0;
-  left: 20;
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
 
-.btn {
-  font-size: 16px;
-}
-
-/*
-/////////////////////////////////////////// 
-LEFT COLUMN
-/////////////////////////////////////////////
-*/
-.expansionPanel {
-  margin-top: 5%;
+.main-header {
+  display: flex;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
 }
 
 
-/*
-/////////////////////////////////////////// 
-MAIN COLUMN
-/////////////////////////////////////////////
-*/
-
-h1 {
-  color: #ccc;
+.main-header-buttons {
+  display: flex;
+  font-size: 12px;
 }
 
 
@@ -101,10 +116,6 @@ RIGHT COLUMN
   flex-direction: column;
 }
 
-.btn {
-  font-size: 16px;
-}
-
 /* Sortable tree sorting */
 .rst__rowContents {
   min-width: 140px;
@@ -112,6 +123,10 @@ RIGHT COLUMN
 
 .rst__moveHandle, .rst__loadingHandle {
   width: 40px;
+}
+
+.rst_tree {
+  overflow: scroll;
 }
 
 .rst__rowLabel {
