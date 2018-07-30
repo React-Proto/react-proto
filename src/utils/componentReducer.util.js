@@ -3,25 +3,39 @@ const initialComponentState = {
   state: false,
   title: '',
   parent: '',
-  color: 'blue',
+  color: '#0000ff',
   children: [],
 };
 
 const componentReducerUtil = {
-  addComponent: (title, initialApplicationState) => {
-    const totalComponents = initialApplicationState.totalComponents + 1;
+  addComponent: (state, { title }) => {
     const components = [
-      ...initialApplicationState.components,
+      ...state.components,
       {
         ...initialComponentState,
-        id: totalComponents,
+        id: state.totalComponents,
         title,
       },
     ];
 
+    const totalComponents = state.totalComponents + 1;
+
     return {
-      ...initialApplicationState,
+      ...state,
       totalComponents,
+      components,
+    };
+  },
+  updateColor: (state, { color, index, id }) => {
+    const component = { ...state.components[index], color };
+    const components = [
+      ...state.components.slice(0, index),
+      component,
+      ...state.components.slice(index + 1),
+    ];
+
+    return {
+      ...state,
       components,
     };
   },

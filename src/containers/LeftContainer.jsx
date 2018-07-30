@@ -15,6 +15,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   addComponent: title => dispatch(actions.addComponent(title)),
+  handleColorChange: ({ color, index, id }) => dispatch(actions.updateColor({ color, index, id })),
 });
 
 class LeftContainer extends Component {
@@ -36,7 +37,7 @@ class LeftContainer extends Component {
   }
 
   render() {
-    const { components } = this.props;
+    const { components, handleColorChange } = this.props;
     const { inputValue } = this.state;
 
     return (
@@ -64,7 +65,7 @@ class LeftContainer extends Component {
         <div className='expansionPanel'>
           {
             components.map(
-              (component, i) => <LeftColExpansionPanel key={i} title={component.title} />,
+              (component, i) => <LeftColExpansionPanel key={i} index={i} handleColorChange={handleColorChange} { ...component }/>,
             )
           }
         </div>
