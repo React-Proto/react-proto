@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import UploadedImage from '../components/UploadedImage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 
@@ -8,12 +9,14 @@ const { ipcRenderer } = require('electron');
 class MainContainer extends Component {
   state = {
     image: '',
-    height: 800,
+    height: 300,
     open: false,
   };
 
   constructor(props) {
     super(props);
+
+    this.main = React.createRef();
 
     ipcRenderer.on('new-file', (event, file) => {
       this.setState({
@@ -21,18 +24,29 @@ class MainContainer extends Component {
       });
 
       this.uploadedImage = React.createRef();
+      this.draggableItems = [];
     });
   }
 
   increaseHeight = () => {
+    console.log(this.main);
+    // const children = this.main.current.childNodes[0].childNodes
+
+    // for(let i = 0; i < children.length; i++) {
+    //   if(children[i].classList.contains('draggable')) {
+    //     console.log(children[i]);
+    //   }
+    // }
+
     this.setState({
-      height: this.state.height * 1.25,
+      height: this.state.height * 1.10,
     });
   }
 
   decreaseHeight = () => {
+    console.log(this.state);
     this.setState({
-      height: this.state.height * 0.75,
+      height: this.state.height * 0.90,
     });
   }
 
@@ -68,7 +82,7 @@ class MainContainer extends Component {
           updateImage={this.updateImage}
           handleOpen={this.handleOpen}
         />
-        <div className="main">
+        <div className="main" ref={this.main}>
           <UploadedImage
             height={height}
             image={image}
@@ -79,6 +93,10 @@ class MainContainer extends Component {
     );
   }
 }
+
+MainContainer.propTypes = {
+  components: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = store => ({
   components: store.components.components,

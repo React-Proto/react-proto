@@ -5,24 +5,6 @@ const { addComponent } = componentReducerUtil;
 const initialApplicationState = {
   totalComponents: 0,
   components: [
-    {
-      title: 'Card',
-      state: true,
-      children: [
-        1, 2,
-      ],
-    },
-    {
-      title: 'Button',
-      state: false,
-      children: [
-      ],
-    },
-    {
-      title: 'Game',
-      state: true,
-      children: [],
-    },
   ],
 };
 

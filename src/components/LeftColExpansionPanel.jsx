@@ -46,7 +46,7 @@ const LeftColExpansionPanel = (props) => {
           <Switch
             // checked={this.state.checkedB}
             // onChange={this.handleChange('checkedB')}
-            value="checkedB"
+            value="checked"
             color="primary"
           />
         </ExpansionPanelDetails>

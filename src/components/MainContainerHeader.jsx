@@ -30,26 +30,34 @@ const MainContainerHeader = (props) => {
     <div className="main-header">
       <div className="main-header-buttons" style={{ marginRight: 'auto' }}>
         <Tooltip title="zoom in">
-          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => increaseHeight()}>
-            <ZoomInIcon />
-          </Button>
+          <div>
+            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => increaseHeight()}>
+              <ZoomInIcon />
+            </Button>
+          </div>
         </Tooltip>
         <Tooltip title="zoom out">
-          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => decreaseHeight()}>
-            <ZoomOutIcon />
-          </Button>
+          <div>
+            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => decreaseHeight()}>
+              <ZoomOutIcon />
+            </Button>
+          </div>
         </Tooltip>
       </div>
       <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
         <Tooltip title="remove image">
-          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
-            <DeleteOutlineIcon />
-          </Button>
+          <div>
+            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
+              <DeleteOutlineIcon />
+            </Button>
+          </div>
         </Tooltip>
         <Tooltip title="update image">
-          <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => updateImage()}>
-            <ImageSearchIcon />
-          </Button>
+          <div>
+            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => updateImage()}>
+              <ImageSearchIcon />
+            </Button>
+          </div>          
         </Tooltip>
       </div>
       <SimpleModal open={open} removeImage={removeImage} image={image} />
