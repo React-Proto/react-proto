@@ -1,7 +1,7 @@
 import * as types from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
-const { addComponent, updateColor } = componentReducerUtil;
+const { addComponent, updateColor, deleteComponent } = componentReducerUtil;
 const initialApplicationState = {
   totalComponents: 0,
   components: [

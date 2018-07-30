@@ -26,6 +26,20 @@ const componentReducerUtil = {
       components,
     };
   },
+  deleteComponent: (state, { index, id }) => {
+    const components = [
+      ...state.components.slice(0, index),
+      ...state.components.slice(index + 1),
+    ];
+
+    const totalComponents = state.totalComponents - 1;
+
+    return {
+      ...state,
+      totalComponents,
+      components,
+    };
+  },
   updateColor: (state, { color, index, id }) => {
     const component = { ...state.components[index], color };
     const components = [

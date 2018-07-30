@@ -9,9 +9,9 @@ export const addComponent = title => ({
   payload: { title },
 });
 
-export const deleteComponent = index => ({
+export const deleteComponent = ({ index, id }) => ({
   type: DELETE_COMPONENT,
-  payload: { index },
+  payload: { index, id },
 });
 
 export const updateColor = ({ color, index, id }) => ({
