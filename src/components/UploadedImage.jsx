@@ -10,9 +10,11 @@ const UploadedImage = (props) => {
   return (
     <Fragment>
       {image ? (
-        <div className="image-container">
-          <img className="image" style={{ height: `${height}px` }} src={`${image}`} alt="image" />
-          {components.map((component, i) => <Draggable key={i} title={component.title} />)}
+        <div className="empty">
+          <img className="image" src={`${image}`} alt="image" />
+          <div>
+            {components.map((component, i) => <Draggable key={i} title={component.title} />)}
+          </div>
         </div>
       ) : (
           <div>
