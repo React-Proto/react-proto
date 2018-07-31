@@ -17,6 +17,7 @@ class MainContainer extends Component {
     scaleX: 1,
     scaleY: 1,
     selectedShapeName: '',
+    draggable: false,
   };
 
   constructor(props) {
@@ -98,8 +99,9 @@ class MainContainer extends Component {
   }
 
   toggleDrag = () => {
-    if (this.refs.group.attrs.draggable) delete this.refs.group.attrs.draggable;
-    console.log(this.refs.group);
+    this.setState({
+      draggable: !this.state.draggable,
+    });
   }
 
   updateImage = () => {
@@ -130,7 +132,7 @@ class MainContainer extends Component {
             height={window.innerHeight}
           >
             <Layer>
-              <Group ref='group'>
+              <Group ref='group' draggable={this.state.draggable}>
                 <Image ref='image' image={this.state.image} />
                 {components.map((rect, i) => <Rectangle key={i} name={rect.title} color={rect.color} />)}
                 <TransformerComponent
