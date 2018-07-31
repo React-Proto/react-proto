@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
+import OpenWithIcon from '@material-ui/icons/OpenWith';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -23,7 +24,7 @@ const styles = theme => ({
 
 const MainContainerHeader = (props) => {
   const {
-    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage, open, handleOpen,
+    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage, open, handleOpen, toggleDrag,
   } = props;
 
   return (
@@ -43,6 +44,13 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
+        <Tooltip title="drag">
+          <div>
+            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => toggleDrag()}>
+              <OpenWithIcon />
+            </Button>
+          </div>
+        </Tooltip>
       </div>
       <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
         <Tooltip title="remove image">
@@ -52,12 +60,12 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title="update image">
+        <Tooltip title={image ? 'update image' : 'upload image'}>
           <div>
-            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => updateImage()}>
+            <Button style={style} color="default" className={classes.button} onClick={() => updateImage()}>
               <ImageSearchIcon />
             </Button>
-          </div>          
+          </div>
         </Tooltip>
       </div>
       <SimpleModal open={open} removeImage={removeImage} image={image} />
@@ -74,6 +82,7 @@ MainContainerHeader.propTypes = {
   removeImage: PropTypes.func.isRequired,
   updateImage: PropTypes.func.isRequired,
   handleOpen: PropTypes.func.isRequired,
+  toggleDrag: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);

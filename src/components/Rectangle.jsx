@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Rect } from 'react-konva';
-
+import PropTypes from 'prop-types';
 
 export default class Rectangle extends Component {
   state = {
@@ -17,15 +17,18 @@ export default class Rectangle extends Component {
   }
 
   render() {
+    const { name, color } = this.props;
+    const { x, y } = this.state;
+
     return (
       <Rect
-        name={this.props.name}
-        x={this.state.x}
-        y={this.state.y}
+        name={name}
+        x={x}
+        y={y}
         width={50}
         height={50}
-        stroke="#800000"
-        shadowBlur={5}
+        stroke={color}
+        shadowBlur={2}
         onClick={this.handleClick}
         onDragEnd={event => this.handleDrag(event)}
         draggable
@@ -33,3 +36,8 @@ export default class Rectangle extends Component {
     );
   }
 }
+
+Rectangle.propTypes = {
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};

@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import {
   Stage, Layer, Image, Group,
 } from 'react-konva';
-import UploadedImage from '../components/UploadedImage.jsx';
 import TransformerComponent from '../components/TransformerComponent.jsx';
 import Rectangle from '../components/Rectangle.jsx';
-
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 
 const { ipcRenderer } = require('electron');
@@ -15,7 +13,6 @@ const { ipcRenderer } = require('electron');
 class MainContainer extends Component {
   state = {
     image: '',
-    height: 300,
     open: false,
     scaleX: 1,
     scaleY: 1,
@@ -100,12 +97,17 @@ class MainContainer extends Component {
     });
   }
 
+  toggleDrag = () => {
+    if (this.refs.group.attrs.draggable) delete this.refs.group.attrs.draggable;
+    console.log(this.refs.group);
+  }
+
   updateImage = () => {
     ipcRenderer.send('update-file');
   }
 
   render() {
-    const { image, height, open } = this.state;
+    const { image, open } = this.state;
     const { components } = this.props;
 
     return (
@@ -118,13 +120,19 @@ class MainContainer extends Component {
           removeImage={this.removeImage}
           updateImage={this.updateImage}
           handleOpen={this.handleOpen}
+          toggleDrag={this.toggleDrag}
         />
         <div className="main" ref={this.main}>
-          <Stage ref={node => this.stage = node} onClick={this.handleStageClick} width={window.innerWidth} height={window.innerHeight} >
+          <Stage
+            ref={node => this.stage = node}
+            onClick={this.handleStageClick}
+            width={window.innerWidth}
+            height={window.innerHeight}
+          >
             <Layer>
-              <Group ref='group' >
+              <Group ref='group'>
                 <Image ref='image' image={this.state.image} />
-                {components.map((rect, i) => <Rectangle key={i} name={rect.title} />)}
+                {components.map((rect, i) => <Rectangle key={i} name={rect.title} color={rect.color} />)}
                 <TransformerComponent
                   selectedShapeName={this.state.selectedShapeName}
                 />
