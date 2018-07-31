@@ -28,7 +28,9 @@ const styles = theme => ({
 });
 
 const LeftColExpansionPanel = (props) => {
-  const { classes, title, index, id, handleColorChange, color, handleDeleteComponent } = props;
+  const {
+    classes, title, index, id, handleColorChange, color, handleDeleteComponent,
+  } = props;
   return (
     <div className={classes.root}>
       <ExpansionPanel>
@@ -40,27 +42,27 @@ const LeftColExpansionPanel = (props) => {
             STATEFUL?
           </Typography>
           <Switch
-          // checked={this.state.checkedB}
-          // onChange={this.handleChange('checkedB')}
-          value="checkedB"
-          color="primary"
-        />
-        <Input
-          type="color"
-          disableUnderline={true}
-          value={color}
-          onChange={(event) => {
-            handleColorChange({ color: event.target.value, index, id });
-          }}
-        />
-        <IconButton
-          className={classes.button}
-          onClick={() => {
-            handleDeleteComponent({ index, id });
-          }}
-          aria-label="Delete">
-          <DeleteIcon />
-        </IconButton>
+            // checked={this.state.checkedB}
+            // onChange={this.handleChange('checkedB')}
+            value="checkedB"
+            color="primary"
+          />
+          <Input
+            type="color"
+            disableUnderline={true}
+            value={color}
+            onChange={(event) => {
+              handleColorChange({ color: event.target.value, index, id });
+            }}
+          />
+          <IconButton
+            className={classes.button}
+            onClick={() => {
+              handleDeleteComponent({ index, id });
+            }}
+            aria-label="Delete">
+            <DeleteIcon />
+          </IconButton>
         </ExpansionPanelDetails>
       </ExpansionPanel>
     </div>

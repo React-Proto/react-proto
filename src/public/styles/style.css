@@ -69,17 +69,6 @@ h1 {
   color: #ccc;
 }
 
-.main {
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
-  background: #fff;
-  flex: 1;
-  overflow: scroll;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .main-container {
   display: flex;
   flex-direction: column;
@@ -101,6 +90,40 @@ h1 {
   font-size: 12px;
 }
 
+.main {
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  background: #fff;
+  flex: 1;
+  width: 100%;
+  overflow: scroll;
+  display: flex;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+
+.draggable {
+  position: relative;
+}
+
+.image {
+  top: 0;
+  left: 0;
+  width: 100%;
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+  /* width: 100%; */
+  /* height: auto; */
+  display: flex;
+  /* justify-cotent: flex-start; */
+  /* align-items: center; */
+  top: 0;
+  left: 0;
+}
 
 /*
 /////////////////////////////////////////// 

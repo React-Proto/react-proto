@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import UploadedImage from '../components/UploadedImage.jsx';
+import PropTypes from 'prop-types';
+import {
+  Stage, Layer, Image, Group,
+} from 'react-konva';
+import TransformerComponent from '../components/TransformerComponent.jsx';
+import Rectangle from '../components/Rectangle.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 
 const { ipcRenderer } = require('electron');
@@ -8,31 +13,74 @@ const { ipcRenderer } = require('electron');
 class MainContainer extends Component {
   state = {
     image: '',
-    height: 800,
     open: false,
+    scaleX: 1,
+    scaleY: 1,
+    selectedShapeName: '',
   };
 
   constructor(props) {
     super(props);
 
+    this.main = React.createRef();
+
     ipcRenderer.on('new-file', (event, file) => {
-      this.setState({
-        image: file,
-      });
+      const image = new window.Image();
+      image.src = file;
+      image.onload = () => {
+        // setState will redraw layer
+        // because "image" property is changed
+        this.setState({
+          image,
+        });
+      };
 
       this.uploadedImage = React.createRef();
+      this.draggableItems = [];
     });
   }
 
-  increaseHeight = () => {
+  componentDidMount() {
+    const image = new window.Image();
+    image.src = this.state.image;
+    image.onload = () => {
+      // setState will redraw layer
+      // because "image" property is changed
+      this.setState({
+        image,
+      });
+    };
+  }
+
+  handleStageClick = (e) => {
     this.setState({
-      height: this.state.height * 1.25,
+      selectedShapeName: e.target.name(),
+    });
+  };
+
+  increaseHeight = () => {
+    this.refs.group.to({
+      scaleX: this.state.scaleX * 1.5,
+      scaleY: this.state.scaleY * 1.5,
+      duration: 0.03,
+    });
+
+    this.setState({
+      scaleX: this.state.scaleX * 1.5,
+      scaleY: this.state.scaleY * 1.5,
     });
   }
 
   decreaseHeight = () => {
+    this.refs.group.to({
+      scaleX: this.state.scaleX * 0.75,
+      scaleY: this.state.scaleY * 0.75,
+      duration: 0.03,
+    });
+
     this.setState({
-      height: this.state.height * 0.75,
+      scaleX: this.state.scaleX * 0.75,
+      scaleY: this.state.scaleY * 0.75,
     });
   }
 
@@ -49,12 +97,17 @@ class MainContainer extends Component {
     });
   }
 
+  toggleDrag = () => {
+    if (this.refs.group.attrs.draggable) delete this.refs.group.attrs.draggable;
+    console.log(this.refs.group);
+  }
+
   updateImage = () => {
     ipcRenderer.send('update-file');
   }
 
   render() {
-    const { image, height, open } = this.state;
+    const { image, open } = this.state;
     const { components } = this.props;
 
     return (
@@ -67,18 +120,34 @@ class MainContainer extends Component {
           removeImage={this.removeImage}
           updateImage={this.updateImage}
           handleOpen={this.handleOpen}
+          toggleDrag={this.toggleDrag}
         />
-        <div className="main">
-          <UploadedImage
-            height={height}
-            image={image}
-            components={components}
-          />
+        <div className="main" ref={this.main}>
+          <Stage
+            ref={node => this.stage = node}
+            onClick={this.handleStageClick}
+            width={window.innerWidth}
+            height={window.innerHeight}
+          >
+            <Layer>
+              <Group ref='group'>
+                <Image ref='image' image={this.state.image} />
+                {components.map((rect, i) => <Rectangle key={i} name={rect.title} color={rect.color} />)}
+                <TransformerComponent
+                  selectedShapeName={this.state.selectedShapeName}
+                />
+              </Group>
+            </Layer>
+          </Stage>
         </div>
       </div>
     );
   }
 }
+
+MainContainer.propTypes = {
+  components: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = store => ({
   components: store.components.components,
