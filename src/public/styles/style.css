@@ -51,6 +51,11 @@ BUTTONS
   font-size: 16px;
 }
 
+.expansionPanel {
+  flex-direction: column-reverse;
+  display: flex;
+}
+
 /*
 /////////////////////////////////////////// 
 LEFT COLUMN
