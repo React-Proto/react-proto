@@ -16,7 +16,7 @@ const componentReducerUtil = {
     const newComponent = {
       ...initialComponentState,
       ...props,
-      id: state.totalComponents.toString(),
+      id: state.nextId.toString(),
     };
 
     const components = [
@@ -25,10 +25,12 @@ const componentReducerUtil = {
     ];
 
     const totalComponents = state.totalComponents + 1;
+    const nextId = state.nextId + 1;
 
     return {
       ...state,
       totalComponents,
+      nextId,
       components: setSelectableParents(components),
     };
   },
