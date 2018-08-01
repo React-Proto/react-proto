@@ -6,44 +6,60 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
-import * as actions from '../actions/components';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
+import * as actions from '../actions/components';
 
 const mapStateToProps = store => ({
   components: store.components.components,
 });
 
 const mapDispatchToProps = dispatch => ({
-  addComponent: title => dispatch(actions.addComponent(title)),
-  handleColorChange: ({ color, index, id }) => dispatch(actions.updateColor({ color, index, id })),
-  deleteComponent: ({ index, id }) => dispatch(actions.deleteComponent({ index, id })),
+  addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
+  updateComponent:
+  ({
+    id, index, parent = null, newParentId = null, color = null, stateful = null,
+  }) => dispatch(actions.updateComponent({
+    id, index, parent, newParentId, color, stateful,
+  })),
+  deleteComponent: ({
+    index, id, parent,
+  }) => dispatch(actions.deleteComponent({ index, id, parent })),
 });
 
 class LeftContainer extends Component {
   state = {
-    inputValue: '',
+    componentName: '',
   }
 
   handleChange = (event) => {
     this.setState({
-      inputValue: event.target.value.trim(),
+      [event.target.name]: event.target.value.trim(),
     });
   }
 
   handleAddComponent = () => {
-    this.props.addComponent(this.state.inputValue);
+    this.props.addComponent({ title: this.state.componentName });
     this.setState({
-      inputValue: '',
+      componentName: '',
     });
   }
 
-  handleDeleteComponent = ({ index, id }) => {
-    this.props.deleteComponent({ index, id });
-  }
-
   render() {
-    const { components, handleColorChange } = this.props;
-    const { inputValue } = this.state;
+    const {
+      components,
+      updateComponent,
+      deleteComponent,
+    } = this.props;
+    const { componentName } = this.state;
+    const componentsExpansionPanel = components.map(
+      (component, i) => <LeftColExpansionPanel
+          key={component.id}
+          index={i}
+          updateComponent={updateComponent}
+          deleteComponent={deleteComponent}
+          { ...component }
+      />,
+    );
 
     return (
       <div className='column left'>
@@ -56,7 +72,8 @@ class LeftContainer extends Component {
                 placeholder='AppComponent'
                 margin='normal'
                 onChange={this.handleChange}
-                value={inputValue}
+                value={componentName}
+                name='componentName'
                 style={{ width: '95%' }}
               />
             </Grid>
@@ -65,23 +82,16 @@ class LeftContainer extends Component {
                 variant='fab'
                 mini color='primary'
                 aria-label='Add'
-                onClick={this.handleAddComponent} 
-                disabled={!this.state.inputValue}>
+                onClick={this.handleAddComponent}
+                disabled={!this.state.componentName}
+              >
                 <AddIcon />
               </Button>
             </Grid>
           </Grid>
         </FormControl>
         <div className='expansionPanel'>
-          {
-            components.map(
-              (component, i) => <LeftColExpansionPanel
-                key={i}
-                index={i}
-                handleDeleteComponent={this.handleDeleteComponent}
-                handleColorChange={handleColorChange} { ...component } />,
-            )
-          }
+          {componentsExpansionPanel}
         </div>
       </div>
     );
@@ -91,7 +101,8 @@ class LeftContainer extends Component {
 export default connect(mapStateToProps, mapDispatchToProps)(LeftContainer);
 
 LeftContainer.propTypes = {
+  components: PropTypes.array,
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
-  components: PropTypes.array,
+  updateComponent: PropTypes.func,
 };

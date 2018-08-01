@@ -13,6 +13,7 @@ module.exports = {
   target: 'electron-main',
   context: SRC_DIR,
   entry: './index.js',
+  devtool: 'eval-source-map',
   output: {
     path: BUILD_DIR,
     filename: 'js/bundle.js',
