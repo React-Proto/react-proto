@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -44,86 +44,85 @@ const styles = theme => ({
   },
 });
 
-class LeftColExpansionPanel extends Component {
-  render() {
-    const {
-      classes,
-      title,
-      index,
-      id,
-      stateful,
-      color,
-      parent,
-      selectableParents,
-      updateComponent,
-      deleteComponent,
-    } = this.props;
+const LeftColExpansionPanel = (props) => {
+  const {
+    classes,
+    title,
+    index,
+    id,
+    stateful,
+    color,
+    parent,
+    selectableParents,
+    updateComponent,
+    deleteComponent,
+  } = props;
 
-    const parentOptions = [
-      <option value='' key=''>
-        None
-      </option>,
-      ...selectableParents.map(
-        selectableParent => <option
-          value={selectableParent.id}
-          key={selectableParent.id}
-          >
-            {selectableParent.title}
-          </option>,
-      ),
-    ];
+  const parentOptions = [
+    <option value='' key=''>
+      None
+    </option>,
+    ...selectableParents.map(
+      selectableParent => <option
+        value={selectableParent.id}
+        key={selectableParent.id}
+        >
+          {selectableParent.title}
+        </option>,
+    ),
+  ];
 
-    return (
-      <div className={classes.root}>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{title}</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails className={classes.details}>
-            <div className={classes.column}>
-                <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
-                <Switch
-                checked={stateful}
-                onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
-                value='stateful'
-                color='primary'
-                id='stateful'
-                />
-            </div>
-            <div className={classes.column}>
-              <InputLabel htmlFor='boxColor'>Box Color</InputLabel>
-              <Input
-                type='color'
-                id='boxColor'
-                disableUnderline={true}
-                value={color}
-                onChange={event => updateComponent({ color: event.target.value, index, id })}
+  return (
+    <div className={classes.root}>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>{title}</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails className={classes.details}>
+          <div className={classes.column}>
+              <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
+              <Switch
+              checked={stateful}
+              onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
+              value='stateful'
+              color='primary'
+              id='stateful'
               />
-            </div>
-            <div className={classes.column}>
-              <InputLabel htmlFor='parentSelect'>Parent</InputLabel>
-              <Select
-                native
-                value={parent.id}
-                id='parentSelect'
-                name='parentName'
-                onChange={(event) => {
-                  const newParentId = event.target.value;
-                  updateComponent({
-                    newParentId,
-                    index,
-                    id,
-                    parent,
-                  });
-                }}
-              >
-                {parentOptions}
-              </Select>
-            </div>
-          </ExpansionPanelDetails>
-          <Divider/>
-          <ExpansionPanelActions className={classes.actions}>
-            <IconButton
+          </div>
+          <div className={classes.column}>
+            <InputLabel htmlFor='boxColor'>Box Color</InputLabel>
+            <Input
+              type='color'
+              id='boxColor'
+              disableUnderline={true}
+              value={color}
+              onChange={event => updateComponent({ color: event.target.value, index, id })}
+            />
+          </div>
+          <div className={classes.column}>
+            <InputLabel htmlFor='parentSelect'>Parent</InputLabel>
+            <Select
+              native
+              value={parent.id}
+              id='parentSelect'
+              name='parentName'
+              onChange={(event) => {
+                const newParentId = event.target.value;
+                updateComponent({
+                  newParentId,
+                  index,
+                  id,
+                  parent,
+                });
+              }}
+            >
+              {parentOptions}
+            </Select>
+          </div>
+        </ExpansionPanelDetails>
+        <Divider/>
+        <ExpansionPanelActions className={classes.actions}>
+          <IconButton
             className={classes.button}
             onClick={() => {
               deleteComponent({
@@ -131,14 +130,13 @@ class LeftColExpansionPanel extends Component {
               });
             }}
             aria-label='Delete'>
-              <DeleteIcon />
-            </IconButton>
-          </ExpansionPanelActions>
-        </ExpansionPanel>
-      </div>
-    );
-  }
-}
+            <DeleteIcon />
+          </IconButton>
+        </ExpansionPanelActions>
+      </ExpansionPanel>
+    </div>
+  );
+};
 
 export default withStyles(styles)(LeftColExpansionPanel);
 
