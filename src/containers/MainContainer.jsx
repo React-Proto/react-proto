@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Stage, Layer, Image, Group,
@@ -151,8 +150,4 @@ MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = store => ({
-  components: store.components.components,
-});
-
-export default connect(mapStateToProps)(MainContainer);
+export default MainContainer;

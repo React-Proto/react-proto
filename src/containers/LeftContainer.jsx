@@ -9,10 +9,6 @@ import Grid from '@material-ui/core/Grid';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
 import * as actions from '../actions/components';
 
-const mapStateToProps = store => ({
-  components: store.components.components,
-});
-
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
@@ -51,13 +47,14 @@ class LeftContainer extends Component {
       deleteComponent,
     } = this.props;
     const { componentName } = this.state;
+
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel
           key={component.id}
           index={i}
           updateComponent={updateComponent}
           deleteComponent={deleteComponent}
-          { ...component }
+          component={component}
       />,
     );
 
@@ -98,7 +95,7 @@ class LeftContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeftContainer);
+export default connect(null, mapDispatchToProps)(LeftContainer);
 
 LeftContainer.propTypes = {
   components: PropTypes.array,

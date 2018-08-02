@@ -1,27 +1,28 @@
-const getChildren = (components, childComponents, unSelectable = []) => {
-  if (!childComponents || childComponents.length < 1) return unSelectable;
-  for (let i = 0; i < childComponents.length; i += 1) {
-    const component = components[childComponents[i]];
-    unSelectable.push(childComponents[i]);
-    getChildren(components, component.children, unSelectable);
+const getAllChildren = (components, childrenIds, unSelectable = []) => {
+  if (!childrenIds || childrenIds.length < 1) return unSelectable;
+  for (let i = 0; i < childrenIds.length; i += 1) {
+    const component = components.find(({ id }) => id === childrenIds[i]);
+    if (!unSelectable.includes(childrenIds[i])) {
+      unSelectable.push(childrenIds[i]);
+    }
+    getAllChildren(components, component.childrenIds, unSelectable);
   }
   return unSelectable;
 };
 
-const getSelectableParents = ({ index, components }) => {
-  const component = components[index];
-  const unSelectable = getChildren(components, component.children, [index]);
-
+const getSelectableParents = ({ id, childrenIds, components }) => {
+  const unSelectableParents = getAllChildren(components, childrenIds, [id]);
   return components
-    .filter((comp, i) => !unSelectable.includes(i));
+    .filter(comp => !unSelectableParents.includes(comp.id));
 };
 
 const setSelectableParents = components => components.map(
-  (comp, index) => (
+  comp => (
     {
       ...comp,
       selectableParents: getSelectableParents({
-        index,
+        id: comp.id,
+        childrenIds: comp.childrenIds,
         components,
       }),
     }
