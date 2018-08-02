@@ -12,8 +12,10 @@ import SimpleModal from './SimpleModal.jsx';
 // import classNames from 'classnames';
 
 const style = {
-  borderRight: '1px solid grey',
-  borderRadius: '0px',
+  button: {
+    borderRight: '1px solid grey',
+    borderRadius: '0px',
+  },
 };
 
 const styles = theme => ({
@@ -24,7 +26,9 @@ const styles = theme => ({
 
 const MainContainerHeader = (props) => {
   const {
-    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage, open, handleOpen, toggleDrag,
+    increaseHeight, decreaseHeight, classes,
+    image, removeImage, updateImage, open,
+    handleOpen, toggleDrag,
   } = props;
 
   return (
@@ -32,21 +36,21 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" style={{ marginRight: 'auto' }}>
         <Tooltip title="zoom in">
           <div>
-            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => increaseHeight()}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => increaseHeight()}>
               <ZoomInIcon />
             </Button>
           </div>
         </Tooltip>
         <Tooltip title="zoom out">
           <div>
-            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => decreaseHeight()}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => decreaseHeight()}>
               <ZoomOutIcon />
             </Button>
           </div>
         </Tooltip>
         <Tooltip title="drag">
           <div>
-            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => toggleDrag()}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => toggleDrag()}>
               <OpenWithIcon />
             </Button>
           </div>
@@ -55,14 +59,14 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
         <Tooltip title="remove image">
           <div>
-            <Button style={style} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
               <DeleteOutlineIcon />
             </Button>
           </div>
         </Tooltip>
         <Tooltip title={image ? 'update image' : 'upload image'}>
           <div>
-            <Button style={style} color="default" className={classes.button} onClick={() => updateImage()}>
+            <Button style={style.button} color="default" className={classes.button} onClick={() => updateImage()}>
               <ImageSearchIcon />
             </Button>
           </div>
@@ -75,7 +79,10 @@ const MainContainerHeader = (props) => {
 
 MainContainerHeader.propTypes = {
   open: PropTypes.bool.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   classes: PropTypes.object.isRequired,
   increaseHeight: PropTypes.func.isRequired,
   decreaseHeight: PropTypes.func.isRequired,

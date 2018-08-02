@@ -1,13 +1,14 @@
 const fs = require('fs');
 const componentRender = require('./componentRender.util.js');
 
-function createFiles(data, path) {
+
+function createFiles(data, path, event) {
   data.forEach((component) => {
-    fs.writeFileSync(`${path}/${component.title}.js`, componentRender(component, data), (err) => {
+    fs.writeFile(`${path}/${component.title}.js`, componentRender(component, data), (err) => {
       if (err) {
-        console.log('there was an error writing the file', err);
+        event.sender.send('file_notification', 'error');
       } else {
-        console.log('writing file suceeded');
+        event.sender.send('file_notification', 'success');
       }
     });
   });

@@ -17,9 +17,9 @@ class AppContainer extends Component {
     console.log(updatedComponents);
     return (
       <div className="app-container">
-          <LeftContainer components={updatedComponents}/>
-          <MainContainer components={updatedComponents}/>
-          <RightContainer components={updatedComponents}/>
+        <LeftContainer components={updatedComponents} />
+        <MainContainer components={updatedComponents} />
+        <RightContainer components={updatedComponents} />
       </div>
     );
   }

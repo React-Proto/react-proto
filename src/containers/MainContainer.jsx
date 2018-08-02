@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import {
   Stage, Layer, Image, Group,
@@ -17,13 +17,13 @@ class MainContainer extends Component {
     scaleY: 1,
     selectedShapeName: '',
     draggable: false,
+    x: 100,
+    y: 100,
   };
 
   constructor(props) {
     super(props);
-
-    this.main = React.createRef();
-
+    this.main = createRef();
     ipcRenderer.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
@@ -57,6 +57,24 @@ class MainContainer extends Component {
       selectedShapeName: e.target.name(),
     });
   };
+
+  handleRectangleClick = (e) => {
+    console.log(e.target);
+  }
+
+  handleStageDrag = () => {
+    const mainWindowHeight = this.main.current.clientHeight;
+    const mainWindowWidth = this.main.current.clientWidth;
+    const groupX = this.refs.group.attrs.x;
+    const groupY = this.refs.group.attrs.y;
+
+    const componentX = (mainWindowWidth / 2) - groupX;
+    const componentY = (mainWindowHeight / 2) - groupY;
+    this.setState({
+      x: componentX,
+      y: componentY,
+    });
+  }
 
   increaseHeight = () => {
     this.refs.group.to({
@@ -108,7 +126,7 @@ class MainContainer extends Component {
   }
 
   render() {
-    const { image, open } = this.state;
+    const { image, open, draggable } = this.state;
     const { components } = this.props;
 
     return (
@@ -127,13 +145,16 @@ class MainContainer extends Component {
           <Stage
             ref={node => this.stage = node}
             onClick={this.handleStageClick}
+            onDragEnd={this.handleStageDrag}
             width={window.innerWidth}
             height={window.innerHeight}
           >
             <Layer>
-              <Group ref='group' draggable={this.state.draggable}>
-                <Image ref='image' image={this.state.image} />
-                {components.map((rect, i) => <Rectangle key={i} name={rect.title} color={rect.color} />)}
+              <Group ref='group' draggable={draggable}>
+                <Image ref='image' image={image} />
+                {components.map((rect, i) => <Rectangle
+                  x={this.state.x} y={this.state.y} key={i} title={rect.title} color={rect.color}
+                />)}
                 <TransformerComponent
                   selectedShapeName={this.state.selectedShapeName}
                 />
@@ -148,6 +169,10 @@ class MainContainer extends Component {
 
 MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
+  image: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
 };
 
 export default MainContainer;

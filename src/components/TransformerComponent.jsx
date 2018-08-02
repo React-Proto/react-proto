@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Transformer } from 'react-konva';
+import PropTypes from 'prop-types';
 
 export default class TransformerComponent extends Component {
   componentDidMount() {
@@ -35,3 +36,7 @@ export default class TransformerComponent extends Component {
     );
   }
 }
+
+TransformerComponent.propTypes = {
+  selectedShapeName: PropTypes.string,
+};

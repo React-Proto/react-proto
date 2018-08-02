@@ -11,7 +11,6 @@ class Draggable extends Component {
   }
 
   render() {
-    console.log(window.innerWidth);
     const { title } = this.props;
     return (
       <Rnd

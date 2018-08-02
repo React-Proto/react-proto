@@ -57,7 +57,10 @@ const SimpleModal = (props) => {
 
 SimpleModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+  ]),
   classes: PropTypes.object.isRequired,
   removeImage: PropTypes.func.isRequired,
 };

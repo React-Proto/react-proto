@@ -1,21 +1,21 @@
-const componentRender = (component, components) => {
-  const { state, children, title } = component;
+const componentRender = (component) => {
+  const { stateful, children, title } = component;
 
-  if (state) {
+  if (stateful) {
     return `
 import React, { Component } from 'react';
-${children ? children.map(index => `import ${components[index].title} from './${components[index].title}.js'`).join('\n') : ''}
+${children ? children.map(child => `import ${child.title} from './${child.title}.js'`).join('\n') : ''}
 
 
 export default class ${title} extends Component {
 render() {
   return (
     <div>
-      ${children ? children.map((index, i) => {
+      ${children ? children.map((child, i) => {
     if (i === 0) {
-      return `<${components[index].title} />`;
+      return `<${child.title} />`;
     }
-    return `      <${components[index].title} />`;
+    return `      <${child.title} />`;
   }).join('\n') : title}  
     </div>
   )
@@ -25,16 +25,16 @@ render() {
 
   return `
 import React from 'react';
-${children ? children.map(index => `import ${components[index].title} from './${components[index].title}.js'/n`).join('') : ''}
+${children ? children.map(child => `import ${child.title} from './${child.title}.js'/n`).join('') : ''}
   
 export default ${title} = props => {
   return (
     <div>
-    ${children ? children.map((index, i) => {
+    ${children ? children.map((child, i) => {
     if (i === 0) {
-      return `<${components[index].title} />`;
+      return `<${child.title} />`;
     }
-    return `      <${components[index].title} />`;
+    return `      <${child.title} />`;
   }).join('\n') : title}  
     </div>
   )
