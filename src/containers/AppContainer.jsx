@@ -14,7 +14,7 @@ class AppContainer extends Component {
   render() {
     const { components } = this.props;
     const updatedComponents = convertIdToObjs(components);
-    console.log(updatedComponents);
+
     return (
       <div className="app-container">
         <LeftContainer components={updatedComponents} />
