@@ -5,7 +5,7 @@ import Draggable from './Draggable.jsx';
 
 const UploadedImage = (props) => {
   const {
-    image, height, components,
+    image, components,
   } = props;
   return (
     <Fragment>
@@ -31,7 +31,6 @@ const UploadedImage = (props) => {
 
 UploadedImage.propTypes = {
   image: PropTypes.string.isRequired,
-  height: PropTypes.number.isRequired,
   components: PropTypes.array.isRequired,
 };
 

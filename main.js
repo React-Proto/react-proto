@@ -51,11 +51,11 @@ ipcMain.on('export-files', (event, data) => {
   const path = `${dir}/components`;
 
   if (fs.existsSync(path)) {
-    createFiles(data, path);
+    createFiles(data, path, event);
   } else {
     fs.mkdir(path, (err) => {
       if (err) return console.error(err);
-      createFiles(data, path);
+      return createFiles(data, path, event);
     });
   }
 });

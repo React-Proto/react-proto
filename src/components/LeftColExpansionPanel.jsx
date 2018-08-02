@@ -66,9 +66,9 @@ const LeftColExpansionPanel = (props) => {
       selectableParent => <option
         value={selectableParent.id}
         key={selectableParent.id}
-        >
-          {selectableParent.title}
-        </option>,
+      >
+        {selectableParent.title}
+      </option>,
     ),
   ];
 
@@ -80,14 +80,14 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-              <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
-              <Switch
+            <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
+            <Switch
               checked={stateful}
               onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
               value='stateful'
               color='primary'
               id='stateful'
-              />
+            />
           </div>
           <div className={classes.column}>
             <InputLabel htmlFor='boxColor'>Box Color</InputLabel>
@@ -120,7 +120,7 @@ const LeftColExpansionPanel = (props) => {
             </Select>
           </div>
         </ExpansionPanelDetails>
-        <Divider/>
+        <Divider />
         <ExpansionPanelActions className={classes.actions}>
           <IconButton
             className={classes.button}
