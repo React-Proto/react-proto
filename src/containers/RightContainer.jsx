@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 // import * as actions from '../actions/components';
 import SortableComponent from '../components/SortableComponent.jsx';
 import Export from '../components/Export.jsx';
@@ -9,7 +8,6 @@ const { ipcRenderer } = window.require('electron');
 
 class RightContainer extends Component {
   state = {
-
   }
 
   exportFiles = (data) => {
@@ -26,24 +24,15 @@ class RightContainer extends Component {
           exportFiles={this.exportFiles}
           fileSelectedHandler={this.fileSelectedHandler}
         />
-        <SortableComponent />
+        <SortableComponent components={components}/>
       </div>
 
     );
   }
 }
 
-const mapStateToProps = store => ({
-  components: store.components.components,
-});
-
-// const mapDispatchToProps = dispatch => ({
-
-// });
-
 RightContainer.propTypes = {
   components: PropTypes.array.isRequired,
 };
 
-
-export default connect(mapStateToProps)(RightContainer);
+export default RightContainer;

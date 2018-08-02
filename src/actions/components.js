@@ -41,7 +41,7 @@ export const addComponent = ({ title }) => (dispatch) => {
 };
 
 export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
-  // Delete Component  from its parent.
+  // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
     dispatch(deleteChild({ parent, childId: id, childIndex: index }));
   }
@@ -61,12 +61,12 @@ export const updateComponent = ({
     },
   });
 
-  if (newParentId) {
+  if (newParentId && newParentId !== 'null') {
     dispatch(addNewChild({ id: newParentId, childId: id, childIndex: index }));
   }
 
   if (parent && parent.id) {
-    dispatch(deleteChild({ parent, childId: id, childIndex: index }));
+    dispatch(deleteChild({ parent, index, childId: id }));
   }
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
