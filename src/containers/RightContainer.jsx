@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Snackbar from '@material-ui/core/Snackbar';
 // import * as actions from '../actions/components';
 import SortableComponent from '../components/SortableComponent.jsx';
@@ -60,7 +59,6 @@ class RightContainer extends Component {
           exportFiles={this.exportFiles}
           fileSelectedHandler={this.fileSelectedHandler}
         />
-        <SortableComponent />
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
@@ -89,23 +87,15 @@ class RightContainer extends Component {
             message="There was an error while creating your files"
           />
         </Snackbar>
+        <SortableComponent components={components} />
       </div>
 
     );
   }
 }
 
-const mapStateToProps = store => ({
-  components: store.components.components,
-});
-
-// const mapDispatchToProps = dispatch => ({
-
-// });
-
 RightContainer.propTypes = {
   components: PropTypes.array.isRequired,
 };
 
-
-export default connect(mapStateToProps)(RightContainer);
+export default RightContainer;

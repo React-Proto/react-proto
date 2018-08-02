@@ -15,7 +15,6 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
 
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -46,20 +45,22 @@ const styles = theme => ({
 
 const LeftColExpansionPanel = (props) => {
   const {
-    classes,
-    title,
     index,
+    classes,
+    updateComponent,
+    deleteComponent,
+  } = props;
+  const {
+    title,
     id,
     stateful,
     color,
     parent,
     selectableParents,
-    updateComponent,
-    deleteComponent,
-  } = props;
+  } = props.component;
 
   const parentOptions = [
-    <option value='' key=''>
+    <option value='null' key=''>
       None
     </option>,
     ...selectableParents.map(
@@ -142,13 +143,8 @@ export default withStyles(styles)(LeftColExpansionPanel);
 
 LeftColExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
-  title: PropTypes.string,
+  component: PropTypes.object,
   index: PropTypes.number,
-  id: PropTypes.string,
-  color: PropTypes.string,
-  stateful: PropTypes.bool,
-  parent: PropTypes.object,
-  selectableParents: PropTypes.array,
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
 };

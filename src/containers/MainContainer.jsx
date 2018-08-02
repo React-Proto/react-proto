@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   Stage, Layer, Image, Group,
@@ -72,8 +71,8 @@ class MainContainer extends Component {
     const componentX = (mainWindowWidth / 2) - groupX;
     const componentY = (mainWindowHeight / 2) - groupY;
     this.setState({
-      x: componentX - 25,
-      y: componentY - 25,
+      x: componentX,
+      y: componentY,
     });
   }
 
@@ -153,7 +152,9 @@ class MainContainer extends Component {
             <Layer>
               <Group ref='group' draggable={draggable}>
                 <Image ref='image' image={image} />
-                {components.map((rect, i) => <Rectangle x={this.state.x} y={this.state.y} key={i} title={rect.title} color={rect.color} />)}
+                {components.map((rect, i) => <Rectangle
+                  x={this.state.x} y={this.state.y} key={i} title={rect.title} color={rect.color}
+                />)}
                 <TransformerComponent
                   selectedShapeName={this.state.selectedShapeName}
                 />
@@ -174,8 +175,4 @@ MainContainer.propTypes = {
   ]),
 };
 
-const mapStateToProps = store => ({
-  components: store.components.components,
-});
-
-export default connect(mapStateToProps)(MainContainer);
+export default MainContainer;

@@ -21,6 +21,7 @@ const {
 
 const initialApplicationState = {
   totalComponents: 0,
+  nextId: 1,
   components: [],
 };
 

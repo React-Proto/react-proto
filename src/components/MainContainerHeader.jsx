@@ -26,7 +26,9 @@ const styles = theme => ({
 
 const MainContainerHeader = (props) => {
   const {
-    increaseHeight, decreaseHeight, classes, image, removeImage, updateImage, open, handleOpen, toggleDrag,
+    increaseHeight, decreaseHeight, classes,
+    image, removeImage, updateImage, open,
+    handleOpen, toggleDrag,
   } = props;
 
   return (

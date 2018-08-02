@@ -4,19 +4,27 @@ const initialComponentState = {
   id: null,
   stateful: false,
   title: '',
-  parent: {},
+  parentId: '',
   color: '#0000ff',
-  children: [],
+  childrenIds: [],
   selectableParents: [],
-  position: [],
+  expanded: true,
+  position: {
+    x: 110,
+    y: 120,
+    width: 50,
+    height: 50,
+  },
 };
 
 const componentReducerUtil = {
-  addComponent: (state, { ...props }) => {
+  addComponent: (state, { title }) => {
+    const strippedTitle = title.replace(/[^\w]/g, '');
+    const capitalizedTitle = strippedTitle[0].toUpperCase() + strippedTitle.slice(1);
     const newComponent = {
       ...initialComponentState,
-      ...props,
-      id: state.totalComponents.toString(),
+      title: capitalizedTitle,
+      id: state.nextId.toString(),
     };
 
     const components = [
@@ -25,21 +33,26 @@ const componentReducerUtil = {
     ];
 
     const totalComponents = state.totalComponents + 1;
+    const nextId = state.nextId + 1;
 
     return {
       ...state,
       totalComponents,
-      components: setSelectableParents(components),
+      nextId,
+      components,
     };
   },
   updateComponent: ((state, {
-    index, newParentId = null, color = null, stateful = null,
+    id, newParentId = null, color = null, stateful = null,
   }) => {
     const components = [...state.components];
-    const parent = components.find(({ id }) => id === newParentId);
-    const component = components[index];
+    const component = components.find(comp => comp.id === id);
 
-    component.parent = parent || component.parent;
+    if (newParentId === 'null') {
+      component.parentId = '';
+    } else if (newParentId) {
+      component.parentId = newParentId;
+    }
     component.color = color || component.color;
     component.stateful = stateful === null ? component.stateful : stateful;
 
@@ -48,6 +61,7 @@ const componentReducerUtil = {
       components,
     };
   }),
+  // Delete component with the index for now, but will be adjusted to use id
   deleteComponent: (state, { index }) => {
     const components = [
       ...state.components.slice(0, index),
@@ -62,11 +76,11 @@ const componentReducerUtil = {
       components,
     };
   },
-  addChild: ((state, { id, childIndex }) => {
+  addChild: ((state, { id, childId }) => {
     const components = state.components.map((component) => {
       if (component.id === id) {
-        const { children } = component;
-        return { ...component, children: [...children, childIndex] };
+        const { childrenIds } = component;
+        return { ...component, childrenIds: [...childrenIds, childId] };
       }
       return component;
     });
@@ -76,11 +90,12 @@ const componentReducerUtil = {
       components,
     };
   }),
-  deleteChild: ((state, { parent, childIndex }) => {
+  deleteChild: ((state, { parent, childId }) => {
     const components = state.components.map((component) => {
       if (component.id === parent.id) {
-        const children = component.children.filter(childInd => childInd !== childIndex);
-        return { ...component, children };
+        // Find child with matching id and remove from children
+        const childrenIds = component.childrenIds.filter(id => id !== childId);
+        return { ...component, childrenIds };
       }
       return component;
     });
@@ -90,15 +105,18 @@ const componentReducerUtil = {
       components,
     };
   }),
-  reassignParent: ((state, { index, parent }) => {
-    // Get all children of the Component whose parents you want to reassign.
-    const { children } = state.components[index];
-    const components = state.components.map((comp, i) => {
-      // Find the children within the components and reassign parents
-      if (children.includes(i)) {
-        const child = comp;
-        child.parent = parent;
-        return child;
+  reassignParent: ((state, { index, parent = {} }) => {
+    // Get all childrenIds of the component to be deleted
+    const { childrenIds } = state.components[index];
+    const components = state.components.map((comp) => {
+      // Give each child their previous parent's parent
+      if (childrenIds.includes(comp.id)) {
+        return { ...comp, parentId: parent.id || '' };
+      }
+      // Give the parent all children of it's to be deleted child
+      if (parent.id === comp.id) {
+        const prevChildrenIds = comp.childrenIds;
+        return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
       }
       return comp;
     });

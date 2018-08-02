@@ -1,4 +1,4 @@
-const componentRender = (component, components) => {
+const componentRender = (component) => {
   const { stateful, children, title } = component;
 
   if (stateful) {
