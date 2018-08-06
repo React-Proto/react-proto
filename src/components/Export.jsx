@@ -13,11 +13,11 @@ const styles = theme => ({
 });
 
 const Export = (props) => {
-  const { classes, exportFiles, componentData } = props;
+  const { classes, exportFiles } = props;
 
   return (
     <div className='export'>
-      <Button variant="contained" color="primary" className={classes.button} onClick={() => exportFiles(componentData)}>
+      <Button variant="contained" color="primary" className={classes.button} onClick={() => exportFiles()}>
         Export files
       </Button>
     </div>
@@ -27,7 +27,7 @@ const Export = (props) => {
 Export.propTypes = {
   classes: PropTypes.object.isRequired,
   exportFiles: PropTypes.func.isRequired,
-  componentData: PropTypes.array.isRequired,
+  components: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(Export);

@@ -1,11 +1,12 @@
 import setSelectableParents from './setSelectableParents.util';
+import colors from './colors';
 
 const initialComponentState = {
   id: null,
   stateful: false,
   title: '',
   parentId: '',
-  color: '#0000ff',
+  color: colors[Math.floor(Math.random() * colors.length)],
   childrenIds: [],
   selectableParents: [],
   expanded: true,
@@ -25,6 +26,7 @@ const componentReducerUtil = {
       ...initialComponentState,
       title: capitalizedTitle,
       id: state.nextId.toString(),
+      color: colors[Math.floor(Math.random() * colors.length)],
     };
 
     const components = [
@@ -130,6 +132,20 @@ const componentReducerUtil = {
     ...state,
     components: setSelectableParents(state.components),
   })),
+  exportFilesSuccess: ((state, status) => ({
+    ...state,
+    successOpen: status,
+  })),
+  exportFilesError: ((state, status) => ({
+    ...state,
+    errorOpen: status,
+  })),
+  handleClose: ((state, status) => ({
+    ...state,
+    errorOpen: status,
+    successOpen: status,
+  })),
+
 };
 
 export default componentReducerUtil;

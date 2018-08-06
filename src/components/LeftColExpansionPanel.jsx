@@ -148,7 +148,7 @@ LeftColExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
-  expanded: PropTypes.boolean,
+  expanded: PropTypes.bool,
   onExpansionPanelChange: PropTypes.func,
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,

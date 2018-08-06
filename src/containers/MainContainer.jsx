@@ -83,9 +83,20 @@ class MainContainer extends Component {
       duration: 0.03,
     });
 
+    const mainWindowHeight = this.main.current.clientHeight;
+    const mainWindowWidth = this.main.current.clientWidth;
+    const groupX = this.refs.group.attrs.x;
+    const groupY = this.refs.group.attrs.y;
+
+
+    const componentX = (mainWindowWidth / 2) - groupX;
+    const componentY = (this.main.current.clientHeight / 2) - this.refs.group.attrs.x;
+
     this.setState({
       scaleX: this.state.scaleX * 1.5,
       scaleY: this.state.scaleY * 1.5,
+      x: (this.main.current.clientWidth / 2) - this.refs.group.attrs.x,
+      y: (this.main.current.clientHeight / 2) - this.refs.group.attrs.y,
     });
   }
 
@@ -96,9 +107,23 @@ class MainContainer extends Component {
       duration: 0.03,
     });
 
+    const mainWindowHeight = this.main.current.clientHeight;
+    const mainWindowWidth = this.main.current.clientWidth;
+    const groupX = this.refs.group.attrs.x;
+    const groupY = this.refs.group.attrs.y;
+
+    console.log(groupX, groupY);
+
+    console.log(mainWindowHeight, mainWindowWidth);
+
+    const componentX = (mainWindowWidth / 2) - groupX;
+    const componentY = (mainWindowHeight / 2) - groupY;
+
     this.setState({
       scaleX: this.state.scaleX * 0.75,
       scaleY: this.state.scaleY * 0.75,
+      x: (this.main.current.clientWidth / 2) - this.refs.group.attrs.x,
+      y: (this.main.current.clientHeight / 2) - this.refs.group.attrs.y,
     });
   }
 

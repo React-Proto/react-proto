@@ -12,7 +12,6 @@ const {
   REDUX_DEVTOOLS,
 } = require('electron-devtools-installer');
 const fs = require('fs');
-const createFiles = require('./src/utils/createFiles.util.js');
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -40,7 +39,7 @@ function openFile() {
 
 
 // Choose directory and export files
-ipcMain.on('export-files', (event, data) => {
+ipcMain.on('export_files', (event) => {
   const directory = dialog.showOpenDialog(mainWindow, {
     properties: ['openDirectory'],
   });
@@ -51,11 +50,13 @@ ipcMain.on('export-files', (event, data) => {
   const path = `${dir}/components`;
 
   if (fs.existsSync(path)) {
-    createFiles(data, path, event);
+    event.sender.send('created_folder', path);
   } else {
     fs.mkdir(path, (err) => {
-      if (err) return console.error(err);
-      return createFiles(data, path, event);
+      if (err) {
+        return console.error(err);
+      }
+      event.sender.send('created_folder', path);
     });
   }
 });
