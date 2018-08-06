@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
-// import * as actions from '../actions/components';
+import { exportFiles, handleClose } from '../actions/components';
 import SortableComponent from '../components/SortableComponent.jsx';
 import Export from '../components/Export.jsx';
 import SnackbarContentWrapper from '../components/SnackbarContentWrapper.jsx';
 
+
 const { ipcRenderer } = window.require('electron');
+
+const mapDispatchToProps = dispatch => ({
+  exportFiles: ({ components, path }) => dispatch(exportFiles({ components, path })),
+  handleNotificationClose: () => dispatch(handleClose()),
+});
+
+const mapStateToProps = store => ({
+  successOpen: store.components.successOpen,
+  errorOpen: store.components.errorOpen,
+});
 
 class RightContainer extends Component {
   state = {
@@ -14,61 +26,43 @@ class RightContainer extends Component {
     errorOpen: false,
   }
 
-  constructor() {
-    super();
-    ipcRenderer.on('file_notification', (event, data) => {
-      if (data === 'success') {
-        this.handleOpenSuccess();
-      } else {
-        this.handleOpenError();
-      }
+  constructor(props) {
+    super(props);
+
+    ipcRenderer.on('created_folder', (event, path) => {
+      const { components } = this.props;
+      this.props.exportFiles({ components, path, event });
     });
   }
 
-  handleOpenSuccess() {
-    this.setState({
-      successOpen: !this.state.successOpen,
-    });
-  }
 
-  handleOpenError() {
-    this.setState({
-      errorOpen: !this.state.errorOpen,
-    });
-  }
-
-  handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ successOpen: false, errorOpen: false });
-  };
-
-
-  exportFiles = (data) => {
-    ipcRenderer.send('export-files', data);
+  exportFiles = () => {
+    ipcRenderer.send('export_files');
   }
 
   render() {
-    const { components } = this.props;
+    const {
+      components, successOpen, errorOpen, handleNotificationClose,
+    } = this.props;
 
     return (
       <div className="column right">
         <Export
-          componentData={components}
+          components={components}
           exportFiles={this.exportFiles}
           fileSelectedHandler={this.fileSelectedHandler}
         />
+        <SortableComponent components={components} />
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={this.state.successOpen}
+          open={successOpen}
           autoHideDuration={2000}
         >
           <SnackbarContentWrapper
-            onClose={this.handleClose}
+            onClose={handleNotificationClose}
             variant="success"
             message="Your files were successfully created"
           />
@@ -78,16 +72,15 @@ class RightContainer extends Component {
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={this.state.errorOpen}
+          open={errorOpen}
           autoHideDuration={2000}
         >
           <SnackbarContentWrapper
-            onClose={this.handleClose}
+            onClose={handleClose}
             variant="error"
             message="There was an error while creating your files"
           />
         </Snackbar>
-        <SortableComponent components={components} />
       </div>
 
     );
@@ -96,6 +89,11 @@ class RightContainer extends Component {
 
 RightContainer.propTypes = {
   components: PropTypes.array.isRequired,
+  successOpen: PropTypes.bool.isRequired,
+  errorOpen: PropTypes.bool.isRequired,
+  exportFiles: PropTypes.func.isRequired,
+  handleNotificationClose: PropTypes.func.isRequired,
 };
 
-export default RightContainer;
+
+export default connect(mapStateToProps, mapDispatchToProps)(RightContainer);

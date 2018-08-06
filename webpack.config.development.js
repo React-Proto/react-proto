@@ -12,7 +12,7 @@ module.exports = {
   mode: 'development',
   target: 'electron-main',
   context: SRC_DIR,
-  entry: './index.js',
+  entry: ['babel-polyfill', './index.js'],
   devtool: 'eval-source-map',
   output: {
     path: BUILD_DIR,

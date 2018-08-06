@@ -6,6 +6,9 @@ import {
   DELETE_CHILD,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
+  EXPORT_FILES_SUCCESS,
+  EXPORT_FILES_ERROR,
+  HANDLE_CLOSE,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -17,11 +20,16 @@ const {
   deleteChild,
   reassignParent,
   setSelectableParents,
+  exportFilesSuccess,
+  exportFilesError,
+  handleClose,
 } = componentReducerUtil;
 
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
+  successOpen: false,
+  errorOpen: false,
   components: [],
 };
 
@@ -41,6 +49,12 @@ const componentReducer = (state = initialApplicationState, action) => {
       return reassignParent(state, action.payload);
     case SET_SELECTABLE_PARENTS:
       return setSelectableParents(state);
+    case EXPORT_FILES_SUCCESS:
+      return exportFilesSuccess(state, action.payload);
+    case EXPORT_FILES_ERROR:
+      return exportFilesError(state, action.payload);
+    case HANDLE_CLOSE:
+      return handleClose(state, action.payload);
     default:
       return state;
   }

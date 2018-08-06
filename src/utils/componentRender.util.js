@@ -25,7 +25,7 @@ render() {
 
   return `
 import React from 'react';
-${children ? children.map(child => `import ${child.title} from './${child.title}.js'/n`).join('') : ''}
+${children ? children.map(child => `import ${child.title} from './${child.title}.js'`).join('\n') : ''}
   
 export default ${title} = props => {
   return (

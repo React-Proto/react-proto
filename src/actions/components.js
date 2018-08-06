@@ -1,3 +1,4 @@
+// import promiseIpc from 'electron-promise-ipc';
 import {
   ADD_COMPONENT,
   UPDATE_COMPONENT,
@@ -6,7 +7,13 @@ import {
   DELETE_CHILD,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
+  EXPORT_FILES,
+  EXPORT_FILES_SUCCESS,
+  EXPORT_FILES_ERROR,
+  HANDLE_CLOSE,
 } from '../actionTypes/index';
+
+const createFiles = require('../../src/utils/createFiles.util.js');
 
 export const addNewChild = (({
   id, childIndex, childId,
@@ -71,3 +78,24 @@ export const updateComponent = ({
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
+
+export const exportFiles = ({ components, path }) => (dispatch) => {
+  dispatch({
+    type: EXPORT_FILES,
+  });
+
+  createFiles(components, path)
+    .then(() => dispatch({
+      type: EXPORT_FILES_SUCCESS,
+      payload: true,
+    }))
+    .catch(() => dispatch({
+      type: EXPORT_FILES_ERROR,
+      payload: true,
+    }));
+};
+
+export const handleClose = () => ({
+  type: HANDLE_CLOSE,
+  payload: false,
+});
