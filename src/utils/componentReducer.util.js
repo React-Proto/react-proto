@@ -146,6 +146,7 @@ const componentReducerUtil = {
     successOpen: status,
   })),
   updatePosition: (state, { id, x, y }) => {
+    
     const components = state.components.map((component) => {
       if (component.id === id) {
         return {
@@ -153,6 +154,8 @@ const componentReducerUtil = {
           position: {
             x,
             y,
+            width: component.position.width,
+            height: component.position.height,
           },
         };
       }
