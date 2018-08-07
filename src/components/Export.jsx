@@ -17,8 +17,11 @@ const Export = (props) => {
 
   return (
     <div className='export'>
-      <Button variant="contained" color="primary" className={classes.button} onClick={() => exportFiles()}>
+      <Button size='small' variant="contained" color="primary" className={classes.button} onClick={exportFiles}>
         Export files
+      </Button>
+      <Button size='small' variant="contained" color="primary" className={classes.button}>
+        Create Application
       </Button>
     </div>
   );
