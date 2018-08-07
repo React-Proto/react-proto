@@ -145,7 +145,46 @@ const componentReducerUtil = {
     errorOpen: status,
     successOpen: status,
   })),
-
+  updatePosition: (state, { id, x, y }) => {
+    const components = state.components.map((component) => {
+      if (component.id === id) {
+        return {
+          ...component,
+          position: {
+            x,
+            y,
+          },
+        };
+      }
+      return component;
+    });
+    return {
+      ...state,
+      components,
+    };
+  },
+  handleTransform: (state, {
+    id, x, y, width, height,
+  }) => {
+    const components = state.components.map((component) => {
+      if (component.id === id) {
+        return {
+          ...component,
+          position: {
+            x,
+            y,
+            width,
+            height,
+          },
+        };
+      }
+      return component;
+    });
+    return {
+      ...state,
+      components,
+    };
+  },
 };
 
 export default componentReducerUtil;

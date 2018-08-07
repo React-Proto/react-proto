@@ -12,11 +12,11 @@ import * as actions from '../actions/components';
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
-  ({
-    id, index, parent = null, newParentId = null, color = null, stateful = null,
-  }) => dispatch(actions.updateComponent({
-    id, index, parent, newParentId, color, stateful,
-  })),
+    ({
+      id, index, parent = null, newParentId = null, color = null, stateful = null,
+    }) => dispatch(actions.updateComponent({
+      id, index, parent, newParentId, color, stateful,
+    })),
   deleteComponent: ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
@@ -57,13 +57,13 @@ class LeftContainer extends Component {
 
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel
-          key={component.id}
-          index={i}
-          updateComponent={updateComponent}
-          deleteComponent={deleteComponent}
-          component={component}
-          panelId={expandedPanelId}
-          onExpansionPanelChange={this.handleExpansionPanelChange}
+        key={component.id}
+        index={i}
+        updateComponent={updateComponent}
+        deleteComponent={deleteComponent}
+        component={component}
+        expanded={panelExpanded}
+        onExpansionPanelChange={this.handleExpansionPanelChange}
       />,
     );
 
