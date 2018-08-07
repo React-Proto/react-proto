@@ -1,12 +1,12 @@
 import setSelectableParents from './setSelectableParents.util';
-import * as colors from './colors';
+import getColor from './colors';
 
 const initialComponentState = {
   id: null,
   stateful: false,
   title: '',
   parentId: '',
-  color: colors.getColor(),
+  color: getColor(),
   childrenIds: [],
   selectableParents: [],
   expanded: true,
@@ -26,7 +26,7 @@ const componentReducerUtil = {
       ...initialComponentState,
       title: capitalizedTitle,
       id: state.nextId.toString(),
-      color: colors.getColor(),
+      color: getColor(),
     };
 
     const components = [
@@ -145,7 +145,46 @@ const componentReducerUtil = {
     errorOpen: status,
     successOpen: status,
   })),
-
+  updatePosition: (state, { id, x, y }) => {
+    const components = state.components.map((component) => {
+      if (component.id === id) {
+        return {
+          ...component,
+          position: {
+            x,
+            y,
+          },
+        };
+      }
+      return component;
+    });
+    return {
+      ...state,
+      components,
+    };
+  },
+  handleTransform: (state, {
+    id, x, y, width, height,
+  }) => {
+    const components = state.components.map((component) => {
+      if (component.id === id) {
+        return {
+          ...component,
+          position: {
+            x,
+            y,
+            width,
+            height,
+          },
+        };
+      }
+      return component;
+    });
+    return {
+      ...state,
+      components,
+    };
+  },
 };
 
 export default componentReducerUtil;

@@ -12,11 +12,11 @@ import * as actions from '../actions/components';
 const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
-  ({
-    id, index, parent = null, newParentId = null, color = null, stateful = null,
-  }) => dispatch(actions.updateComponent({
-    id, index, parent, newParentId, color, stateful,
-  })),
+    ({
+      id, index, parent = null, newParentId = null, color = null, stateful = null,
+    }) => dispatch(actions.updateComponent({
+      id, index, parent, newParentId, color, stateful,
+    })),
   deleteComponent: ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 class LeftContainer extends Component {
   state = {
     componentName: '',
-    panelExpanded: '',
+    expandedPanelId: '',
   }
 
   handleChange = (event) => {
@@ -34,9 +34,9 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = panel => (event, expanded) => {
+  handleExpansionPanelChange = panelId => (event, expanded) => {
     this.setState({
-      panelExpanded: expanded ? panel : false,
+      expandedPanelId: expanded ? panelId : '',
     });
   }
 
@@ -53,17 +53,17 @@ class LeftContainer extends Component {
       updateComponent,
       deleteComponent,
     } = this.props;
-    const { componentName, panelExpanded } = this.state;
+    const { componentName, expandedPanelId } = this.state;
 
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel
-          key={component.id}
-          index={i}
-          updateComponent={updateComponent}
-          deleteComponent={deleteComponent}
-          component={component}
-          expanded={panelExpanded}
-          onExpansionPanelChange={this.handleExpansionPanelChange}
+        key={component.id}
+        index={i}
+        updateComponent={updateComponent}
+        deleteComponent={deleteComponent}
+        component={component}
+        expanded={panelExpanded}
+        onExpansionPanelChange={this.handleExpansionPanelChange}
       />,
     );
 
