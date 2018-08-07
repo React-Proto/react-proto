@@ -3,32 +3,28 @@ import { Rect } from 'react-konva';
 import PropTypes from 'prop-types';
 
 export default class Rectangle extends Component {
-  state = {
-    x: this.props.x,
-    y: this.props.y,
-  }
-
-  handleDrag(event) {
-    this.setState({
-      x: event.target.attrs.x,
-      y: event.target.attrs.y,
-    });
-  }
-
   render() {
-    const { title, color } = this.props;
-    const { x, y } = this.state;
+    const {
+      title, color, x, y, updatePosition, id, handleTransform,
+    } = this.props;
+
     return (
       <Rect
         name={title}
         x={x}
         y={y}
+        id={id}
         width={50}
         height={50}
         stroke={color}
-        strokeWidth={2}
-        onClick={this.handleClick}
-        onDragEnd={event => this.handleDrag(event)}
+        strokeWidth={4}
+        strokeScaleEnabled={false}
+        onTransformEnd={event => handleTransform(id,
+          event.target.x(),
+          event.target.y(),
+          event.target.width() * event.target.scaleX(),
+          event.target.height() * event.target.scaleY())}
+        onDragEnd={event => updatePosition(id, event.target.attrs.x, event.target.attrs.y)}
         draggable
       />
     );
@@ -38,7 +34,9 @@ export default class Rectangle extends Component {
 Rectangle.propTypes = {
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  x: PropTypes.number.isRequired,
-  y: PropTypes.number.isRequired,
-
+  updatePosition: PropTypes.func.isRequired,
+  handleTransform: PropTypes.func.isRequired,
+  x: PropTypes.number,
+  y: PropTypes.number,
+  id: PropTypes.string.isRequired,
 };
