@@ -12,8 +12,12 @@ import MainContainerHeader from '../components/MainContainerHeader.jsx';
 const { ipcRenderer } = require('electron');
 
 const mapDispatchToProps = dispatch => ({
-  updatePosition: (id, x, y) => dispatch(actions.updatePosition(id, x, y)),
-  handleTransform: (id, x, y, width, height) => dispatch(actions.handleTransform(id, x, y, width, height)),
+  updatePosition: ({ id, x, y }) => dispatch(actions.updatePosition({ id, x, y })),
+  handleTransform: ({
+    id, x, y, width, height,
+  }) => dispatch(actions.handleTransform({
+    id, x, y, width, height,
+  })),
 });
 
 class MainContainer extends Component {
