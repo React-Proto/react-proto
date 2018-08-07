@@ -11,6 +11,8 @@ import {
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   HANDLE_CLOSE,
+  UPDATE_POSITION,
+  HANDLE_TRANSFORM,
 } from '../actionTypes/index';
 
 const createFiles = require('../../src/utils/createFiles.util.js');
@@ -98,4 +100,16 @@ export const exportFiles = ({ components, path }) => (dispatch) => {
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
   payload: false,
+});
+
+export const updatePosition = (id, x, y) => ({
+  type: UPDATE_POSITION,
+  payload: { id, x, y },
+});
+
+export const handleTransform = (id, x, y, width, height) => ({
+  type: HANDLE_TRANSFORM,
+  payload: {
+    id, x, y, width, height,
+  },
 });

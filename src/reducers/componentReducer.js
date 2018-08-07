@@ -9,6 +9,8 @@ import {
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   HANDLE_CLOSE,
+  UPDATE_POSITION,
+  HANDLE_TRANSFORM,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -23,6 +25,8 @@ const {
   exportFilesSuccess,
   exportFilesError,
   handleClose,
+  updatePosition,
+  handleTransform,
 } = componentReducerUtil;
 
 const initialApplicationState = {
@@ -55,6 +59,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:
       return handleClose(state, action.payload);
+    case UPDATE_POSITION:
+      return updatePosition(state, action.payload);
+    case HANDLE_TRANSFORM:
+      return handleTransform(state, action.payload);
     default:
       return state;
   }
