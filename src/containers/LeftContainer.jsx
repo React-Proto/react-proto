@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 class LeftContainer extends Component {
   state = {
     componentName: '',
-    panelExpanded: '',
+    expandedPanelId: '',
   }
 
   handleChange = (event) => {
@@ -34,9 +34,9 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = panel => (event, expanded) => {
+  handleExpansionPanelChange = panelId => (event, expanded) => {
     this.setState({
-      panelExpanded: expanded ? panel : false,
+      expandedPanelId: expanded ? panelId : '',
     });
   }
 
@@ -53,7 +53,7 @@ class LeftContainer extends Component {
       updateComponent,
       deleteComponent,
     } = this.props;
-    const { componentName, panelExpanded } = this.state;
+    const { componentName, expandedPanelId } = this.state;
 
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel

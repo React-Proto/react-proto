@@ -47,7 +47,7 @@ const LeftColExpansionPanel = (props) => {
   const {
     index,
     classes,
-    expanded,
+    panelId,
     component,
     updateComponent,
     deleteComponent,
@@ -78,7 +78,7 @@ const LeftColExpansionPanel = (props) => {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel expanded={expanded === id} onChange={onExpansionPanelChange(id)}>
+      <ExpansionPanel expanded={panelId === id} onChange={onExpansionPanelChange(id)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>{title}</Typography>
         </ExpansionPanelSummary>
@@ -148,7 +148,7 @@ LeftColExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
-  expanded: PropTypes.bool,
+  panelId: PropTypes.string,
   onExpansionPanelChange: PropTypes.func,
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
