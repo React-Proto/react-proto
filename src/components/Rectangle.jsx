@@ -3,9 +3,21 @@ import { Rect } from 'react-konva';
 import PropTypes from 'prop-types';
 
 export default class Rectangle extends Component {
+  extractPositionInfo(id, event) {
+    const transformation = {
+      id,
+      x: event.target.x(),
+      y: event.target.y(),
+      width: event.target.width() * event.target.scaleX(),
+      height: event.target.height() * event.target.scaleY(),
+    };
+
+    this.props.handleTransform(transformation);
+  }
+
   render() {
     const {
-      title, color, x, y, updatePosition, id, handleTransform,
+      title, color, x, y, updatePosition, id,
     } = this.props;
 
     return (
@@ -13,18 +25,13 @@ export default class Rectangle extends Component {
         name={title}
         x={x}
         y={y}
-        id={id}
         width={50}
         height={50}
         stroke={color}
         strokeWidth={4}
         strokeScaleEnabled={false}
-        onTransformEnd={event => handleTransform(id,
-          event.target.x(),
-          event.target.y(),
-          event.target.width() * event.target.scaleX(),
-          event.target.height() * event.target.scaleY())}
-        onDragEnd={event => updatePosition(id, event.target.attrs.x, event.target.attrs.y)}
+        onTransformEnd={event => this.extractPositionInfo(id, event)}
+        onDragEnd={event => updatePosition({ id, x: event.target.attrs.x, y: event.target.attrs.y })}
         draggable
       />
     );

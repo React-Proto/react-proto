@@ -11,6 +11,7 @@ const SortableComponent = (props) => {
     <div style={{ height: '100%' }}>
       <SortableTree
         treeData={rootComponents}
+        canDrag={false}
         onChange={treeData => this.setState({ treeData })}
       />
     </div>
