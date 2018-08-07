@@ -19,4 +19,6 @@ const colors = [
   '#D500F9',
 ];
 
-export default colors;
+const getColor = () => colors[Math.floor(Math.random() * colors.length)];
+
+export default { getColor };
