@@ -1,12 +1,12 @@
 import setSelectableParents from './setSelectableParents.util';
-import * as colors from './colors';
+import getColor from './colors';
 
 const initialComponentState = {
   id: null,
   stateful: false,
   title: '',
   parentId: '',
-  color: colors.getColor(),
+  color: getColor(),
   childrenIds: [],
   selectableParents: [],
   expanded: true,
@@ -26,7 +26,7 @@ const componentReducerUtil = {
       ...initialComponentState,
       title: capitalizedTitle,
       id: state.nextId.toString(),
-      color: colors.getColor(),
+      color: getColor(),
     };
 
     const components = [

@@ -21,4 +21,4 @@ const colors = [
 
 const getColor = () => colors[Math.floor(Math.random() * colors.length)];
 
-export default { getColor };
+export default getColor;
