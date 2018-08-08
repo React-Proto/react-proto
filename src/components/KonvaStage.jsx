@@ -20,36 +20,62 @@ class KonvaStage extends Component {
     this.group = createRef();
   }
 
-  handleStageClick = (e) => {
-    this.setState({
-      selectedShapeName: e.target.name(),
-    });
+  handleStageMouseDown = (e) => {
+    // clicked on stage - cler selection
+    if (e.target === e.target.getStage()) {
+      this.props.openExpansionPanel('');
+      this.setState({
+        selectedShapeName: '',
+      });
+      return;
+    }
+    // clicked on transformer - do nothing
+    const clickedOnTransformer = e.target.getParent().className === 'Transformer';
+    if (clickedOnTransformer) {
+      return;
+    }
+
+    // find clicked rect by its name
+    const name = e.target.name();
+    const rect = this.props.components.find(r => r.title === name);
+
+    if (rect) {
+      this.props.openExpansionPanel(rect.id);
+      this.setState({
+        selectedShapeName: name,
+      });
+    } else {
+      this.props.openExpansionPanel('');
+      this.setState({
+        selectedShapeName: '',
+      });
+    }
   };
 
-  handleStageDrag = () => {
-    // const mainWindowHeight = this.main.current.clientHeight;
-    // const mainWindowWidth = this.main.current.clientWidth;
-    // const groupX = this.refs.group.attrs.x;
-    // const groupY = this.refs.group.attrs.y;
+  // handleStageDrag = () => {
+  //   // const mainWindowHeight = this.main.current.clientHeight;
+  //   // const mainWindowWidth = this.main.current.clientWidth;
+  //   // const groupX = this.refs.group.attrs.x;
+  //   // const groupY = this.refs.group.attrs.y;
 
-    // const componentX = (mainWindowWidth / 2) - groupX;
-    // const componentY = (mainWindowHeight / 2) - groupY;
-    // console.log(componentX, componentY);
-  }
+  //   // const componentX = (mainWindowWidth / 2) - groupX;
+  //   // const componentY = (mainWindowHeight / 2) - groupY;
+  //   // console.log(componentX, componentY);
+  // }
 
 
   render() {
     const {
-      components, updatePosition, handleTransform, image, draggable, scaleX, scaleY,
+      components, handleTransform, image, draggable, scaleX, scaleY,
     } = this.props;
+    const { selectedShapeName } = this.state;
 
     return (
       <Stage
         ref={(node) => {
           this.stage = node;
         }}
-        onClick={this.handleStageClick}
-        onDragEnd={this.handleStageDrag}
+        onMouseDown={this.handleStageMouseDown}
         width={window.innerWidth}
         height={window.innerHeight}
       >
@@ -63,17 +89,20 @@ class KonvaStage extends Component {
             draggable={draggable}>
             <Image image={image} />
             {components.map((comp, i) => <Rectangle
+              draggable={comp.draggable}
+              selectedShapeName={selectedShapeName}
               key={i}
               id={comp.id}
               x={comp.position.x}
               y={comp.position.y}
+              width={comp.position.width}
+              height={comp.position.height}
               title={comp.title}
               color={comp.color}
-              updatePosition={updatePosition}
               handleTransform={handleTransform}
             />)}
             <TransformerComponent
-              selectedShapeName={this.state.selectedShapeName}
+              selectedShapeName={selectedShapeName}
             />
           </Group>
         </Layer>
@@ -85,7 +114,6 @@ class KonvaStage extends Component {
 KonvaStage.propTypes = {
   draggable: PropTypes.bool.isRequired,
   components: PropTypes.array.isRequired,
-  updatePosition: PropTypes.func.isRequired,
   handleTransform: PropTypes.func.isRequired,
   image: PropTypes.oneOfType([
     PropTypes.string,
@@ -93,6 +121,7 @@ KonvaStage.propTypes = {
   ]),
   scaleX: PropTypes.number.isRequired,
   scaleY: PropTypes.number.isRequired,
+  openExpansionPanel: PropTypes.func.isRequired,
 };
 
 export default KonvaStage;

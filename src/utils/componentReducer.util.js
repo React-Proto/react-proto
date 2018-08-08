@@ -7,6 +7,7 @@ const initialComponentState = {
   title: '',
   parentId: '',
   color: getColor(),
+  draggable: true,
   childrenIds: [],
   selectableParents: [],
   expanded: true,
@@ -146,7 +147,6 @@ const componentReducerUtil = {
     successOpen: status,
   })),
   updatePosition: (state, { id, x, y }) => {
-    
     const components = state.components.map((component) => {
       if (component.id === id) {
         return {
@@ -188,6 +188,31 @@ const componentReducerUtil = {
       components,
     };
   },
+  toggleDragging: (state, status) => {
+    const components = state.components.map(component => ({
+      ...component,
+      draggable: status,
+    }));
+    return {
+      ...state,
+      components,
+    };
+  },
+  moveToBottom: (state, componentId) => {
+    const components = state.components.concat();
+    const index = components.findIndex(component => component.id === componentId);
+    const removedComponent = components.splice(index, 1);
+    components.unshift(removedComponent[0]);
+
+    return {
+      ...state,
+      components,
+    };
+  },
+  openExpansionPanel: (state, componentId) => ({
+    ...state,
+    expandedPanelId: componentId,
+  }),
 };
 
 export default componentReducerUtil;

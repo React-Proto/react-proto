@@ -11,8 +11,10 @@ import {
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   HANDLE_CLOSE,
-  UPDATE_POSITION,
   HANDLE_TRANSFORM,
+  TOGGLE_DRAGGING,
+  MOVE_TO_BOTTOM,
+  OPEN_EXPANSION_PANEL,
 } from '../actionTypes/index';
 
 const createFiles = require('../../src/utils/createFiles.util.js');
@@ -102,16 +104,26 @@ export const handleClose = () => ({
   payload: false,
 });
 
-export const updatePosition = ({ id, x, y }) => ({
-  type: UPDATE_POSITION,
-  payload: { id, x, y },
-});
-
-export const handleTransform = ({
-  id, x, y, width, height,
+export const handleTransform = (id, {
+  x, y, width, height,
 }) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     id, x, y, width, height,
   },
+});
+
+export const toggleDragging = status => ({
+  type: TOGGLE_DRAGGING,
+  payload: status,
+});
+
+export const moveToBottom = componentId => ({
+  type: MOVE_TO_BOTTOM,
+  payload: componentId,
+});
+
+export const openExpansionPanel = componentId => ({
+  type: OPEN_EXPANSION_PANEL,
+  payload: componentId,
 });
