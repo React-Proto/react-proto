@@ -8,13 +8,17 @@ import MainContainerHeader from '../components/MainContainerHeader.jsx';
 const { ipcRenderer } = require('electron');
 
 const mapDispatchToProps = dispatch => ({
-  updatePosition: ({ id, x, y }) => dispatch(actions.updatePosition({ id, x, y })),
   handleTransform: (id, {
     x, y, width, height,
   }) => dispatch(actions.handleTransform(id, {
     x, y, width, height,
   })),
   toggleComponetDragging: status => dispatch(actions.toggleDragging(status)),
+  openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
+});
+
+const mapStateToProps = store => ({
+  panelId: store.components.expandedPanelId,
 });
 
 class MainContainer extends Component {
@@ -103,7 +107,7 @@ class MainContainer extends Component {
       image, open, draggable, scaleX, scaleY,
     } = this.state;
     const {
-      components, updatePosition, handleTransform,
+      components, handleTransform, openExpansionPanel,
     } = this.props;
 
     return (
@@ -125,8 +129,8 @@ class MainContainer extends Component {
             image={image}
             draggable={draggable}
             components={components}
-            updatePosition={updatePosition}
             handleTransform={handleTransform}
+            openExpansionPanel={openExpansionPanel}
           />
         </div>
       </div>
@@ -136,10 +140,10 @@ class MainContainer extends Component {
 
 MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
-  updatePosition: PropTypes.func.isRequired,
   handleTransform: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
+  openExpansionPanel: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

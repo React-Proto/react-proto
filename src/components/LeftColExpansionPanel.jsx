@@ -81,7 +81,7 @@ const LeftColExpansionPanel = (props) => {
 
   return (
     <div className={classes.root}>
-      <ExpansionPanel expanded={panelId === id} onChange={onExpansionPanelChange(id)}>
+      <ExpansionPanel expanded={panelId === id} onChange={onExpansionPanelChange(id, panelId)}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>{title}</Typography>
         </ExpansionPanelSummary>

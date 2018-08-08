@@ -23,6 +23,7 @@ class KonvaStage extends Component {
   handleStageMouseDown = (e) => {
     // clicked on stage - cler selection
     if (e.target === e.target.getStage()) {
+      this.props.openExpansionPanel('');
       this.setState({
         selectedShapeName: '',
       });
@@ -37,12 +38,14 @@ class KonvaStage extends Component {
     // find clicked rect by its name
     const name = e.target.name();
     const rect = this.props.components.find(r => r.title === name);
-    console.log(rect);
+
     if (rect) {
+      this.props.openExpansionPanel(rect.id);
       this.setState({
         selectedShapeName: name,
       });
     } else {
+      this.props.openExpansionPanel('');
       this.setState({
         selectedShapeName: '',
       });
@@ -63,7 +66,7 @@ class KonvaStage extends Component {
 
   render() {
     const {
-      components, updatePosition, handleTransform, image, draggable, scaleX, scaleY,
+      components, handleTransform, image, draggable, scaleX, scaleY,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -96,7 +99,6 @@ class KonvaStage extends Component {
               height={comp.position.height}
               title={comp.title}
               color={comp.color}
-              updatePosition={updatePosition}
               handleTransform={handleTransform}
             />)}
             <TransformerComponent
@@ -112,7 +114,6 @@ class KonvaStage extends Component {
 KonvaStage.propTypes = {
   draggable: PropTypes.bool.isRequired,
   components: PropTypes.array.isRequired,
-  updatePosition: PropTypes.func.isRequired,
   handleTransform: PropTypes.func.isRequired,
   image: PropTypes.oneOfType([
     PropTypes.string,
@@ -120,6 +121,7 @@ KonvaStage.propTypes = {
   ]),
   scaleX: PropTypes.number.isRequired,
   scaleY: PropTypes.number.isRequired,
+  openExpansionPanel: PropTypes.func.isRequired,
 };
 
 export default KonvaStage;

@@ -209,6 +209,10 @@ const componentReducerUtil = {
       components,
     };
   },
+  openExpansionPanel: (state, componentId) => ({
+    ...state,
+    expandedPanelId: componentId,
+  }),
 };
 
 export default componentReducerUtil;
