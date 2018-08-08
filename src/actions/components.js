@@ -13,6 +13,8 @@ import {
   HANDLE_CLOSE,
   UPDATE_POSITION,
   HANDLE_TRANSFORM,
+  TOGGLE_DRAGGING,
+  MOVE_TO_BOTTOM,
 } from '../actionTypes/index';
 
 const createFiles = require('../../src/utils/createFiles.util.js');
@@ -107,11 +109,21 @@ export const updatePosition = ({ id, x, y }) => ({
   payload: { id, x, y },
 });
 
-export const handleTransform = ({
-  id, x, y, width, height,
+export const handleTransform = (id, {
+  x, y, width, height,
 }) => ({
   type: HANDLE_TRANSFORM,
   payload: {
     id, x, y, width, height,
   },
+});
+
+export const toggleDragging = status => ({
+  type: TOGGLE_DRAGGING,
+  payload: status,
+});
+
+export const moveToBottom = componentId => ({
+  type: MOVE_TO_BOTTOM,
+  payload: componentId,
 });

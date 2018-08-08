@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
   deleteComponent: ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
+  moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
 });
 
 class LeftContainer extends Component {
@@ -52,6 +53,7 @@ class LeftContainer extends Component {
       components,
       updateComponent,
       deleteComponent,
+      moveToBottom,
     } = this.props;
     const { componentName, expandedPanelId } = this.state;
 
@@ -59,11 +61,13 @@ class LeftContainer extends Component {
       (component, i) => <LeftColExpansionPanel
         key={component.id}
         index={i}
+        id={component.id}
         updateComponent={updateComponent}
         deleteComponent={deleteComponent}
         component={component}
         panelId={expandedPanelId}
         onExpansionPanelChange={this.handleExpansionPanelChange}
+        moveToBottom={moveToBottom}
       />,
     );
 
@@ -111,4 +115,5 @@ LeftContainer.propTypes = {
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   updateComponent: PropTypes.func,
+  moveToBottom: PropTypes.func.isRequired,
 };

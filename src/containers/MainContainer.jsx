@@ -9,11 +9,12 @@ const { ipcRenderer } = require('electron');
 
 const mapDispatchToProps = dispatch => ({
   updatePosition: ({ id, x, y }) => dispatch(actions.updatePosition({ id, x, y })),
-  handleTransform: ({
-    id, x, y, width, height,
-  }) => dispatch(actions.handleTransform({
-    id, x, y, width, height,
+  handleTransform: (id, {
+    x, y, width, height,
+  }) => dispatch(actions.handleTransform(id, {
+    x, y, width, height,
   })),
+  toggleComponetDragging: status => dispatch(actions.toggleDragging(status)),
 });
 
 class MainContainer extends Component {
@@ -87,6 +88,7 @@ class MainContainer extends Component {
   }
 
   toggleDrag = () => {
+    this.props.toggleComponetDragging(this.state.draggable);
     this.setState({
       draggable: !this.state.draggable,
     });
@@ -137,6 +139,7 @@ MainContainer.propTypes = {
   updatePosition: PropTypes.func.isRequired,
   handleTransform: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
+  toggleComponetDragging: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(MainContainer);

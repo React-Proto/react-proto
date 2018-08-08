@@ -11,6 +11,8 @@ import {
   HANDLE_CLOSE,
   UPDATE_POSITION,
   HANDLE_TRANSFORM,
+  TOGGLE_DRAGGING,
+  MOVE_TO_BOTTOM,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -27,6 +29,8 @@ const {
   handleClose,
   updatePosition,
   handleTransform,
+  toggleDragging,
+  moveToBottom,
 } = componentReducerUtil;
 
 const initialApplicationState = {
@@ -63,6 +67,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return updatePosition(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
+    case TOGGLE_DRAGGING:
+      return toggleDragging(state, action.payload);
+    case MOVE_TO_BOTTOM:
+      return moveToBottom(state, action.payload);
     default:
       return state;
   }

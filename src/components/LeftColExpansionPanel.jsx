@@ -14,6 +14,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
+
 
 const styles = theme => ({
   root: {
@@ -52,6 +54,7 @@ const LeftColExpansionPanel = (props) => {
     updateComponent,
     deleteComponent,
     onExpansionPanelChange,
+    moveToBottom,
   } = props;
   const {
     title,
@@ -126,6 +129,9 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions className={classes.actions}>
+          <Button variant="contained" color="primary" className={classes.button} onClick={() => moveToBottom(id)}>
+            Move To Bottom
+          </Button>
           <IconButton
             className={classes.button}
             onClick={() => {
@@ -152,4 +158,5 @@ LeftColExpansionPanel.propTypes = {
   onExpansionPanelChange: PropTypes.func,
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
+  moveToBottom: PropTypes.func,
 };
