@@ -9,7 +9,6 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import SimpleModal from './SimpleModal.jsx';
-// import classNames from 'classnames';
 
 const style = {
   button: {
@@ -28,8 +27,10 @@ const MainContainerHeader = (props) => {
   const {
     increaseHeight, decreaseHeight, classes,
     image, removeImage, updateImage, open,
-    handleOpen, toggleDrag,
+    toggleModal, toggleDrag,
   } = props;
+
+  const message = 'Are you sure you want to delete the current image.';
 
   return (
     <div className="main-header">
@@ -59,7 +60,7 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
         <Tooltip title="remove image">
           <div>
-            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => handleOpen()}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => toggleModal()}>
               <DeleteOutlineIcon />
             </Button>
           </div>
@@ -72,7 +73,14 @@ const MainContainerHeader = (props) => {
           </div>
         </Tooltip>
       </div>
-      <SimpleModal open={open} removeImage={removeImage} image={image} />
+      <SimpleModal
+        open={open}
+        action={removeImage}
+        toggleModal={toggleModal}
+        message={message}
+        secondaryButtonLabel={'Remove'}
+        primaryButtonLabel={'Decline'}
+      />
     </div>
   );
 };
@@ -88,8 +96,9 @@ MainContainerHeader.propTypes = {
   decreaseHeight: PropTypes.func.isRequired,
   removeImage: PropTypes.func.isRequired,
   updateImage: PropTypes.func.isRequired,
-  handleOpen: PropTypes.func.isRequired,
   toggleDrag: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+
 };
 
 export default withStyles(styles)(MainContainerHeader);

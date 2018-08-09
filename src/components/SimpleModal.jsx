@@ -5,21 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
-
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
-
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
-
 const styles = theme => ({
   paper: {
     position: 'absolute',
@@ -32,7 +17,7 @@ const styles = theme => ({
 
 const SimpleModal = (props) => {
   const {
-    classes, open, removeImage, image,
+    classes, open, action, toggleModal, children, message, primaryButtonLabel, secondaryButtonLabel,
   } = props;
 
   return (
@@ -42,12 +27,20 @@ const SimpleModal = (props) => {
         aria-describedby="simple-modal-description"
         open={open}
       >
-        <div style={getModalStyle()} className={classes.paper}>
+        <div style={{
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }} className={classes.paper}>
           <Typography variant="title" id="modal-title">
-            Are you sure you want to delete this image. All associated data will be removed with it.
+            {message}
           </Typography>
-          <Button disabled={!image} color="secondary" className={classes.button} onClick={() => removeImage()}>
-            Delete
+          {children || ''}
+          <Button color="primary" className={classes.button} onClick={() => toggleModal()}>
+            {primaryButtonLabel}
+          </Button>
+          <Button color="secondary" className={classes.button} onClick={action}>
+            {secondaryButtonLabel}
           </Button>
         </div>
       </Modal>
@@ -57,11 +50,12 @@ const SimpleModal = (props) => {
 
 SimpleModal.propTypes = {
   open: PropTypes.bool.isRequired,
-  image: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-  ]),
   classes: PropTypes.object.isRequired,
-  removeImage: PropTypes.func.isRequired,
+  action: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+  children: PropTypes.object,
+  message: PropTypes.string.isRequired,
+  primaryButtonLabel: PropTypes.string.isRequired,
+  secondaryButtonLabel: PropTypes.string.isRequired,
 };
 export default withStyles(styles)(SimpleModal);

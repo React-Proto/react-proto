@@ -15,6 +15,7 @@ export default class TransformerComponent extends Component {
     const stage = this.transformer.getStage();
     const { selectedShapeName } = this.props;
     const selectedNode = stage.findOne(`.${selectedShapeName}`);
+
     if (selectedNode === this.transformer.node()) {
       return;
     }

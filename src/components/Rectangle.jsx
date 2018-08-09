@@ -3,9 +3,20 @@ import { Rect } from 'react-konva';
 import PropTypes from 'prop-types';
 
 export default class Rectangle extends Component {
+  extractPositionInfo(id, target) {
+    const transformation = {
+      x: target.x(),
+      y: target.y(),
+      width: target.width() * target.scaleX(),
+      height: target.height() * target.scaleY(),
+    };
+
+    this.props.handleTransform(id, transformation);
+  }
+
   render() {
     const {
-      title, color, x, y, updatePosition, id, handleTransform,
+      title, color, x, y, id, draggable, width, height,
     } = this.props;
 
     return (
@@ -13,18 +24,17 @@ export default class Rectangle extends Component {
         name={title}
         x={x}
         y={y}
-        width={50}
-        height={50}
+        id={id}
+        scaleX={1}
+        scaleY={1}
+        width={width}
+        height={height}
         stroke={color}
         strokeWidth={4}
         strokeScaleEnabled={false}
-        onTransformEnd={event => handleTransform(id,
-          event.target.x(),
-          event.target.y(),
-          event.target.width() * event.target.scaleX(),
-          event.target.height() * event.target.scaleY())}
-        onDragEnd={event => updatePosition(id, event.target.attrs.x, event.target.attrs.y)}
-        draggable
+        onTransformEnd={event => this.extractPositionInfo(id, event.target)}
+        onDragEnd={event => this.extractPositionInfo(id, event.target)}
+        draggable={draggable}
       />
     );
   }
@@ -33,9 +43,11 @@ export default class Rectangle extends Component {
 Rectangle.propTypes = {
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
-  updatePosition: PropTypes.func.isRequired,
   handleTransform: PropTypes.func.isRequired,
   x: PropTypes.number,
   y: PropTypes.number,
+  height: PropTypes.number,
+  width: PropTypes.number,
   id: PropTypes.string.isRequired,
+  draggable: PropTypes.bool.isRequired,
 };

@@ -9,8 +9,10 @@ import {
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
   HANDLE_CLOSE,
-  UPDATE_POSITION,
   HANDLE_TRANSFORM,
+  TOGGLE_DRAGGING,
+  MOVE_TO_BOTTOM,
+  OPEN_EXPANSION_PANEL,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -25,8 +27,10 @@ const {
   exportFilesSuccess,
   exportFilesError,
   handleClose,
-  updatePosition,
   handleTransform,
+  toggleDragging,
+  moveToBottom,
+  openExpansionPanel,
 } = componentReducerUtil;
 
 const initialApplicationState = {
@@ -34,6 +38,7 @@ const initialApplicationState = {
   nextId: 1,
   successOpen: false,
   errorOpen: false,
+  expandedPanelId: '',
   components: [],
 };
 
@@ -59,10 +64,14 @@ const componentReducer = (state = initialApplicationState, action) => {
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:
       return handleClose(state, action.payload);
-    case UPDATE_POSITION:
-      return updatePosition(state, action.payload);
     case HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
+    case TOGGLE_DRAGGING:
+      return toggleDragging(state, action.payload);
+    case MOVE_TO_BOTTOM:
+      return moveToBottom(state, action.payload);
+    case OPEN_EXPANSION_PANEL:
+      return openExpansionPanel(state, action.payload);
     default:
       return state;
   }

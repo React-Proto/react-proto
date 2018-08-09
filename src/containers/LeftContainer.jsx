@@ -20,12 +20,17 @@ const mapDispatchToProps = dispatch => ({
   deleteComponent: ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
+  moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
+  openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
+});
+
+const mapStateToProps = store => ({
+  expandedPanelId: store.components.expandedPanelId,
 });
 
 class LeftContainer extends Component {
   state = {
     componentName: '',
-    expandedPanelId: '',
   }
 
   handleChange = (event) => {
@@ -34,10 +39,8 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = panelId => (event, expanded) => {
-    this.setState({
-      expandedPanelId: expanded ? panelId : '',
-    });
+  handleExpansionPanelChange = (id, panelId) => {
+    this.props.openExpansionPanel(panelId ? '' : id);
   }
 
   handleAddComponent = () => {
@@ -52,18 +55,25 @@ class LeftContainer extends Component {
       components,
       updateComponent,
       deleteComponent,
+      moveToBottom,
+      openExpansionPanel,
+      expandedPanelId,
     } = this.props;
-    const { componentName, expandedPanelId } = this.state;
+    const { componentName } = this.state;
 
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel
         key={component.id}
         index={i}
+        id={component.id}
         updateComponent={updateComponent}
         deleteComponent={deleteComponent}
         component={component}
         panelId={expandedPanelId}
+        expandedPanelId={this.state.expandedPanelId}
         onExpansionPanelChange={this.handleExpansionPanelChange}
+        moveToBottom={moveToBottom}
+        openExpansionPanel={openExpansionPanel}
       />,
     );
 
@@ -104,11 +114,14 @@ class LeftContainer extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(LeftContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(LeftContainer);
 
 LeftContainer.propTypes = {
   components: PropTypes.array,
   addComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   updateComponent: PropTypes.func,
+  moveToBottom: PropTypes.func.isRequired,
+  expandedPanelId: PropTypes.string.isRequired,
+  openExpansionPanel: PropTypes.func.isRequired,
 };
