@@ -41,4 +41,4 @@ export default ${title} = props => {
 }`;
 };
 
-module.exports = componentRender;
+export default componentRender;

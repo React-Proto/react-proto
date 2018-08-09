@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Snackbar from '@material-ui/core/Snackbar';
-import { exportFiles, handleClose } from '../actions/components';
+import { exportFiles, handleClose, createApplication } from '../actions/components';
 import SortableComponent from '../components/SortableComponent.jsx';
 import Export from '../components/Export.jsx';
 import SnackbarContentWrapper from '../components/SnackbarContentWrapper.jsx';
@@ -12,6 +12,7 @@ const { ipcRenderer } = window.require('electron');
 
 const mapDispatchToProps = dispatch => ({
   exportFiles: ({ components, path }) => dispatch(exportFiles({ components, path })),
+  createApplication: ({ path, components }) => dispatch(createApplication({ path, components })),
   handleNotificationClose: () => dispatch(handleClose()),
 });
 
@@ -33,11 +34,19 @@ class RightContainer extends Component {
       const { components } = this.props;
       this.props.exportFiles({ components, path, event });
     });
-  }
 
+    ipcRenderer.on('app_dir_selected', (event, path) => {
+      const { components } = this.props;
+      this.props.createApplication({ path, components });
+    });
+  }
 
   exportFiles = () => {
     ipcRenderer.send('export_files');
+  }
+
+  chooseAppDir = () => {
+    ipcRenderer.send('choose_app_dir');
   }
 
   render() {
@@ -50,6 +59,7 @@ class RightContainer extends Component {
         <Export
           components={components}
           exportFiles={this.exportFiles}
+          createApplication={this.chooseAppDir}
           fileSelectedHandler={this.fileSelectedHandler}
         />
         <SortableComponent components={components} />
@@ -60,6 +70,7 @@ class RightContainer extends Component {
           }}
           open={successOpen}
           autoHideDuration={2000}
+          onClose={handleNotificationClose}
         >
           <SnackbarContentWrapper
             onClose={handleNotificationClose}
@@ -74,9 +85,10 @@ class RightContainer extends Component {
           }}
           open={errorOpen}
           autoHideDuration={2000}
+          onClose={handleNotificationClose}
         >
           <SnackbarContentWrapper
-            onClose={handleClose}
+            onClose={handleNotificationClose}
             variant="error"
             message="There was an error while creating your files"
           />
@@ -92,6 +104,7 @@ RightContainer.propTypes = {
   successOpen: PropTypes.bool.isRequired,
   errorOpen: PropTypes.bool.isRequired,
   exportFiles: PropTypes.func.isRequired,
+  createApplication: PropTypes.func.isRequired,
   handleNotificationClose: PropTypes.func.isRequired,
 };
 

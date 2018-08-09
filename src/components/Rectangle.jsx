@@ -13,7 +13,6 @@ export default class Rectangle extends Component {
         name={title}
         x={x}
         y={y}
-        id={id}
         width={50}
         height={50}
         stroke={color}

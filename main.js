@@ -37,6 +37,15 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+// Choose directory
+ipcMain.on('choose_app_dir', (event) => {
+  const directory = dialog.showOpenDialog(mainWindow, {
+    properties: ['openDirectory'],
+  });
+
+  if (!directory) return;
+  event.sender.send('app_dir_selected', directory[0]);
+});
 
 // Choose directory and export files
 ipcMain.on('export_files', (event) => {
@@ -62,7 +71,7 @@ ipcMain.on('export_files', (event) => {
 });
 
 // Update file
-ipcMain.on('update-file', (event) => {
+ipcMain.on('update-file', () => {
   openFile();
 });
 
@@ -199,11 +208,10 @@ const createWindow = () => {
 app.on('ready', () => {
   if (isDev) {
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
-      .then((name) => {
-        console.log(`Added Extension:  ${name}`);
+      .then(() => {
         createWindow();
       })
-      .catch(err => console.log('An error occurred: ', err));
+      .catch(err => err);
   } else {
     createWindow();
   }

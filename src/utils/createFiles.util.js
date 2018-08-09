@@ -1,12 +1,20 @@
-const fs = require('fs');
-const componentRender = require('./componentRender.util.js');
+import fs from 'fs';
+import componentRender from './componentRender.util';
 
-
-function createFiles(data, path) {
+const createFiles = (data, path) => {
+  let dir = path;
+  if (!dir.match(/components|\*$/)) {
+    dir = `${dir}/components`;
+    if (!fs.existsSync(dir)) {
+      fs.mkdir(dir, (err) => {
+        if (err) console.error(err);
+      });
+    }
+  }
   const promises = [];
   data.forEach((component) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFile(`${path}/${component.title}.js`, componentRender(component, data), (err) => {
+      fs.writeFile(`${dir}/${component.title}.jsx`, componentRender(component, data), (err) => {
         if (err) {
           reject(err);
         } else {
@@ -19,6 +27,6 @@ function createFiles(data, path) {
   });
 
   return Promise.all(promises);
-}
+};
 
-module.exports = createFiles;
+export default createFiles;

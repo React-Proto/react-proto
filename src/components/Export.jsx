@@ -13,14 +13,14 @@ const styles = theme => ({
 });
 
 const Export = (props) => {
-  const { classes, exportFiles } = props;
+  const { classes, exportFiles, createApplication } = props;
 
   return (
     <div className='export'>
       <Button size='small' variant="contained" color="primary" className={classes.button} onClick={exportFiles}>
-        Export files
+        Generate Files
       </Button>
-      <Button size='small' variant="contained" color="primary" className={classes.button}>
+      <Button size='small' variant="contained" color="primary" className={classes.button} onClick={createApplication}>
         Create Application
       </Button>
     </div>
@@ -30,6 +30,7 @@ const Export = (props) => {
 Export.propTypes = {
   classes: PropTypes.object.isRequired,
   exportFiles: PropTypes.func.isRequired,
+  createApplication: PropTypes.func.isRequired,
   components: PropTypes.array.isRequired,
 };
 

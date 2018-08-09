@@ -1,4 +1,3 @@
-// import promiseIpc from 'electron-promise-ipc';
 import {
   ADD_COMPONENT,
   UPDATE_COMPONENT,
@@ -13,9 +12,13 @@ import {
   HANDLE_CLOSE,
   UPDATE_POSITION,
   HANDLE_TRANSFORM,
+  CREATE_APPLICATION,
+  CREATE_APPLICATION_SUCCESS,
+  CREATE_APPLICATION_ERROR,
 } from '../actionTypes/index';
 
-const createFiles = require('../../src/utils/createFiles.util.js');
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util';
 
 export const addNewChild = (({
   id, childIndex, childId,
@@ -113,3 +116,21 @@ export const handleTransform = (id, x, y, width, height) => ({
     id, x, y, width, height,
   },
 });
+
+export const createApplication = ({ path, components = [], appName = 'proto_app' }) => (dispatch) => {
+  dispatch({
+    type: CREATE_APPLICATION,
+  });
+
+  createApplicationUtil({ path, appName })
+    .then(() => {
+      dispatch({
+        type: CREATE_APPLICATION_SUCCESS,
+      });
+      dispatch(exportFiles({ path: `${path}/${appName}/src`, components }));
+    })
+    .catch(err => dispatch({
+      type: CREATE_APPLICATION_ERROR,
+      payload: { err },
+    }));
+};

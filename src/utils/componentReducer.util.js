@@ -1,5 +1,5 @@
 import setSelectableParents from './setSelectableParents.util';
-import getColor from './colors';
+import getColor from './colors.util';
 
 const initialComponentState = {
   id: null,
