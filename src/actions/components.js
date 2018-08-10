@@ -92,13 +92,13 @@ export const exportFiles = ({ components, path }) => (dispatch) => {
   });
 
   createFiles(components, path)
-    .then(() => dispatch({
+    .then(dir => dispatch({
       type: EXPORT_FILES_SUCCESS,
-      payload: true,
+      payload: { status: true, dir: dir[0] },
     }))
-    .catch(() => dispatch({
+    .catch(err => dispatch({
       type: EXPORT_FILES_ERROR,
-      payload: true,
+      payload: { status: true, err },
     }));
 };
 
@@ -116,22 +116,34 @@ export const handleTransform = (id, {
   },
 });
 
-export const createApplication = ({ path, components = [], appName = 'proto_app' }) => (dispatch) => {
-  dispatch({
-    type: CREATE_APPLICATION,
-  });
+// Application generation options
+// cosnt genOptions = [
+//   'Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'
+// ];
 
-  createApplicationUtil({ path, appName })
-    .then(() => {
-      dispatch({
-        type: CREATE_APPLICATION_SUCCESS,
-      });
-      dispatch(exportFiles({ path: `${path}/${appName}/src`, components }));
+export const createApplication = ({
+  path, components = [], genOption, appName = 'proto_app', repoUrl,
+}) => (dispatch) => {
+  if (genOption === 0) {
+    dispatch(exportFiles({ path, components }));
+  } else if (genOption) {
+    dispatch({
+      type: CREATE_APPLICATION,
+    });
+    createApplicationUtil({
+      path, appName, genOption, repoUrl,
     })
-    .catch(err => dispatch({
-      type: CREATE_APPLICATION_ERROR,
-      payload: { err },
-    }));
+      .then(() => {
+        dispatch({
+          type: CREATE_APPLICATION_SUCCESS,
+        });
+        dispatch(exportFiles({ path: `${path}/${appName}/src`, components }));
+      })
+      .catch(err => dispatch({
+        type: CREATE_APPLICATION_ERROR,
+        payload: { err },
+      }));
+  }
 };
 
 export const toggleDragging = status => ({

@@ -6,6 +6,7 @@ const initialComponentState = {
   stateful: false,
   title: '',
   parentId: '',
+  appDir: '',
   color: getColor(),
   draggable: true,
   childrenIds: [],
@@ -133,13 +134,15 @@ const componentReducerUtil = {
     ...state,
     components: setSelectableParents(state.components),
   })),
-  exportFilesSuccess: ((state, status) => ({
+  exportFilesSuccess: ((state, { status, dir }) => ({
     ...state,
     successOpen: status,
+    appDir: dir,
   })),
-  exportFilesError: ((state, status) => ({
+  exportFilesError: ((state, { status, err }) => ({
     ...state,
     errorOpen: status,
+    appDir: err,
   })),
   handleClose: ((state, status) => ({
     ...state,

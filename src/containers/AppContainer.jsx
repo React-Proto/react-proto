@@ -7,18 +7,19 @@ import RightContainer from './RightContainer.jsx';
 import convertIdToObjs from '../utils/convertIdsToObjs.util';
 
 const mapStateToProps = store => ({
-  components: store.components.components,
+  components: store.workspace.components,
+  totalComponents: store.workspace.totalComponents,
 });
 
 class AppContainer extends Component {
   render() {
-    const { components } = this.props;
+    const { components, totalComponents } = this.props;
     const updatedComponents = convertIdToObjs(components);
 
     return (
       <div className="app-container">
         <LeftContainer components={updatedComponents} />
-        <MainContainer components={updatedComponents} />
+        <MainContainer components={updatedComponents} totalComponents={totalComponents}/>
         <RightContainer components={updatedComponents} />
       </div>
     );
@@ -28,5 +29,6 @@ class AppContainer extends Component {
 export default connect(mapStateToProps)(AppContainer);
 
 AppContainer.propTypes = {
-  components: PropTypes.array,
+  components: PropTypes.array.isRequired,
+  totalComponents: PropTypes.number.isRequired,
 };

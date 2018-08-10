@@ -47,6 +47,10 @@ ipcMain.on('choose_app_dir', (event) => {
   event.sender.send('app_dir_selected', directory[0]);
 });
 
+ipcMain.on('view_app_dir', (event, appDir) => {
+  shell.openItem(appDir);
+});
+
 // Choose directory and export files
 ipcMain.on('export_files', (event) => {
   const directory = dialog.showOpenDialog(mainWindow, {

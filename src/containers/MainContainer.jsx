@@ -1,30 +1,45 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as actions from '../actions/components';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import TextField from '@material-ui/core/TextField';
+import {
+  toggleDragging, openExpansionPanel, handleTransform, createApplication,
+} from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
+import createModal from '../utils/createModal.util';
 
 const { ipcRenderer } = require('electron');
 
 const mapDispatchToProps = dispatch => ({
-  handleTransform: (id, {
+  handleTransformation: (id, {
     x, y, width, height,
-  }) => dispatch(actions.handleTransform(id, {
+  }) => dispatch(handleTransform(id, {
     x, y, width, height,
   })),
-  toggleComponetDragging: status => dispatch(actions.toggleDragging(status)),
-  openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
+  toggleComponetDragging: status => dispatch(toggleDragging(status)),
+  openPanel: componentId => dispatch(openExpansionPanel(componentId)),
+  createApplication: ({
+    path, components, genOption, repoUrl,
+  }) => dispatch(createApplication({
+    path, components, genOption, repoUrl,
+  })),
 });
 
 const mapStateToProps = store => ({
-  panelId: store.components.expandedPanelId,
+  totalComponents: store.workspace.totalComponents,
 });
 
 class MainContainer extends Component {
   state = {
+    repoUrl: '',
     image: '',
-    open: false,
+    modal: null,
+    genOptions: ['Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'],
+    genOption: 0,
     draggable: false,
     scaleX: 1,
     scaleY: 1,
@@ -39,15 +54,17 @@ class MainContainer extends Component {
       const image = new window.Image();
       image.src = file;
       image.onload = () => {
-        // setState will redraw layer
-        // because "image" property is changed
-        this.setState({
-          image,
-        });
+        this.setState({ image });
       };
-
-      // this.uploadedImage = React.createRef();
       this.draggableItems = [];
+    });
+
+    ipcRenderer.on('app_dir_selected', (event, path) => {
+      const { components } = this.props;
+      const { genOption, repoUrl } = this.state;
+      this.props.createApplication({
+        path, components, genOption, repoUrl,
+      });
     });
   }
 
@@ -61,6 +78,14 @@ class MainContainer extends Component {
         image,
       });
     };
+  }
+
+  handleChange = (event) => {
+    this.setState({ repoUrl: event.target.value.trim() });
+  }
+
+  updateImage = () => {
+    ipcRenderer.send('update-file');
   }
 
   increaseHeight = () => {
@@ -77,19 +102,11 @@ class MainContainer extends Component {
     });
   }
 
+  deleteImage = () => this.setState({ image: '' });
 
-  toggleModal = () => {
-    this.setState({
-      open: !this.state.open,
-    });
-  }
+  closeModal = () => this.setState({ modal: null });
 
-  removeImage = () => {
-    this.setState({
-      image: '',
-      open: false,
-    });
-  }
+  chooseAppDir = () => ipcRenderer.send('choose_app_dir');
 
   toggleDrag = () => {
     this.props.toggleComponetDragging(this.state.draggable);
@@ -98,41 +115,114 @@ class MainContainer extends Component {
     });
   }
 
-  updateImage = () => {
-    ipcRenderer.send('update-file');
+  showImageDeleteModal = () => {
+    const { closeModal, deleteImage } = this;
+    this.setState({
+      modal: createModal({
+        closeModal,
+        message: 'Are you sure you want to delete image?',
+        secBtnLabel: 'Delete',
+        secBtnAction: deleteImage,
+      }),
+    });
+  }
+
+  displayUrlModal = () => {
+    const { closeModal, chooseAppDir } = this;
+    const children = <TextField
+      id='url'
+      label='Repository URL'
+      placeholder='https://github.com/kriasoft/react-starter-kit.git'
+      margin='normal'
+      onChange={this.handleChange}
+      name='repoUrl'
+      style={{ width: '95%' }}
+    />;
+    this.setState({
+      modal: createModal({
+        closeModal,
+        children,
+        message: 'Enter repository URL:',
+        primBtnLabel: 'Accept',
+        primBtnAction: () => { chooseAppDir(); closeModal(); },
+        secBtnLabel: 'Cancel',
+        secBtnAction: () => { this.setState({ repoUrl: '' }); closeModal(); },
+      }),
+    });
+  }
+
+  chooseGenOptions = (genOption) => {
+    // set option
+    this.setState({ genOption });
+    // closeModal
+    this.closeModal();
+    if (genOption === 2) {
+      this.displayUrlModal();
+    } else {
+      // Choose app dir
+      this.chooseAppDir();
+    }
+  }
+
+  showGenerateAppModal = () => {
+    const { closeModal, chooseGenOptions } = this;
+    const { genOptions } = this.state;
+    const children = <List className='export-preference'>{genOptions.map(
+      (option, i) => <ListItem key={i} button onClick={() => chooseGenOptions(i)} style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}>
+        <ListItemText primary={option} style={{ textAlign: 'center' }}/>
+      </ListItem>,
+    )}
+    </List>;
+    this.setState({
+      modal: createModal({
+        closeModal,
+        children,
+        message: 'Choose export preference:',
+      }),
+    });
   }
 
   render() {
     const {
-      image, open, draggable, scaleX, scaleY,
+      image, draggable, scaleX, scaleY, modal,
     } = this.state;
     const {
-      components, handleTransform, openExpansionPanel,
+      components, handleTransformation, openPanel, totalComponents,
     } = this.props;
+    const {
+      increaseHeight,
+      decreaseHeight,
+      updateImage,
+      toggleDrag,
+      main,
+      showImageDeleteModal,
+      showGenerateAppModal,
+    } = this;
 
     return (
       <div className="main-container">
         <MainContainerHeader
           image={image}
-          open={open}
-          increaseHeight={this.increaseHeight}
-          decreaseHeight={this.decreaseHeight}
-          removeImage={this.removeImage}
-          updateImage={this.updateImage}
-          toggleModal={this.toggleModal}
-          toggleDrag={this.toggleDrag}
+          increaseHeight={increaseHeight}
+          decreaseHeight={decreaseHeight}
+          deleteImage={showImageDeleteModal}
+          updateImage={updateImage}
+          toggleDrag={toggleDrag}
+          totalComponents={totalComponents}
+          generateApp={showGenerateAppModal}
         />
-        <div className="main" ref={this.main}>
+        <div className="main" ref={main}>
           <KonvaStage
             scaleX={scaleX}
             scaleY={scaleY}
             image={image}
             draggable={draggable}
             components={components}
-            handleTransform={handleTransform}
-            openExpansionPanel={openExpansionPanel}
+            handleTransform={handleTransformation}
+            openExpansionPanel={openPanel}
           />
         </div>
+        {modal}
       </div>
     );
   }
@@ -140,9 +230,11 @@ class MainContainer extends Component {
 
 MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
-  handleTransform: PropTypes.func.isRequired,
+  handleTransformation: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
-  openExpansionPanel: PropTypes.func.isRequired,
+  openPanel: PropTypes.func.isRequired,
+  totalComponents: PropTypes.number.isRequired,
+  createApplication: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

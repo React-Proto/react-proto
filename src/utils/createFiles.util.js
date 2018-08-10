@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { format } from 'prettier';
 import componentRender from './componentRender.util';
 
 const createFiles = (data, path) => {
@@ -14,12 +15,8 @@ const createFiles = (data, path) => {
   const promises = [];
   data.forEach((component) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFile(`${dir}/${component.title}.jsx`, componentRender(component, data), (err) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve();
-        }
+      fs.writeFile(`${dir}/${component.title}.jsx`, format(componentRender(component, data)), (err) => {
+        return err ? reject(err) : resolve(path);
       });
     });
 
