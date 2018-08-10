@@ -11,15 +11,44 @@ const mapStateToProps = store => ({
 });
 
 class AppContainer extends Component {
+  state = {
+    width: 25,
+    rightColumnOpen: true,
+  }
+
+  collapseColumn = () => {
+    if (this.state.width === 25) {
+      this.setState({
+        width: 0,
+        rightColumnOpen: false,
+      });
+    } else {
+      this.setState({
+        width: 25,
+        rightColumnOpen: true,
+      });
+    }
+  }
+
   render() {
     const { components } = this.props;
+    const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdToObjs(components);
 
     return (
       <div className="app-container">
         <LeftContainer components={updatedComponents} />
-        <MainContainer components={updatedComponents} />
-        <RightContainer components={updatedComponents} />
+        <MainContainer
+          components={updatedComponents}
+          collapseColumn={this.collapseColumn}
+          width={width}
+          rightColumnOpen={rightColumnOpen}
+        />
+        <RightContainer
+          width={width}
+          components={updatedComponents}
+          rightColumnOpen={rightColumnOpen}
+        />
       </div>
     );
   }

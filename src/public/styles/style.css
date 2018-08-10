@@ -36,9 +36,9 @@ header {
   overflow: scroll;
 }
 
-.column .right {
-  width: 25%;
-}
+/* .column-right-export-btn {
+  transition: display 400ms ease-in-out 300ms;
+} */
 
 
 /*
@@ -121,13 +121,17 @@ h1 {
 
 .image-container {
   position: relative;
-  /* width: 100%; */
-  /* height: auto; */
   display: flex;
-  /* justify-cotent: flex-start; */
-  /* align-items: center; */
   top: 0;
   left: 0;
+}
+
+.info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /*
@@ -137,16 +141,27 @@ RIGHT COLUMN
 */
 
 .export {
-  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
+.column-right {
+  transition: width 250ms ease-in-out;
+  height: 100%;
+  display: flex; 
+  flex-direction: column;
+}
+
 /* Sortable tree sorting */
+.sortable-tree {
+  height: 100%;
+}
+
 .rst__rowContents {
-  min-width: 140px;
+  width: 45px;
 }
 
 .rst__moveHandle, .rst__loadingHandle {
