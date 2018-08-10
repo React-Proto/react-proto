@@ -8,7 +8,7 @@ const SortableComponent = (props) => {
     comp => comp.parentId.length === 0,
   );
   return (
-    <div style={{ height: '100%' }}>
+    <div className="sortable-tree">
       <SortableTree
         treeData={rootComponents}
         canDrag={false}

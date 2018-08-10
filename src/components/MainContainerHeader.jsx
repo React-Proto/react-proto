@@ -5,6 +5,9 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -19,7 +22,7 @@ const style = {
 
 const styles = theme => ({
   iconSmall: {
-    fontSize: 12,
+    fontSize: 10,
   },
 });
 
@@ -27,7 +30,7 @@ const MainContainerHeader = (props) => {
   const {
     increaseHeight, decreaseHeight, classes,
     image, removeImage, updateImage, open,
-    toggleModal, toggleDrag,
+    toggleModal, toggleDrag, collapseColumn, rightColumnOpen,
   } = props;
 
   const message = 'Are you sure you want to delete the current image.';
@@ -49,7 +52,7 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title="drag">
+        <Tooltip title="toggle drag">
           <div>
             <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={() => toggleDrag()}>
               <OpenWithIcon />
@@ -69,6 +72,13 @@ const MainContainerHeader = (props) => {
           <div>
             <Button style={style.button} color="default" className={classes.button} onClick={() => updateImage()}>
               <ImageSearchIcon />
+            </Button>
+          </div>
+        </Tooltip>
+        <Tooltip title={rightColumnOpen ? 'close' : 'open'}>
+          <div>
+            <Button style={style.button} color="default" className={classes.button} onClick={() => collapseColumn()}>
+              {rightColumnOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
             </Button>
           </div>
         </Tooltip>
@@ -98,7 +108,8 @@ MainContainerHeader.propTypes = {
   updateImage: PropTypes.func.isRequired,
   toggleDrag: PropTypes.func.isRequired,
   toggleModal: PropTypes.func.isRequired,
-
+  collapseColumn: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);

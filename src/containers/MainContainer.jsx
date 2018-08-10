@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
+import Info from '../components/Info.jsx';
 
 const { ipcRenderer } = require('electron');
 
@@ -107,7 +108,7 @@ class MainContainer extends Component {
       image, open, draggable, scaleX, scaleY,
     } = this.state;
     const {
-      components, handleTransform, openExpansionPanel,
+      components, handleTransform, openExpansionPanel, collapseColumn, rightColumnOpen,
     } = this.props;
 
     return (
@@ -121,17 +122,26 @@ class MainContainer extends Component {
           updateImage={this.updateImage}
           toggleModal={this.toggleModal}
           toggleDrag={this.toggleDrag}
+          collapseColumn={collapseColumn}
+          rightColumnOpen={rightColumnOpen}
+          components={components}
         />
         <div className="main" ref={this.main}>
-          <KonvaStage
-            scaleX={scaleX}
-            scaleY={scaleY}
-            image={image}
-            draggable={draggable}
-            components={components}
-            handleTransform={handleTransform}
-            openExpansionPanel={openExpansionPanel}
-          />
+          {
+            components.length > 0 || image ? (
+              <KonvaStage
+                scaleX={scaleX}
+                scaleY={scaleY}
+                image={image}
+                draggable={draggable}
+                components={components}
+                handleTransform={handleTransform}
+                openExpansionPanel={openExpansionPanel}
+              />
+            ) : (
+                <Info />
+            )
+          }
         </div>
       </div>
     );
@@ -144,6 +154,8 @@ MainContainer.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
+  collapseColumn: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
