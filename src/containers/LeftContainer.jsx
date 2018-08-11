@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = store => ({
-  expandedPanelId: store.components.expandedPanelId,
+  expandedPanelId: store.workspace.expandedPanelId,
 });
 
 class LeftContainer extends Component {
@@ -39,12 +39,8 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = (id, panelId) => (event) => {
-    if (panelId === '') {
-      this.props.openExpansionPanel(id);
-    } else {
-      this.props.openExpansionPanel('');
-    }
+  handleExpansionPanelChange = (id, panelId) => {
+    this.props.openExpansionPanel(panelId === id ? '' : id);
   }
 
   handleAddComponent = () => {
@@ -74,7 +70,6 @@ class LeftContainer extends Component {
         deleteComponent={deleteComponent}
         component={component}
         panelId={expandedPanelId}
-        expandedPanelId={this.state.expandedPanelId}
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         openExpansionPanel={openExpansionPanel}
@@ -87,8 +82,8 @@ class LeftContainer extends Component {
           <Grid container spacing={16} alignItems='baseline' align='stretch'>
             <Grid item xs={10}>
               <TextField
-                id='with-placeholder'
-                label='Component Name'
+                id='title-input'
+                label='New component'
                 placeholder='AppComponent'
                 margin='normal'
                 onChange={this.handleChange}

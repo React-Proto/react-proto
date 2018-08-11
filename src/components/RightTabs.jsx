@@ -105,6 +105,7 @@ class RightTabs extends Component {
 
 RightTabs.propTypes = {
   classes: PropTypes.object.isRequired,
+  components: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(RightTabs);

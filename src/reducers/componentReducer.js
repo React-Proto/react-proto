@@ -40,6 +40,7 @@ const initialApplicationState = {
   errorOpen: false,
   expandedPanelId: '',
   components: [],
+  appDir: '',
 };
 
 const componentReducer = (state = initialApplicationState, action) => {

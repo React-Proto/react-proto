@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { exportFiles, handleClose } from '../actions/components';
+import { handleClose } from '../actions/components';
 import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from '../components/RightTabs.jsx';
-
 
 const { ipcRenderer } = window.require('electron');
 
 const mapDispatchToProps = dispatch => ({
-  exportFiles: ({ components, path }) => dispatch(exportFiles({ components, path })),
   handleNotificationClose: () => dispatch(handleClose()),
 });
 
 const mapStateToProps = store => ({
-  successOpen: store.components.successOpen,
-  errorOpen: store.components.errorOpen,
+  successOpen: store.workspace.successOpen,
+  errorOpen: store.workspace.errorOpen,
+  appDir: store.workspace.appDir,
 });
 
 class RightContainer extends Component {
@@ -24,23 +23,13 @@ class RightContainer extends Component {
     errorOpen: false,
   }
 
-  constructor(props) {
-    super(props);
-
-    ipcRenderer.on('created_folder', (event, path) => {
-      const { components } = this.props;
-      this.props.exportFiles({ components, path, event });
-    });
-  }
-
-
-  exportFiles = () => {
-    ipcRenderer.send('export_files');
+  viewAppDir = () => {
+    ipcRenderer.send('view_app_dir', this.props.appDir);
   }
 
   render() {
     const {
-      components, successOpen, errorOpen, handleNotificationClose,
+      components, successOpen, errorOpen, handleNotificationClose, appDir,
     } = this.props;
 
     return (
@@ -50,6 +39,8 @@ class RightContainer extends Component {
           successOpen={successOpen}
           errorOpen={errorOpen}
           handleNotificationClose={handleNotificationClose}
+          msg={appDir}
+          viewAppDir={this.viewAppDir}
         />
       </div>
     );
@@ -59,8 +50,8 @@ class RightContainer extends Component {
 RightContainer.propTypes = {
   components: PropTypes.array.isRequired,
   successOpen: PropTypes.bool.isRequired,
+  appDir: PropTypes.string,
   errorOpen: PropTypes.bool.isRequired,
-  exportFiles: PropTypes.func.isRequired,
   handleNotificationClose: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
 };

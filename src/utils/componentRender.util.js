@@ -4,10 +4,9 @@ const componentRender = (component) => {
   if (stateful) {
     return `
 import React, { Component } from 'react';
-${children ? children.map(child => `import ${child.title} from './${child.title}.js'`).join('\n') : ''}
+${children ? children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n') : ''}
 
-
-export default class ${title} extends Component {
+class ${title} extends Component {
 render() {
   return (
     <div>
@@ -20,14 +19,18 @@ render() {
     </div>
   )
   }
-}`;
+}
+
+export default ${title}
+
+`;
   }
 
   return `
 import React from 'react';
-${children ? children.map(child => `import ${child.title} from './${child.title}.js'`).join('\n') : ''}
+${children ? children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n') : ''}
   
-export default ${title} = props => {
+const ${title} = props => {
   return (
     <div>
     ${children ? children.map((child, i) => {
@@ -38,7 +41,11 @@ export default ${title} = props => {
   }).join('\n') : title}  
     </div>
   )
-}`;
+}
+
+export default ${title}
+
+`;
 };
 
-module.exports = componentRender;
+export default componentRender;

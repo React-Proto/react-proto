@@ -4,6 +4,7 @@
   box-sizing: inherit;
 }
 
+
 html {
   box-sizing: border-box;
   overflow: hidden;
@@ -14,6 +15,20 @@ body {
   padding: 0;
   font-family: "Open sans", sans-serif;
   font-weight: 400;
+}
+
+/*
+/////////////////////////////////////////// 
+Remove focus styling
+/////////////////////////////////////////////
+*/
+
+:focus {
+  outline: 0;
+}
+
+:disabled {
+  cursor: not-allowed;
 }
 
 header {
@@ -126,6 +141,18 @@ h1 {
   left: 0;
 }
 
+.export-preference div span {
+  transition: color 1s, background-color 1.5s, transform 2s;
+}
+
+.export-preference div:hover {
+  background-color: #303f9f;
+}
+
+.export-preference div:hover span {
+  color: white;
+}
+
 .info {
   width: 100%;
   height: 100%;
@@ -145,7 +172,7 @@ RIGHT COLUMN
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .column-right {

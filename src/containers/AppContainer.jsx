@@ -7,7 +7,8 @@ import RightContainer from './RightContainer.jsx';
 import convertIdToObjs from '../utils/convertIdsToObjs.util';
 
 const mapStateToProps = store => ({
-  components: store.components.components,
+  components: store.workspace.components,
+  totalComponents: store.workspace.totalComponents,
 });
 
 class AppContainer extends Component {
@@ -31,7 +32,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components } = this.props;
+    const { components, totalComponents } = this.props;
     const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdToObjs(components);
 
@@ -43,6 +44,7 @@ class AppContainer extends Component {
           collapseColumn={this.collapseColumn}
           width={width}
           rightColumnOpen={rightColumnOpen}
+          totalComponents={totalComponents}
         />
         <RightContainer
           width={width}
@@ -57,5 +59,6 @@ class AppContainer extends Component {
 export default connect(mapStateToProps)(AppContainer);
 
 AppContainer.propTypes = {
-  components: PropTypes.array,
+  components: PropTypes.array.isRequired,
+  totalComponents: PropTypes.number.isRequired,
 };

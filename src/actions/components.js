@@ -1,4 +1,3 @@
-// import promiseIpc from 'electron-promise-ipc';
 import {
   ADD_COMPONENT,
   UPDATE_COMPONENT,
@@ -12,12 +11,16 @@ import {
   EXPORT_FILES_ERROR,
   HANDLE_CLOSE,
   HANDLE_TRANSFORM,
+  CREATE_APPLICATION,
+  CREATE_APPLICATION_SUCCESS,
+  CREATE_APPLICATION_ERROR,
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   OPEN_EXPANSION_PANEL,
 } from '../actionTypes/index';
 
-const createFiles = require('../../src/utils/createFiles.util.js');
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util';
 
 export const addNewChild = (({
   id, childIndex, childId,
@@ -89,13 +92,13 @@ export const exportFiles = ({ components, path }) => (dispatch) => {
   });
 
   createFiles(components, path)
-    .then(() => dispatch({
+    .then(dir => dispatch({
       type: EXPORT_FILES_SUCCESS,
-      payload: true,
+      payload: { status: true, dir: dir[0] },
     }))
-    .catch(() => dispatch({
+    .catch(err => dispatch({
       type: EXPORT_FILES_ERROR,
-      payload: true,
+      payload: { status: true, err },
     }));
 };
 
@@ -112,6 +115,36 @@ export const handleTransform = (id, {
     id, x, y, width, height,
   },
 });
+
+// Application generation options
+// cosnt genOptions = [
+//   'Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'
+// ];
+
+export const createApplication = ({
+  path, components = [], genOption, appName = 'proto_app', repoUrl,
+}) => (dispatch) => {
+  if (genOption === 0) {
+    dispatch(exportFiles({ path, components }));
+  } else if (genOption) {
+    dispatch({
+      type: CREATE_APPLICATION,
+    });
+    createApplicationUtil({
+      path, appName, genOption, repoUrl,
+    })
+      .then(() => {
+        dispatch({
+          type: CREATE_APPLICATION_SUCCESS,
+        });
+        dispatch(exportFiles({ path: `${path}/${appName}/src`, components }));
+      })
+      .catch(err => dispatch({
+        type: CREATE_APPLICATION_ERROR,
+        payload: { err },
+      }));
+  }
+};
 
 export const toggleDragging = status => ({
   type: TOGGLE_DRAGGING,
