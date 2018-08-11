@@ -5,6 +5,9 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 import OpenWithIcon from '@material-ui/icons/OpenWith';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { withStyles } from '@material-ui/core/styles';
@@ -19,7 +22,7 @@ const style = {
 
 const styles = () => ({
   iconSmall: {
-    fontSize: 12,
+    fontSize: 10,
   },
 });
 
@@ -29,11 +32,13 @@ const MainContainerHeader = (props) => {
     decreaseHeight,
     classes,
     image,
-    deleteImage,
+    showImageDeleteModal,
     updateImage,
     toggleDrag,
     totalComponents,
-    generateApp,
+    showGenerateAppModal,
+    collapseColumn,
+    rightColumnOpen,
   } = props;
 
   return (
@@ -53,7 +58,7 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title="drag">
+        <Tooltip title="toggle drag">
           <div>
             <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={toggleDrag}>
               <OpenWithIcon />
@@ -64,7 +69,7 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" style={{ borderLeft: '1px solid grey' }}>
         <Tooltip title="remove image">
           <div>
-            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={deleteImage}>
+            <Button style={style.button} disabled={!image} color="default" className={classes.button} onClick={showImageDeleteModal}>
               <DeleteOutlineIcon />
             </Button>
           </div>
@@ -78,13 +83,19 @@ const MainContainerHeader = (props) => {
         </Tooltip>
         <Tooltip title={'export'}>
           <div>
-            <Button style={style.button} color='default' className={classes.button} disabled={totalComponents < 1} onClick={generateApp}>
+            <Button style={style.button} color='default' className={classes.button} disabled={totalComponents < 1} onClick={showGenerateAppModal}>
               <GetAppIcon />
             </Button>
           </div>
         </Tooltip>
+        <Tooltip title={rightColumnOpen ? 'close' : 'open'}>
+          <div>
+            <Button style={style.button} color="default" className={classes.button} onClick={() => collapseColumn()}>
+              {rightColumnOpen ? <KeyboardArrowRightIcon /> : <KeyboardArrowLeftIcon />}
+            </Button>
+          </div>
+        </Tooltip>
       </div>
-
     </div>
   );
 };
@@ -97,11 +108,13 @@ MainContainerHeader.propTypes = {
   classes: PropTypes.object.isRequired,
   increaseHeight: PropTypes.func.isRequired,
   decreaseHeight: PropTypes.func.isRequired,
-  deleteImage: PropTypes.func.isRequired,
+  showImageDeleteModal: PropTypes.func.isRequired,
   updateImage: PropTypes.func.isRequired,
   toggleDrag: PropTypes.func.isRequired,
-  generateApp: PropTypes.func.isRequired,
+  showGenerateAppModal: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
+  collapseColumn: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);

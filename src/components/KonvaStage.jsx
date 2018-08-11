@@ -92,7 +92,7 @@ class KonvaStage extends Component {
               draggable={comp.draggable}
               selectedShapeName={selectedShapeName}
               key={i}
-              id={comp.id}
+              componentId={comp.id}
               x={comp.position.x}
               y={comp.position.y}
               width={comp.position.width}

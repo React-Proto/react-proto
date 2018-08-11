@@ -70,7 +70,6 @@ class LeftContainer extends Component {
         deleteComponent={deleteComponent}
         component={component}
         panelId={expandedPanelId}
-        expandedPanelId={this.state.expandedPanelId}
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         openExpansionPanel={openExpansionPanel}
@@ -90,13 +89,14 @@ class LeftContainer extends Component {
                 onChange={this.handleChange}
                 value={componentName}
                 name='componentName'
-                style={{ width: '95%' }}
+                style={{ width: '95%', color: '#fff' }}
               />
             </Grid>
             <Grid item xs={2}>
               <Button
                 variant='fab'
-                mini color='primary'
+                mini
+                color='primary'
                 aria-label='Add'
                 onClick={this.handleAddComponent}
                 disabled={!this.state.componentName}

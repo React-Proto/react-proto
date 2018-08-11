@@ -11,6 +11,7 @@ import {
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
+import Info from '../components/Info.jsx';
 
 const { ipcRenderer } = require('electron');
 
@@ -22,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
   openPanel: componentId => dispatch(openExpansionPanel(componentId)),
-  createApplication: ({
+  createApp: ({
     path, components, genOption, repoUrl,
   }) => dispatch(createApplication({
     path, components, genOption, repoUrl,
@@ -62,7 +63,7 @@ class MainContainer extends Component {
     ipcRenderer.on('app_dir_selected', (event, path) => {
       const { components } = this.props;
       const { genOption, repoUrl } = this.state;
-      this.props.createApplication({
+      this.props.createApp({
         path, components, genOption, repoUrl,
       });
     });
@@ -187,7 +188,12 @@ class MainContainer extends Component {
       image, draggable, scaleX, scaleY, modal,
     } = this.state;
     const {
-      components, handleTransformation, openPanel, totalComponents,
+      components,
+      handleTransformation,
+      openPanel,
+      totalComponents,
+      collapseColumn,
+      rightColumnOpen,
     } = this.props;
     const {
       increaseHeight,
@@ -205,22 +211,29 @@ class MainContainer extends Component {
           image={image}
           increaseHeight={increaseHeight}
           decreaseHeight={decreaseHeight}
-          deleteImage={showImageDeleteModal}
+          showImageDeleteModal={showImageDeleteModal}
+          showGenerateAppModal={showGenerateAppModal}
           updateImage={updateImage}
           toggleDrag={toggleDrag}
           totalComponents={totalComponents}
-          generateApp={showGenerateAppModal}
+          collapseColumn={collapseColumn}
+          rightColumnOpen={rightColumnOpen}
+          components={components}
         />
         <div className="main" ref={main}>
-          <KonvaStage
-            scaleX={scaleX}
-            scaleY={scaleY}
-            image={image}
-            draggable={draggable}
-            components={components}
-            handleTransform={handleTransformation}
-            openExpansionPanel={openPanel}
-          />
+          {
+            components.length > 0 || image ? (
+              <KonvaStage
+                scaleX={scaleX}
+                scaleY={scaleY}
+                image={image}
+                draggable={draggable}
+                components={components}
+                handleTransform={handleTransformation}
+                openExpansionPanel={openPanel}
+              />
+            ) : <Info />
+          }
         </div>
         {modal}
       </div>
@@ -232,9 +245,11 @@ MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
   handleTransformation: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
-  openPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
-  createApplication: PropTypes.func.isRequired,
+  openPanel: PropTypes.func.isRequired,
+  collapseColumn: PropTypes.func.isRequired,
+  createApp: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

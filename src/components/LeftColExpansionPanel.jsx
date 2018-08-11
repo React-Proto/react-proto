@@ -16,11 +16,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-
 const styles = theme => ({
   root: {
     width: '100%',
     marginTop: 10,
+
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -82,11 +82,12 @@ const LeftColExpansionPanel = (props) => {
   return (
     <div className={classes.root}>
       <ExpansionPanel
+        className={classes.panel}
         expanded={panelId === id}
         onChange={() => onExpansionPanelChange(id, panelId)}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>{title}</Typography>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.light} />}>
+          <Typography>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
@@ -110,8 +111,9 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel htmlFor='parentSelect'>Parent</InputLabel>
+            <InputLabel className={classes.light} htmlFor='parentSelect'>Parent</InputLabel>
             <Select
+              className={classes.light}
               native
               value={parent.id}
               id='parentSelect'
@@ -143,11 +145,11 @@ const LeftColExpansionPanel = (props) => {
               });
             }}
             aria-label='Delete'>
-            <DeleteIcon />
+            <DeleteIcon className={classes.light} />
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div>
+    </div >
   );
 };
 

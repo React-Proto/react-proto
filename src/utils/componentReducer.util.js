@@ -6,7 +6,6 @@ const initialComponentState = {
   stateful: false,
   title: '',
   parentId: '',
-  appDir: '',
   color: getColor(),
   draggable: true,
   childrenIds: [],
