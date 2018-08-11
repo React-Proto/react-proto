@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
+import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
 
 const mapDispatchToProps = dispatch => ({
@@ -22,15 +23,13 @@ const mapDispatchToProps = dispatch => ({
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
   openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
-});
-
-const mapStateToProps = store => ({
-  expandedPanelId: store.workspace.expandedPanelId,
+  deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
 class LeftContainer extends Component {
   state = {
     componentName: '',
+    modal: null,
   }
 
   handleChange = (event) => {
@@ -50,6 +49,19 @@ class LeftContainer extends Component {
     });
   }
 
+  closeModal = () => this.setState({ modal: null });
+
+  clearWorkspace = () => {
+    this.setState({
+      modal: createModal({
+        message: 'Are you sure want to delete all data?',
+        closeModal: this.closeModal,
+        secBtnLabel: 'Clear Workspace',
+        secBtnAction: () => { this.props.deleteAllData(); this.closeModal(); },
+      }),
+    });
+  }
+
   render() {
     const {
       components,
@@ -58,8 +70,9 @@ class LeftContainer extends Component {
       moveToBottom,
       openExpansionPanel,
       expandedPanelId,
+      totalComponents,
     } = this.props;
-    const { componentName } = this.state;
+    const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components.map(
       (component, i) => <LeftColExpansionPanel
@@ -86,6 +99,7 @@ class LeftContainer extends Component {
                 label='New component'
                 placeholder='AppComponent'
                 margin='normal'
+                autoFocus
                 onChange={this.handleChange}
                 value={componentName}
                 name='componentName'
@@ -109,19 +123,37 @@ class LeftContainer extends Component {
         <div className='expansionPanel'>
           {componentsExpansionPanel}
         </div>
+        <Button
+          color='secondary'
+          aria-label='Delete All'
+          variant='contained'
+          onClick={this.clearWorkspace}
+          disabled={totalComponents < 1}
+          style={{
+            position: 'fixed',
+            bottom: '1%',
+            margin: 'auto',
+            width: '21.5%',
+          }}
+        >
+          Clear workspace
+        </Button>
+        {modal}
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LeftContainer);
+export default connect(null, mapDispatchToProps)(LeftContainer);
 
 LeftContainer.propTypes = {
-  components: PropTypes.array,
-  addComponent: PropTypes.func,
-  deleteComponent: PropTypes.func,
-  updateComponent: PropTypes.func,
+  components: PropTypes.array.isRequired,
+  addComponent: PropTypes.func.isRequired,
+  deleteComponent: PropTypes.func.isRequired,
+  updateComponent: PropTypes.func.isRequired,
+  deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
   expandedPanelId: PropTypes.string.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
+  totalComponents: PropTypes.number.isRequired,
 };

@@ -9,6 +9,7 @@ import convertIdToObjs from '../utils/convertIdsToObjs.util';
 const mapStateToProps = store => ({
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
+  expandedPanelId: store.workspace.expandedPanelId,
 });
 
 class AppContainer extends Component {
@@ -32,13 +33,17 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components, totalComponents } = this.props;
+    const { components, totalComponents, expandedPanelId } = this.props;
     const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdToObjs(components);
 
     return (
       <div className="app-container">
-        <LeftContainer components={updatedComponents} />
+        <LeftContainer
+          components={updatedComponents}
+          totalComponents={totalComponents}
+          expandedPanelId={expandedPanelId}
+        />
         <MainContainer
           components={updatedComponents}
           collapseColumn={this.collapseColumn}
@@ -61,4 +66,5 @@ export default connect(mapStateToProps)(AppContainer);
 AppContainer.propTypes = {
   components: PropTypes.array.isRequired,
   totalComponents: PropTypes.number.isRequired,
+  expandedPanelId: PropTypes.string.isRequired,
 };

@@ -17,8 +17,6 @@ const store = createStore(
   ),
 );
 
-store.subscribe(throttle(() => {
-  return saveState(store.getState());
-}, 1000));
+store.subscribe(throttle(() => saveState(store.getState()), 1000));
 
 export default store;

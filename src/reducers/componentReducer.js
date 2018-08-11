@@ -13,6 +13,7 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   OPEN_EXPANSION_PANEL,
+  DELETE_ALL_DATA,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -73,6 +74,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return moveToBottom(state, action.payload);
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
+    case DELETE_ALL_DATA:
+      return initialApplicationState;
     default:
       return state;
   }
