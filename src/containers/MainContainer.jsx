@@ -13,7 +13,7 @@ import MainContainerHeader from '../components/MainContainerHeader.jsx';
 import createModal from '../utils/createModal.util';
 import Info from '../components/Info.jsx';
 
-const { ipcRenderer } = require('electron');
+const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleTransformation: (id, {
@@ -51,7 +51,7 @@ class MainContainer extends Component {
   constructor(props) {
     super(props);
 
-    ipcRenderer.on('new-file', (event, file) => {
+    IPC.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
       image.onload = () => {
@@ -60,7 +60,7 @@ class MainContainer extends Component {
       this.draggableItems = [];
     });
 
-    ipcRenderer.on('app_dir_selected', (event, path) => {
+    IPC.on('app_dir_selected', (event, path) => {
       const { components } = this.props;
       const { genOption, repoUrl } = this.state;
       this.props.createApp({
@@ -86,7 +86,7 @@ class MainContainer extends Component {
   }
 
   updateImage = () => {
-    ipcRenderer.send('update-file');
+    IPC.send('update-file');
   }
 
   increaseHeight = () => {
@@ -107,7 +107,7 @@ class MainContainer extends Component {
 
   closeModal = () => this.setState({ modal: null });
 
-  chooseAppDir = () => ipcRenderer.send('choose_app_dir');
+  chooseAppDir = () => IPC.send('choose_app_dir');
 
   toggleDrag = () => {
     this.props.toggleComponetDragging(this.state.draggable);
@@ -170,7 +170,7 @@ class MainContainer extends Component {
     const { genOptions } = this.state;
     const children = <List className='export-preference'>{genOptions.map(
       (option, i) => <ListItem key={i} button onClick={() => chooseGenOptions(i)} style={{ border: '1px solid #3f51b5', marginBottom: '2%', marginTop: '5%' }}>
-        <ListItemText primary={option} style={{ textAlign: 'center' }}/>
+        <ListItemText primary={option} style={{ textAlign: 'center' }} />
       </ListItem>,
     )}
     </List>;

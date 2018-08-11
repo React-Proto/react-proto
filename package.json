@@ -8,11 +8,21 @@
     "type": "git",
     "url": "https://github.com/CS-Eevee/react-proto"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
+      "electron": "<rootDir>/__mocks__/electron.js"
+    },
+    "setupFiles": [
+      "./src/setupTests.js"
+    ]
+  },
   "scripts": {
     "prestart": "webpack --config webpack.config.production.js",
     "start": "electron .",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "electron": "cross-env NODE_ENV=development electron .",
+    "test": "jest",
     "linter": "eslint src"
   },
   "contributors": [
@@ -29,6 +39,9 @@
     "electron": "^2.0.5",
     "electron-devtools-installer": "^2.2.4",
     "electron-promise-ipc": "^0.1.3",
+    "enzyme": "^3.4.1",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "eslint-plugin-jest": "^21.21.0",
     "konva": "^2.1.7",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
@@ -63,6 +76,8 @@
     "eslint-plugin-react": "^7.10.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^23.5.0",
     "node-sass": "^4.9.2",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",

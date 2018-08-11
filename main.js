@@ -95,7 +95,7 @@ const createWindow = () => {
     label: 'File',
     submenu: [{
       label: 'Open File',
-      accelerator: 'CmdOrCtrl+O',
+      accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
       click() {
         openFile();
       },
