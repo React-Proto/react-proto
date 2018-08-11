@@ -11,10 +11,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FlipToBackIcon from '@material-ui/icons/FlipToBack';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -134,9 +134,12 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions className={classes.actions}>
-          <Button variant="contained" color="primary" className={classes.button} onClick={() => moveToBottom(id)}>
-            Move To Bottom
-          </Button>
+          <IconButton
+            className={classes.button}
+            onClick={() => moveToBottom(id)}
+            aria-label='Flip to back'>
+            <FlipToBackIcon className={classes.light} />
+          </IconButton>
           <IconButton
             className={classes.button}
             onClick={() => {
