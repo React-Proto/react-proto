@@ -17,6 +17,7 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   OPEN_EXPANSION_PANEL,
+  DELETE_ALL_DATA,
 } from '../actionTypes/index';
 
 import createFiles from '../utils/createFiles.util';
@@ -159,4 +160,8 @@ export const moveToBottom = componentId => ({
 export const openExpansionPanel = componentId => ({
   type: OPEN_EXPANSION_PANEL,
   payload: componentId,
+});
+
+export const deleteAllData = () => ({
+  type: DELETE_ALL_DATA,
 });

@@ -24,7 +24,8 @@ const createFiles = (data, path) => {
           parser: 'babylon',
         }),
         (err) => {
-          return err ? reject(err) : resolve(path);
+          if (err) return reject(err);
+          return resolve(path);
         });
     });
 
