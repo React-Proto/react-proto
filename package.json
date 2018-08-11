@@ -30,6 +30,7 @@
     "electron-devtools-installer": "^2.2.4",
     "electron-promise-ipc": "^0.1.3",
     "konva": "^2.1.7",
+    "lodash": "^4.17.10",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
     "react": "^16.2.0",
