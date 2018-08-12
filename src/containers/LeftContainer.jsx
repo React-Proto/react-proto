@@ -91,8 +91,8 @@ class LeftContainer extends Component {
 
     return (
       <div className='column left'>
-        <FormControl fullWidth={true}>
-          <Grid container spacing={16} alignItems='baseline' align='stretch'>
+        <FormControl fullWidth={true} className='component-input'>
+          <Grid container alignItems='baseline' align='stretch'>
             <Grid item xs={10}>
               <TextField
                 id='title-input'
@@ -129,12 +129,7 @@ class LeftContainer extends Component {
           variant='contained'
           onClick={this.clearWorkspace}
           disabled={totalComponents < 1}
-          style={{
-            position: 'fixed',
-            bottom: '1%',
-            margin: 'auto',
-            width: '21.5%',
-          }}
+          className='clear-workspace'
         >
           Clear workspace
         </Button>
