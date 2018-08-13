@@ -62,7 +62,7 @@ class LeftContainer extends Component {
         updateComponent={updateComponent}
         deleteComponent={deleteComponent}
         component={component}
-        panelId={expandedPanelId}
+        expanded={panelExpanded}
         onExpansionPanelChange={this.handleExpansionPanelChange}
       />,
     );
