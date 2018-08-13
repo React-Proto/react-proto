@@ -10,9 +10,10 @@ const createModal = ({
   secBtnAction = null,
   secBtnLabel = null,
   children = null,
+  open = true,
 }) => (
   <SimpleModal
-    open={true}
+    open={open}
     message={message}
     secBtnLabel={secBtnLabel}
     primBtnLabel={primBtnLabel}
@@ -28,6 +29,7 @@ createModal.propTypes = {
   closeModal: PropTypes.func.isRequired,
   primBtnAction: PropTypes.func.isRequired,
   secBtnAction: PropTypes.func.isRequired,
+  open: PropTypes.bool,
   children: PropTypes.object,
   message: PropTypes.string.isRequired,
   primBtnLabel: PropTypes.string.isRequired,

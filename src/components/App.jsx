@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import AppContainer from '../containers/AppContainer.jsx';
 import '../public/styles/style.css';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
+import AppContainer from '../containers/AppContainer.jsx';
 
 class App extends Component {
   render() {
     return (
-      <div className="app">
-        <header>React Proto</header>
-        <div>
-          <AppContainer />
+      <MuiThemeProvider theme={theme}>
+        <div className="app">
+          <header>React Proto</header>
+          <div>
+            <AppContainer />
+          </div>
         </div>
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

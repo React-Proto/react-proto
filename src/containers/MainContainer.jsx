@@ -5,8 +5,10 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextField from '@material-ui/core/TextField';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from '../components/theme';
 import {
-  toggleDragging, openExpansionPanel, handleTransform, createApplication,
+  toggleDragging, openExpansionPanel, handleTransform, createApplication, changeImagePath,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -28,10 +30,12 @@ const mapDispatchToProps = dispatch => ({
   }) => dispatch(createApplication({
     path, components, genOption, repoUrl,
   })),
+  changeImagePath: path => dispatch(changeImagePath(path)),
 });
 
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
+  imagePath: store.workspace.imagePath,
 });
 
 class MainContainer extends Component {
@@ -54,6 +58,7 @@ class MainContainer extends Component {
     IPC.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
+      console.log(image);
       image.onload = () => {
         this.setState({ image });
       };
@@ -206,37 +211,39 @@ class MainContainer extends Component {
     } = this;
 
     return (
-      <div className="main-container">
-        <MainContainerHeader
-          image={image}
-          increaseHeight={increaseHeight}
-          decreaseHeight={decreaseHeight}
-          showImageDeleteModal={showImageDeleteModal}
-          showGenerateAppModal={showGenerateAppModal}
-          updateImage={updateImage}
-          toggleDrag={toggleDrag}
-          totalComponents={totalComponents}
-          collapseColumn={collapseColumn}
-          rightColumnOpen={rightColumnOpen}
-          components={components}
-        />
-        <div className="main" ref={main}>
-          {
-            components.length > 0 || image ? (
-              <KonvaStage
-                scaleX={scaleX}
-                scaleY={scaleY}
-                image={image}
-                draggable={draggable}
-                components={components}
-                handleTransform={handleTransformation}
-                openExpansionPanel={openPanel}
-              />
-            ) : <Info />
-          }
+      <MuiThemeProvider theme={theme}>
+        <div className="main-container">
+          <MainContainerHeader
+            image={image}
+            increaseHeight={increaseHeight}
+            decreaseHeight={decreaseHeight}
+            showImageDeleteModal={showImageDeleteModal}
+            showGenerateAppModal={showGenerateAppModal}
+            updateImage={updateImage}
+            toggleDrag={toggleDrag}
+            totalComponents={totalComponents}
+            collapseColumn={collapseColumn}
+            rightColumnOpen={rightColumnOpen}
+            components={components}
+          />
+          <div className="main" ref={main}>
+            {
+              components.length > 0 || image ? (
+                <KonvaStage
+                  scaleX={scaleX}
+                  scaleY={scaleY}
+                  image={image}
+                  draggable={draggable}
+                  components={components}
+                  handleTransform={handleTransformation}
+                  openExpansionPanel={openPanel}
+                />
+              ) : <Info />
+            }
+          </div>
+          {modal}
         </div>
-        {modal}
-      </div>
+      </MuiThemeProvider>
     );
   }
 }

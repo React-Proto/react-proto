@@ -215,6 +215,10 @@ const componentReducerUtil = {
     ...state,
     expandedPanelId: componentId,
   }),
+  changeImagePath: (state, imagePath) => ({
+    ...state,
+    imagePath,
+  }),
 };
 
 export default componentReducerUtil;

@@ -43,7 +43,7 @@ header {
 
 .column {
   width: 25%;
-  background: #fff;
+  background-color: rgb(37, 37, 38);
 }
 
 .left {
@@ -99,9 +99,12 @@ h1 {
 
 .main-header {
   display: flex;
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
-  border-bottom: 1px solid grey;
+  /* border-left: 1px solid grey; */
+  /* border-right: 1px solid grey; */
+  /* border-bottom: 1px solid grey; */
+  background-color: #212121;
+  box-shadow: 0 5px 7px -2px rgba(0,0,0, 0.4);
+  z-index: 10;
 }
 
 
@@ -111,13 +114,14 @@ h1 {
 }
 
 .main {
-  border-left: 1px solid grey;
-  border-right: 1px solid grey;
+  /* border-left: 1px solid grey; */
+  /* border-right: 1px solid grey; */
   background: #fff;
   flex: 1;
   width: 100%;
   overflow: scroll;
   display: flex;
+  background-color: #1e1e1e;
   /* justify-content: center;
   align-items: center; */
 }
@@ -159,6 +163,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 /*
@@ -180,16 +185,27 @@ RIGHT COLUMN
   height: 100%;
   display: flex; 
   flex-direction: column;
+  background-color: #303030;
 }
 
 /* Sortable tree sorting */
 .sortable-tree {
   height: 100%;
+  background-color: rgb(37, 37, 38);
 }
 
-.rst__rowContents {
+div.rst__rowContents {
   width: 45px;
+  border: none;
+  color: #fff;
+  background-color: #424242;
 }
+
+.rst__rowContentsDragDisabled {
+  background-color: #424242;
+  background-color: rgba(37, 37, 38, .4);
+}
+
 
 .rst__moveHandle, .rst__loadingHandle {
   width: 40px;

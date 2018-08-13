@@ -20,11 +20,14 @@ const styles = theme => ({
   root: {
     width: '100%',
     marginTop: 10,
-
+    // backgroundColor: '#424242',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  panel: {
+    backgroundColor: '#424242',
   },
   details: {
     display: 'flex',
@@ -36,6 +39,10 @@ const styles = theme => ({
   column: {
     display: 'flex',
     alignItems: 'center',
+  },
+  light: {
+    color: '#fff',
+    opacity: '0.8',
   },
   formControl: {
     margin: theme.spacing.unit * 3,
@@ -87,11 +94,11 @@ const LeftColExpansionPanel = (props) => {
         onChange={() => onExpansionPanelChange(id, panelId)}
       >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.light} />}>
-          <Typography>{title}</Typography>
+          <Typography className={classes.light}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.light} htmlFor='stateful'>Stateful?</InputLabel>
             <Switch
               checked={stateful}
               onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
@@ -101,7 +108,7 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel htmlFor='boxColor'>Box Color</InputLabel>
+            <InputLabel className={classes.light} htmlFor='boxColor'>Box Color</InputLabel>
             <Input
               type='color'
               id='boxColor'
@@ -152,7 +159,7 @@ const LeftColExpansionPanel = (props) => {
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div >
+    </div>
   );
 };
 

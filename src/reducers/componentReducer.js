@@ -13,6 +13,8 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   OPEN_EXPANSION_PANEL,
+  DELETE_ALL_DATA,
+  CHANGE_IMAGE_PATH,
 } from '../actionTypes';
 import componentReducerUtil from '../utils/componentReducer.util';
 
@@ -31,11 +33,13 @@ const {
   toggleDragging,
   moveToBottom,
   openExpansionPanel,
+  changeImagePath,
 } = componentReducerUtil;
 
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
+  imagePath: '',
   successOpen: false,
   errorOpen: false,
   expandedPanelId: '',
@@ -73,6 +77,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return moveToBottom(state, action.payload);
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
+    case DELETE_ALL_DATA:
+      return initialApplicationState;
+    case CHANGE_IMAGE_PATH:
+      return changeImagePath(state, action.payload);
     default:
       return state;
   }
