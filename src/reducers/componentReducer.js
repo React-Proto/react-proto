@@ -39,7 +39,7 @@ const initialApplicationState = {
   nextId: 1,
   successOpen: false,
   errorOpen: false,
-  expandedPanelId: '',
+  focusComponent: {},
   components: [],
   appDir: '',
 };

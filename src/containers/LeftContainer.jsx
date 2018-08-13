@@ -22,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
-  openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
+  openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
@@ -38,8 +38,9 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = (id, panelId) => {
-    this.props.openExpansionPanel(panelId === id ? '' : id);
+  handleExpansionPanelChange = (component) => {
+    const { focusComponent } = this.props;
+    this.props.openExpansionPanel(focusComponent.id === component.id ? {} : component);
   }
 
   handleAddComponent = () => {
@@ -68,8 +69,7 @@ class LeftContainer extends Component {
       updateComponent,
       deleteComponent,
       moveToBottom,
-      openExpansionPanel,
-      expandedPanelId,
+      focusComponent,
       totalComponents,
     } = this.props;
     const { componentName, modal } = this.state;
@@ -82,10 +82,9 @@ class LeftContainer extends Component {
         updateComponent={updateComponent}
         deleteComponent={deleteComponent}
         component={component}
-        panelId={expandedPanelId}
+        focusComponent={focusComponent}
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
-        openExpansionPanel={openExpansionPanel}
       />,
     );
 
@@ -148,7 +147,7 @@ LeftContainer.propTypes = {
   updateComponent: PropTypes.func.isRequired,
   deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
-  expandedPanelId: PropTypes.string.isRequired,
+  focusComponent: PropTypes.object.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
 };

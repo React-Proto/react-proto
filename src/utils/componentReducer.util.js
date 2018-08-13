@@ -211,9 +211,9 @@ const componentReducerUtil = {
       components,
     };
   },
-  openExpansionPanel: (state, componentId) => ({
+  openExpansionPanel: (state, { component }) => ({
     ...state,
-    expandedPanelId: componentId,
+    focusComponent: component,
   }),
 };
 
