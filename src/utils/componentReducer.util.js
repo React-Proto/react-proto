@@ -21,11 +21,13 @@ const initialComponentState = {
 
 const componentReducerUtil = {
   addComponent: (state, { title }) => {
-    const strippedTitle = title.replace(/[^\w]/g, '');
-    const capitalizedTitle = strippedTitle[0].toUpperCase() + strippedTitle.slice(1);
+    const strippedTitle = title
+      .replace(/[a-z]+/g,
+        word => word[0].toUpperCase() + word.slice(1))
+      .replace(/[-_\s0-9]+/g, '');
     const newComponent = {
       ...initialComponentState,
-      title: capitalizedTitle,
+      title: strippedTitle,
       id: state.nextId.toString(),
       color: getColor(),
     };
@@ -43,6 +45,7 @@ const componentReducerUtil = {
       totalComponents,
       nextId,
       components,
+      focusComponent: newComponent,
     };
   },
   updateComponent: ((state, {
@@ -65,7 +68,8 @@ const componentReducerUtil = {
     };
   }),
   // Delete component with the index for now, but will be adjusted to use id
-  deleteComponent: (state, { index }) => {
+  deleteComponent: (state, { index, id }) => {
+    const { focusComponent } = state;
     const components = [
       ...state.components.slice(0, index),
       ...state.components.slice(index + 1),
@@ -77,6 +81,7 @@ const componentReducerUtil = {
       ...state,
       totalComponents,
       components,
+      focusComponent: focusComponent.id === id ? {} : focusComponent,
     };
   },
   addChild: ((state, { id, childId }) => {
@@ -211,9 +216,20 @@ const componentReducerUtil = {
       components,
     };
   },
-  openExpansionPanel: (state, componentId) => ({
+  moveToTop: (state, componentId) => {
+    const components = state.components.concat();
+    const index = components.findIndex(component => component.id === componentId);
+    const removedComponent = components.splice(index, 1);
+    components.push(removedComponent[0]);
+
+    return {
+      ...state,
+      components,
+    };
+  },
+  openExpansionPanel: (state, { component }) => ({
     ...state,
-    expandedPanelId: componentId,
+    focusComponent: component,
   }),
   changeImagePath: (state, imagePath) => ({
     ...state,

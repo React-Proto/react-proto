@@ -46,11 +46,6 @@ header {
   background-color: rgb(37, 37, 38);
 }
 
-.left {
-  padding: 20px;
-  overflow: scroll;
-}
-
 /* .column-right-export-btn {
   transition: display 400ms ease-in-out 300ms;
 } */
@@ -66,18 +61,34 @@ BUTTONS
   font-size: 16px;
 }
 
-.expansionPanel {
-  flex-direction: column-reverse;
-  display: flex;
-}
-
 /*
 /////////////////////////////////////////// 
 LEFT COLUMN
 /////////////////////////////////////////////
 */
 
+.left {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
 
+.component-input {
+  bottom: 2.8%;
+}
+
+.expansionPanel {
+  flex-direction: column-reverse;
+  display: flex;
+  overflow-y: scroll;
+  padding: 1%;
+}
+
+.clear-workspace {
+  top: 96%;
+  position: sticky !important;
+  z-index: 1;
+}
 
 /*
 /////////////////////////////////////////// 
@@ -197,7 +208,7 @@ RIGHT COLUMN
 div.rst__rowContents {
   width: 45px;
   border: none;
-  color: #fff;
+  color: #eee;
   background-color: #424242;
 }
 

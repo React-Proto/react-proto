@@ -16,6 +16,7 @@ import {
   CREATE_APPLICATION_ERROR,
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
+  MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
@@ -158,9 +159,14 @@ export const moveToBottom = componentId => ({
   payload: componentId,
 });
 
-export const openExpansionPanel = componentId => ({
-  type: OPEN_EXPANSION_PANEL,
+export const moveToTop = componentId => ({
+  type: MOVE_TO_TOP,
   payload: componentId,
+});
+
+export const openExpansionPanel = component => ({
+  type: OPEN_EXPANSION_PANEL,
+  payload: { component },
 });
 
 export const deleteAllData = () => ({

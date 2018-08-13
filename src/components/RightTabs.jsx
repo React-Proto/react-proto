@@ -56,13 +56,11 @@ const styles = theme => ({
   },
 });
 
-function TabContainer(props) {
-  return (
-    <Paper component="div" style={{ height: '20px' }}>
-      {props.children}
-    </Paper>
-  );
-}
+const TabContainer = props => (
+  <Paper component="div" style={{ height: '400px' }}>
+    {props.children}
+  </Paper>
+);
 
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
@@ -91,12 +89,12 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Tab 1"
+            label="Application Tree"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Tab 2"
+            label="Component Props"
           />
         </Tabs>
         {value === 0 && <SortableComponent components={components} />}

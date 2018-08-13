@@ -12,6 +12,7 @@ import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FlipToBackIcon from '@material-ui/icons/FlipToBack';
+import FlipToFrontIcon from '@material-ui/icons/FlipToFront';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
@@ -20,14 +21,14 @@ const styles = theme => ({
   root: {
     width: '100%',
     marginTop: 10,
-    // backgroundColor: '#424242',
+    // backgroundColor: '#333333',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
   panel: {
-    backgroundColor: '#424242',
+    backgroundColor: '#333333',
   },
   details: {
     display: 'flex',
@@ -41,8 +42,8 @@ const styles = theme => ({
     alignItems: 'center',
   },
   light: {
-    color: '#fff',
-    opacity: '0.8',
+    color: '#eee',
+    // opacity: '0.8',
   },
   formControl: {
     margin: theme.spacing.unit * 3,
@@ -56,12 +57,13 @@ const LeftColExpansionPanel = (props) => {
   const {
     index,
     classes,
-    panelId,
+    focusComponent,
     component,
     updateComponent,
     deleteComponent,
     onExpansionPanelChange,
     moveToBottom,
+    moveToTop,
   } = props;
   const {
     title,
@@ -90,8 +92,9 @@ const LeftColExpansionPanel = (props) => {
     <div className={classes.root}>
       <ExpansionPanel
         className={classes.panel}
-        expanded={panelId === id}
-        onChange={() => onExpansionPanelChange(id, panelId)}
+        expanded={focusComponent.id === id}
+        onChange={() => onExpansionPanelChange(component)}
+        elevation={4}
       >
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.light} />}>
           <Typography className={classes.light}>{title}</Typography>
@@ -143,6 +146,12 @@ const LeftColExpansionPanel = (props) => {
         <ExpansionPanelActions className={classes.actions}>
           <IconButton
             className={classes.button}
+            onClick={() => moveToTop(id)}
+            aria-label='Flip to back'>
+            <FlipToFrontIcon className={classes.light} />
+          </IconButton>
+          <IconButton
+            className={classes.button}
             onClick={() => moveToBottom(id)}
             aria-label='Flip to back'>
             <FlipToBackIcon className={classes.light} />
@@ -169,9 +178,10 @@ LeftColExpansionPanel.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
-  panelId: PropTypes.string,
+  focusComponent: PropTypes.object.isRequired,
   onExpansionPanelChange: PropTypes.func,
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
+  moveToTop: PropTypes.func,
 };

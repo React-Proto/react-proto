@@ -1,11 +1,16 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import teal from '@material-ui/core/colors/teal';
+// import teal from '@material-ui/core/colors/teal';
 import indigo from '@material-ui/core/colors/indigo';
 
 
 const theme = createMuiTheme({
   palette: {
-    primary: teal,
+    primary: {
+      light: '#33eb91',
+      main: '#00e676',
+      dark: '#14a37f',
+      contrastText: '#fff',
+    },
     secondary: indigo,
   },
 });

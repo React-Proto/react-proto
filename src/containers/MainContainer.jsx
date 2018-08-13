@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => ({
     x, y, width, height,
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
-  openPanel: componentId => dispatch(openExpansionPanel(componentId)),
+  openPanel: component => dispatch(openExpansionPanel(component)),
   createApp: ({
     path, components, genOption, repoUrl,
   }) => dispatch(createApplication({
@@ -46,6 +46,7 @@ class MainContainer extends Component {
     genOptions: ['Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'],
     genOption: 0,
     draggable: false,
+    toggleClass: true,
     scaleX: 1,
     scaleY: 1,
     x: undefined,
@@ -58,7 +59,6 @@ class MainContainer extends Component {
     IPC.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
-      console.log(image);
       image.onload = () => {
         this.setState({ image });
       };
@@ -117,6 +117,7 @@ class MainContainer extends Component {
   toggleDrag = () => {
     this.props.toggleComponetDragging(this.state.draggable);
     this.setState({
+      toggleClass: !this.state.toggleClass,
       draggable: !this.state.draggable,
     });
   }
@@ -190,7 +191,7 @@ class MainContainer extends Component {
 
   render() {
     const {
-      image, draggable, scaleX, scaleY, modal,
+      image, draggable, scaleX, scaleY, modal, toggleClass,
     } = this.state;
     const {
       components,
@@ -225,6 +226,7 @@ class MainContainer extends Component {
             collapseColumn={collapseColumn}
             rightColumnOpen={rightColumnOpen}
             components={components}
+            toggleClass={toggleClass}
           />
           <div className="main" ref={main}>
             {

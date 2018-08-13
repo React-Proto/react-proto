@@ -24,15 +24,44 @@ const mapDispatchToProps = dispatch => ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
-  openExpansionPanel: componentId => dispatch(actions.openExpansionPanel(componentId)),
+  moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
+  openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
 const styles = theme => ({
-  textField: {
+  cssLabel: {
+    color: 'white',
+
+    '&$cssFocused': {
+      color: 'green',
+    },
+  },
+  cssFocused: {},
+  input: {
     color: '#fff',
+    opacity: '0.7',
+    marginBottom: '10px',
+  },
+  button: {
+    color: '#fff',
+
+    '&:disabled': {
+      color: 'grey',
+    },
+  },
+  clearButton: {
+    top: '96%',
+    position: 'sticky!important',
+    zIndex: '1',
+
+    '&:disabled': {
+      color: 'grey',
+      backgroundColor: '#424242',
+    },
   },
 });
+
 
 class LeftContainer extends Component {
   state = {
@@ -46,8 +75,9 @@ class LeftContainer extends Component {
     });
   }
 
-  handleExpansionPanelChange = (id, panelId) => {
-    this.props.openExpansionPanel(panelId === id ? '' : id);
+  handleExpansionPanelChange = (component) => {
+    const { focusComponent } = this.props;
+    this.props.openExpansionPanel(focusComponent.id === component.id ? {} : component);
   }
 
   handleAddComponent = () => {
@@ -76,8 +106,8 @@ class LeftContainer extends Component {
       updateComponent,
       deleteComponent,
       moveToBottom,
-      openExpansionPanel,
-      expandedPanelId,
+      moveToTop,
+      focusComponent,
       totalComponents,
       classes,
     } = this.props;
@@ -91,17 +121,23 @@ class LeftContainer extends Component {
         updateComponent={updateComponent}
         deleteComponent={deleteComponent}
         component={component}
-        panelId={expandedPanelId}
+        focusComponent={focusComponent}
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
-        openExpansionPanel={openExpansionPanel}
+        moveToTop={moveToTop}
       />,
     );
+    // className={classes.root}
 
     return (
       <div className='column left'>
-        <FormControl fullWidth={true} className={classes.root}>
-          <Grid container spacing={16} alignItems='baseline' align='stretch'>
+        <FormControl
+          fullWidth={true}
+          formlabellasses={{
+            root: classes.cssLabel,
+          }}
+        >
+          <Grid container alignItems='baseline' align='stretch'>
             <Grid item xs={10}>
               <TextField
                 id='title-input'
@@ -110,9 +146,22 @@ class LeftContainer extends Component {
                 margin='normal'
                 autoFocus
                 onChange={this.handleChange}
+                onKeyPress={(ev) => {
+                  if (ev.key === 'Enter') {
+                    // Do code here
+                    this.handleAddComponent();
+                    ev.preventDefault();
+                  }
+                }}
                 value={componentName}
                 name='componentName'
-                style={{ width: '95%', color: '#fff' }}
+                className={classes.light}
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  className: classes.input,
+                }}
               />
             </Grid>
             <Grid item xs={2}>
@@ -120,6 +169,7 @@ class LeftContainer extends Component {
                 variant='fab'
                 mini
                 color='primary'
+                className={classes.button}
                 aria-label='Add'
                 onClick={this.handleAddComponent}
                 disabled={!this.state.componentName}
@@ -138,17 +188,12 @@ class LeftContainer extends Component {
           variant='contained'
           onClick={this.clearWorkspace}
           disabled={totalComponents < 1}
-          style={{
-            position: 'fixed',
-            bottom: '1%',
-            margin: 'auto',
-            width: '21.5%',
-          }}
+          className={classes.clearButton}
         >
           Clear workspace
         </Button>
         {modal}
-      </div>
+      </div >
     );
   }
 }
@@ -162,7 +207,9 @@ LeftContainer.propTypes = {
   updateComponent: PropTypes.func.isRequired,
   deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
-  expandedPanelId: PropTypes.string.isRequired,
+  moveToTop: PropTypes.func.isRequired,
+  focusComponent: PropTypes.object.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
+  classes: PropTypes.object,
 };

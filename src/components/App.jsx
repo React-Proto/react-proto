@@ -9,8 +9,8 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <div className="app">
-          <header>React Proto</header>
           <div>
+            <header style={{ height: '40px', width: '100%' }}>React Proto</header>
             <AppContainer />
           </div>
         </div>

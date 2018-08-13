@@ -34,7 +34,7 @@ const styles = () => ({
     },
 
     '&:disabled > span > svg': {
-      color: '#fff',
+      color: '#eee',
       opacity: '0.3',
     },
   },
@@ -50,22 +50,24 @@ const styles = () => ({
       backgroundColor: '#212121',
     },
 
-    '&:focus': {
-      backgroundColor: 'blue',
-    },
-
     '&:disabled': {
       backgroundColor: '#424242',
     },
 
     '&:disabled > span > svg': {
-      color: '#fff',
+      color: '#eee',
       opacity: '0.3',
     },
   },
+  buttonDragDark: {
+    backgroundColor: '#1de9b6',
+  },
   light: {
-    color: '#fff',
-    opacity: '0.7',
+    color: '#eee',
+    // opacity: '0.7',
+  },
+  dark: {
+    color: '#1de9b6',
   },
 });
 
@@ -82,6 +84,7 @@ const MainContainerHeader = (props) => {
     showGenerateAppModal,
     collapseColumn,
     rightColumnOpen,
+    toggleClass,
   } = props;
 
   return (
@@ -103,8 +106,8 @@ const MainContainerHeader = (props) => {
         </Tooltip>
         <Tooltip title="toggle drag">
           <div>
-            <Button disabled={!image} color="default" className={classes.buttonDrag} onClick={toggleDrag}>
-              <OpenWithIcon className={classes.light} />
+            <Button disabled={!image} color="default" className={toggleDrag ? classes.buttonDrag : classes.buttonDragDark} onClick={toggleDrag}>
+              <OpenWithIcon className={toggleClass ? classes.light : classes.dark} />
             </Button>
           </div>
         </Tooltip>
@@ -131,13 +134,11 @@ const MainContainerHeader = (props) => {
             </Button>
           </div>
         </Tooltip>
-        <Tooltip title={rightColumnOpen ? 'close' : 'open'}>
-          <div>
-            <Button color="default" className={classes.button} onClick={() => collapseColumn()}>
-              {rightColumnOpen ? <KeyboardArrowRightIcon className={classes.light} /> : <KeyboardArrowLeftIcon className={classes.light} />}
-            </Button>
-          </div>
-        </Tooltip>
+        <div>
+          <Button color="default" className={classes.button} onClick={() => collapseColumn()}>
+            {rightColumnOpen ? <KeyboardArrowRightIcon className={classes.light} /> : <KeyboardArrowLeftIcon className={classes.light} />}
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -160,6 +161,7 @@ MainContainerHeader.propTypes = {
   totalComponents: PropTypes.number.isRequired,
   collapseColumn: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
+  toggleClass: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);
