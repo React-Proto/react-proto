@@ -21,11 +21,13 @@ const initialComponentState = {
 
 const componentReducerUtil = {
   addComponent: (state, { title }) => {
-    const strippedTitle = title.replace(/[^\w]/g, '');
-    const capitalizedTitle = strippedTitle[0].toUpperCase() + strippedTitle.slice(1);
+    const strippedTitle = title
+      .replace(/[a-z]+/g,
+        word => word[0].toUpperCase() + word.slice(1))
+      .replace(/[-_\s0-9]+/g, '');
     const newComponent = {
       ...initialComponentState,
-      title: capitalizedTitle,
+      title: strippedTitle,
       id: state.nextId.toString(),
       color: getColor(),
     };
