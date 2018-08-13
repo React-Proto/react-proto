@@ -29,12 +29,12 @@ class RightContainer extends Component {
 
   render() {
     const {
-      components, successOpen, errorOpen, handleNotificationClose, appDir,
+      components, successOpen, errorOpen, handleNotificationClose, appDir, focusComponent,
     } = this.props;
 
     return (
       <div className='column-right' style={{ width: `${this.props.width}%` }} >
-        <RightTabs components={components} />
+        <RightTabs components={components} focusComponent={focusComponent} />
         <Snackbars
           successOpen={successOpen}
           errorOpen={errorOpen}
@@ -52,6 +52,7 @@ RightContainer.propTypes = {
   successOpen: PropTypes.bool.isRequired,
   appDir: PropTypes.string,
   errorOpen: PropTypes.bool.isRequired,
+  focusComponent: PropTypes.object.isRequired,
   handleNotificationClose: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
 };
