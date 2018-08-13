@@ -97,4 +97,5 @@ SimpleModal.propTypes = {
   primBtnLabel: PropTypes.string,
   secBtnLabel: PropTypes.string,
 };
+
 export default withStyles(styles)(SimpleModal);

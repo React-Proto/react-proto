@@ -43,6 +43,7 @@ const componentReducerUtil = {
       totalComponents,
       nextId,
       components,
+      focusComponent: newComponent,
     };
   },
   updateComponent: ((state, {
@@ -65,7 +66,8 @@ const componentReducerUtil = {
     };
   }),
   // Delete component with the index for now, but will be adjusted to use id
-  deleteComponent: (state, { index }) => {
+  deleteComponent: (state, { index, id }) => {
+    const { focusComponent } = state;
     const components = [
       ...state.components.slice(0, index),
       ...state.components.slice(index + 1),
@@ -77,6 +79,7 @@ const componentReducerUtil = {
       ...state,
       totalComponents,
       components,
+      focusComponent: focusComponent.id === id ? {} : focusComponent,
     };
   },
   addChild: ((state, { id, childId }) => {
@@ -211,9 +214,9 @@ const componentReducerUtil = {
       components,
     };
   },
-  openExpansionPanel: (state, componentId) => ({
+  openExpansionPanel: (state, { component }) => ({
     ...state,
-    expandedPanelId: componentId,
+    focusComponent: component,
   }),
 };
 

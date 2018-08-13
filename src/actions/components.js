@@ -157,9 +157,9 @@ export const moveToBottom = componentId => ({
   payload: componentId,
 });
 
-export const openExpansionPanel = componentId => ({
+export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
-  payload: componentId,
+  payload: { component },
 });
 
 export const deleteAllData = () => ({

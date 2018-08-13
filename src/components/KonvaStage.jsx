@@ -23,7 +23,7 @@ class KonvaStage extends Component {
   handleStageMouseDown = (e) => {
     // clicked on stage - cler selection
     if (e.target === e.target.getStage()) {
-      this.props.openExpansionPanel('');
+      this.props.openExpansionPanel({});
       this.setState({
         selectedShapeName: '',
       });
@@ -40,12 +40,12 @@ class KonvaStage extends Component {
     const rect = this.props.components.find(r => r.title === name);
 
     if (rect) {
-      this.props.openExpansionPanel(rect.id);
+      this.props.openExpansionPanel(rect);
       this.setState({
         selectedShapeName: name,
       });
     } else {
-      this.props.openExpansionPanel('');
+      this.props.openExpansionPanel({});
       this.setState({
         selectedShapeName: '',
       });

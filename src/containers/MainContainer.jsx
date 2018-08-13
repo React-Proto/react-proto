@@ -22,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
     x, y, width, height,
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
-  openPanel: componentId => dispatch(openExpansionPanel(componentId)),
+  openPanel: component => dispatch(openExpansionPanel(component)),
   createApp: ({
     path, components, genOption, repoUrl,
   }) => dispatch(createApplication({

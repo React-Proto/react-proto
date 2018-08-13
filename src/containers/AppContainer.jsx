@@ -9,7 +9,7 @@ import convertIdToObjs from '../utils/convertIdsToObjs.util';
 const mapStateToProps = store => ({
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
-  expandedPanelId: store.workspace.expandedPanelId,
+  focusComponent: store.workspace.focusComponent,
 });
 
 class AppContainer extends Component {
@@ -33,7 +33,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components, totalComponents, expandedPanelId } = this.props;
+    const { components, totalComponents, focusComponent } = this.props;
     const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdToObjs(components);
 
@@ -42,7 +42,7 @@ class AppContainer extends Component {
         <LeftContainer
           components={updatedComponents}
           totalComponents={totalComponents}
-          expandedPanelId={expandedPanelId}
+          focusComponent={focusComponent}
         />
         <MainContainer
           components={updatedComponents}
@@ -55,6 +55,7 @@ class AppContainer extends Component {
           width={width}
           components={updatedComponents}
           rightColumnOpen={rightColumnOpen}
+          focusComponent={focusComponent}
         />
       </div>
     );
@@ -66,5 +67,5 @@ export default connect(mapStateToProps)(AppContainer);
 AppContainer.propTypes = {
   components: PropTypes.array.isRequired,
   totalComponents: PropTypes.number.isRequired,
-  expandedPanelId: PropTypes.string.isRequired,
+  focusComponent: PropTypes.object.isRequired,
 };

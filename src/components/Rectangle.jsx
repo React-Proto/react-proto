@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Rect } from 'react-konva';
 import PropTypes from 'prop-types';
 
-export default class Rectangle extends Component {
+class Rectangle extends Component {
   extractPositionInfo(componentId, target) {
     const transformation = {
       x: target.x(),
@@ -51,3 +51,5 @@ Rectangle.propTypes = {
   componentId: PropTypes.string.isRequired,
   draggable: PropTypes.bool.isRequired,
 };
+
+export default Rectangle;
