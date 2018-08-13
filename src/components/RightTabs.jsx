@@ -58,7 +58,7 @@ const styles = theme => ({
 
 function TabContainer(props) {
   return (
-    <Paper component="div" style={{ height: '400px' }}>
+    <Paper component="div" style={{ height: '20px' }}>
       {props.children}
     </Paper>
   );

@@ -32,6 +32,11 @@ const styles = () => ({
     '&:disabled': {
       backgroundColor: '#424242',
     },
+
+    '&:disabled > span > svg': {
+      color: '#fff',
+      opacity: '0.3',
+    },
   },
   buttonDrag: {
     // borderRight: '1px solid grey',
@@ -52,14 +57,15 @@ const styles = () => ({
     '&:disabled': {
       backgroundColor: '#424242',
     },
+
+    '&:disabled > span > svg': {
+      color: '#fff',
+      opacity: '0.3',
+    },
   },
   light: {
     color: '#fff',
     opacity: '0.7',
-
-    '&:hover': {
-      color: 'blue',
-    },
   },
 });
 
