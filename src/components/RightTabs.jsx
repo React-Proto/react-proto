@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Paper from '@material-ui/core/Paper';
+import Badge from '@material-ui/core/Badge';
+import Props from './Props.jsx';
 import SortableComponent from './SortableComponent.jsx';
 
 const styles = theme => ({
@@ -51,17 +52,10 @@ const styles = theme => ({
   typography: {
     padding: theme.spacing.unit * 3,
   },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`,
+  },
 });
-
-const TabContainer = props => (
-  <Paper component="div" style={{ height: '400px' }}>
-    {props.children}
-  </Paper>
-);
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 class RightTabs extends Component {
   state = {
@@ -73,7 +67,13 @@ class RightTabs extends Component {
   };
 
   render() {
-    const { classes, components } = this.props;
+    const {
+      classes,
+      components,
+      focusComponent,
+      deleteProp,
+      addProp,
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -86,16 +86,30 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Application Tree"
+            label="Heirarchy"
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Component Props"
+            label={
+              focusComponent.props
+                ? <Badge
+                  className={classes.padding}
+                  color='primary'
+                  badgeContent={focusComponent.props.length}
+                >
+                  Props
+                </Badge> : 'Props'
+            }
           />
         </Tabs>
         {value === 0 && <SortableComponent components={components} />}
-        {value === 1 && <TabContainer>Item Two</TabContainer>}
+        {value === 1 && <Props
+            focusComponent={focusComponent}
+            deleteProp={deleteProp}
+            addProp={addProp}
+          />
+          }
       </div>
     );
   }
@@ -104,6 +118,9 @@ class RightTabs extends Component {
 RightTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   components: PropTypes.array.isRequired,
+  focusComponent: PropTypes.object.isRequired,
+  deleteProp: PropTypes.func.isRequired,
+  addProp: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(RightTabs);
