@@ -1,51 +1,57 @@
 const componentRender = (component) => {
-  const { stateful, children, title } = component;
+  const {
+    stateful,
+    children,
+    title,
+    props,
+  } = component;
 
   if (stateful) {
     return `
-import React, { Component } from 'react';
-${children ? children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n') : ''}
+      import React, { Component } from 'react';
+      import PropTypes from 'prop-types';
+      ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
 
-class ${title} extends Component {
-render() {
-  return (
-    <div>
-      ${children ? children.map((child, i) => {
-    if (i === 0) {
-      return `<${child.title} />`;
-    }
-    return `      <${child.title} />`;
-  }).join('\n') : title}  
-    </div>
-  )
-  }
-}
+      class ${title} extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {};
+      }
+      render() {
+        const { ${props.map(p => `${p.key}`).join(', ')} } = this.props;
+        return (
+          <div>
+          ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+          </div>
+        )
+        }
+      }
 
-export default ${title}
+      ${title}.propTypes = {
+        ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
+      }
 
-`;
+      export default ${title};
+    `;
   }
 
   return `
-import React from 'react';
-${children ? children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n') : ''}
+    import React from 'react';
+    import PropTypes from 'prop-types';
+    ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
   
-const ${title} = props => {
-  return (
-    <div>
-    ${children ? children.map((child, i) => {
-    if (i === 0) {
-      return `<${child.title} />`;
+    const ${title} = props => (
+      <div>
+        ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+      </div>
+    );
+
+    ${title}.propTypes = {
+      ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
     }
-    return `      <${child.title} />`;
-  }).join('\n') : title}  
-    </div>
-  )
-}
 
-export default ${title}
-
-`;
+    export default ${title};
+  `;
 };
 
 export default componentRender;

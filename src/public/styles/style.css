@@ -194,6 +194,10 @@ RIGHT COLUMN
   flex-direction: column;
 }
 
+.props-comp {
+  padding: 20px;
+}
+
 /* Sortable tree sorting */
 .sortable-tree {
   height: 100%;

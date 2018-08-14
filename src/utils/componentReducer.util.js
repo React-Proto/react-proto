@@ -11,6 +11,8 @@ const initialComponentState = {
   childrenIds: [],
   selectableParents: [],
   expanded: true,
+  props: [],
+  nextPropId: 0,
   position: {
     x: 110,
     y: 120,
@@ -19,207 +21,249 @@ const initialComponentState = {
   },
 };
 
-const componentReducerUtil = {
-  addComponent: (state, { title }) => {
-    const strippedTitle = title
-      .replace(/[a-z]+/g,
-        word => word[0].toUpperCase() + word.slice(1))
-      .replace(/[-_\s0-9]+/g, '');
-    const newComponent = {
-      ...initialComponentState,
-      title: strippedTitle,
-      id: state.nextId.toString(),
-      color: getColor(),
-    };
+export const addComponent = (state, { title }) => {
+  const strippedTitle = title.replace(/[^\w]/g, '');
+  const capitalizedTitle = strippedTitle[0].toUpperCase() + strippedTitle.slice(1);
+  const newComponent = {
+    ...initialComponentState,
+    title: capitalizedTitle,
+    id: state.nextId.toString(),
+    color: getColor(),
+  };
 
-    const components = [
-      ...state.components,
-      newComponent,
-    ];
+  const components = [
+    ...state.components,
+    newComponent,
+  ];
 
-    const totalComponents = state.totalComponents + 1;
-    const nextId = state.nextId + 1;
+  const totalComponents = state.totalComponents + 1;
+  const nextId = state.nextId + 1;
 
-    return {
-      ...state,
-      totalComponents,
-      nextId,
-      components,
-      focusComponent: newComponent,
-    };
-  },
-  updateComponent: ((state, {
-    id, newParentId = null, color = null, stateful = null,
-  }) => {
-    const components = [...state.components];
-    const component = components.find(comp => comp.id === id);
-
-    if (newParentId === 'null') {
-      component.parentId = '';
-    } else if (newParentId) {
-      component.parentId = newParentId;
-    }
-    component.color = color || component.color;
-    component.stateful = stateful === null ? component.stateful : stateful;
-
-    return {
-      ...state,
-      components,
-    };
-  }),
-  // Delete component with the index for now, but will be adjusted to use id
-  deleteComponent: (state, { index, id }) => {
-    const { focusComponent } = state;
-    const components = [
-      ...state.components.slice(0, index),
-      ...state.components.slice(index + 1),
-    ];
-
-    const totalComponents = state.totalComponents - 1;
-
-    return {
-      ...state,
-      totalComponents,
-      components,
-      focusComponent: focusComponent.id === id ? {} : focusComponent,
-    };
-  },
-  addChild: ((state, { id, childId }) => {
-    const components = state.components.map((component) => {
-      if (component.id === id) {
-        const { childrenIds } = component;
-        return { ...component, childrenIds: [...childrenIds, childId] };
-      }
-      return component;
-    });
-
-    return {
-      ...state,
-      components,
-    };
-  }),
-  deleteChild: ((state, { parent, childId }) => {
-    const components = state.components.map((component) => {
-      if (component.id === parent.id) {
-        // Find child with matching id and remove from children
-        const childrenIds = component.childrenIds.filter(id => id !== childId);
-        return { ...component, childrenIds };
-      }
-      return component;
-    });
-
-    return {
-      ...state,
-      components,
-    };
-  }),
-  reassignParent: ((state, { index, parent = {} }) => {
-    // Get all childrenIds of the component to be deleted
-    const { childrenIds } = state.components[index];
-    const components = state.components.map((comp) => {
-      // Give each child their previous parent's parent
-      if (childrenIds.includes(comp.id)) {
-        return { ...comp, parentId: parent.id || '' };
-      }
-      // Give the parent all children of it's to be deleted child
-      if (parent.id === comp.id) {
-        const prevChildrenIds = comp.childrenIds;
-        return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
-      }
-      return comp;
-    });
-
-    return {
-      ...state,
-      components,
-    };
-  }),
-  setSelectableParents: (state => ({
+  return {
     ...state,
-    components: setSelectableParents(state.components),
-  })),
-  exportFilesSuccess: ((state, { status, dir }) => ({
-    ...state,
-    successOpen: status,
-    appDir: dir,
-  })),
-  exportFilesError: ((state, { status, err }) => ({
-    ...state,
-    errorOpen: status,
-    appDir: err,
-  })),
-  handleClose: ((state, status) => ({
-    ...state,
-    errorOpen: status,
-    successOpen: status,
-  })),
-  updatePosition: (state, { id, x, y }) => {
-    const components = state.components.map((component) => {
-      if (component.id === id) {
-        return {
-          ...component,
-          position: {
-            x,
-            y,
-            width: component.position.width,
-            height: component.position.height,
-          },
-        };
-      }
-      return component;
-    });
-    return {
-      ...state,
-      components,
-    };
-  },
-  handleTransform: (state, {
-    id, x, y, width, height,
-  }) => {
-    const components = state.components.map((component) => {
-      if (component.id === id) {
-        return {
-          ...component,
-          position: {
-            x,
-            y,
-            width,
-            height,
-          },
-        };
-      }
-      return component;
-    });
-    return {
-      ...state,
-      components,
-    };
-  },
-  toggleDragging: (state, status) => {
-    const components = state.components.map(component => ({
-      ...component,
-      draggable: status,
-    }));
-    return {
-      ...state,
-      components,
-    };
-  },
-  moveToBottom: (state, componentId) => {
-    const components = state.components.concat();
-    const index = components.findIndex(component => component.id === componentId);
-    const removedComponent = components.splice(index, 1);
-    components.unshift(removedComponent[0]);
-
-    return {
-      ...state,
-      components,
-    };
-  },
-  openExpansionPanel: (state, { component }) => ({
-    ...state,
-    focusComponent: component,
-  }),
+    totalComponents,
+    nextId,
+    components,
+    focusComponent: newComponent,
+  };
 };
 
-export default componentReducerUtil;
+export const updateComponent = ((state, {
+  id, newParentId = null, color = null, stateful = null, props = null,
+}) => {
+  let component;
+  const components = state.components.map((comp) => {
+    if (comp.id === id) {
+      component = { ...comp };
+      if (newParentId === 'null') {
+        component.parentId = '';
+      } else if (newParentId) {
+        component.parentId = newParentId;
+      }
+      if (props) {
+        component.props = props;
+        component.nextPropId += 1;
+      }
+      component.color = color || component.color;
+      component.stateful = stateful === null ? component.stateful : stateful;
+      return component;
+    }
+    return comp;
+  });
+
+  return {
+    ...state,
+    components,
+    focusComponent: component,
+  };
+});
+
+// Delete component with the index for now, but will be adjusted to use id
+export const deleteComponent = (state, { index, id }) => {
+  const { focusComponent } = state;
+  const components = [
+    ...state.components.slice(0, index),
+    ...state.components.slice(index + 1),
+  ];
+
+  const totalComponents = state.totalComponents - 1;
+
+  return {
+    ...state,
+    totalComponents,
+    components,
+    focusComponent: focusComponent.id === id ? {} : focusComponent,
+  };
+};
+
+export const addChild = ((state, { id, childId }) => {
+  const components = state.components.map((component) => {
+    if (component.id === id) {
+      const { childrenIds } = component;
+      return { ...component, childrenIds: [...childrenIds, childId] };
+    }
+    return component;
+  });
+
+  return {
+    ...state,
+    components,
+  };
+});
+
+export const deleteChild = ((state, { parent, childId }) => {
+  const components = state.components.map((component) => {
+    if (component.id === parent.id) {
+      // Find child with matching id and remove from children
+      const childrenIds = component.childrenIds.filter(id => id !== childId);
+      return { ...component, childrenIds };
+    }
+    return component;
+  });
+
+  return {
+    ...state,
+    components,
+  };
+});
+
+export const reassignParent = ((state, { index, parent = {} }) => {
+  // Get all childrenIds of the component to be deleted
+  const { childrenIds } = state.components[index];
+  const components = state.components.map((comp) => {
+    // Give each child their previous parent's parent
+    if (childrenIds.includes(comp.id)) {
+      return { ...comp, parentId: parent.id || '' };
+    }
+    // Give the parent all children of it's to be deleted child
+    if (parent.id === comp.id) {
+      const prevChildrenIds = comp.childrenIds;
+      return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
+    }
+    return comp;
+  });
+
+  return {
+    ...state,
+    components,
+  };
+});
+
+export const setSelectableP = (state => ({
+  ...state,
+  components: setSelectableParents(state.components),
+}));
+
+export const exportFilesSuccess = ((state, { status, dir }) => ({
+  ...state,
+  successOpen: status,
+  appDir: dir,
+}));
+
+export const exportFilesError = ((state, { status, err }) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err,
+}));
+
+export const handleClose = ((state, status) => ({
+  ...state,
+  errorOpen: status,
+  successOpen: status,
+}));
+
+export const updatePosition = (state, { id, x, y }) => {
+  const components = state.components.map((component) => {
+    if (component.id === id) {
+      return {
+        ...component,
+        position: {
+          x,
+          y,
+          width: component.position.width,
+          height: component.position.height,
+        },
+      };
+    }
+    return component;
+  });
+  return {
+    ...state,
+    components,
+  };
+};
+
+export const handleTransform = (state, {
+  id, x, y, width, height,
+}) => {
+  const components = state.components.map((component) => {
+    if (component.id === id) {
+      return {
+        ...component,
+        position: {
+          x,
+          y,
+          width,
+          height,
+        },
+      };
+    }
+    return component;
+  });
+  return {
+    ...state,
+    components,
+  };
+};
+
+export const toggleDragging = (state, status) => {
+  const components = state.components.map(component => ({
+    ...component,
+    draggable: status,
+  }));
+  return {
+    ...state,
+    components,
+  };
+};
+
+export const moveToBottom = (state, componentId) => {
+  const components = state.components.concat();
+  const index = components.findIndex(component => component.id === componentId);
+  const removedComponent = components.splice(index, 1);
+  components.unshift(removedComponent[0]);
+
+  return {
+    ...state,
+    components,
+  };
+};
+
+export const openExpansionPanel = (state, { component }) => ({
+  ...state,
+  focusComponent: component,
+});
+
+export const addProp = (state, {
+  key,
+  value = null,
+  required,
+  type,
+}) => {
+  const { props, nextPropId, id } = state.focusComponent;
+  const newProp = {
+    id: nextPropId.toString(),
+    key,
+    value: value || key,
+    required,
+    type,
+  };
+  const newProps = [...props, newProp];
+  return updateComponent(state, { id, props: newProps });
+};
+
+export const deleteProp = (state, { index }) => {
+  const { props, id } = state.focusComponent;
+  const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
+  return updateComponent(state, { id, props: newProps });
+};

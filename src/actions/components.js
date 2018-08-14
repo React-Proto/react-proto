@@ -17,6 +17,8 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   OPEN_EXPANSION_PANEL,
+  DELETE_PROP,
+  ADD_PROP,
   DELETE_ALL_DATA,
 } from '../actionTypes/index';
 
@@ -164,4 +166,14 @@ export const openExpansionPanel = component => ({
 
 export const deleteAllData = () => ({
   type: DELETE_ALL_DATA,
+});
+
+export const deleteCompProp = ({ id, index }) => ({
+  type: DELETE_PROP,
+  payload: { id, index },
+});
+
+export const addCompProp = prop => ({
+  type: ADD_PROP,
+  payload: { ...prop },
 });
