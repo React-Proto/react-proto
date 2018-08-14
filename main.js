@@ -51,29 +51,6 @@ ipcMain.on('view_app_dir', (event, appDir) => {
   shell.openItem(appDir);
 });
 
-// Choose directory and export files
-ipcMain.on('export_files', (event) => {
-  const directory = dialog.showOpenDialog(mainWindow, {
-    properties: ['openDirectory'],
-  });
-
-  // if no directory
-  if (!directory) return;
-  const dir = directory[0];
-  const path = `${dir}/components`;
-
-  if (fs.existsSync(path)) {
-    event.sender.send('created_folder', path);
-  } else {
-    fs.mkdir(path, (err) => {
-      if (err) {
-        return console.error(err);
-      }
-      event.sender.send('created_folder', path);
-    });
-  }
-});
-
 // Update file
 ipcMain.on('update-file', () => {
   openFile();
@@ -177,9 +154,9 @@ const createWindow = () => {
     template[2].submenu.push({
       type: 'separator',
     }, {
-      label: 'Speech',
-      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-    });
+        label: 'Speech',
+        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+      });
 
     // Window menu
     template[4].submenu = [

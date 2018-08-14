@@ -16,17 +16,18 @@ import {
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  ADD_PROP,
+  DELETE_PROP,
 } from '../actionTypes';
-import componentReducerUtil from '../utils/componentReducer.util';
 
-const {
+import {
   addComponent,
   updateComponent,
   deleteComponent,
   addChild,
   deleteChild,
   reassignParent,
-  setSelectableParents,
+  setSelectableP,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
@@ -36,7 +37,10 @@ const {
   moveToTop,
   openExpansionPanel,
   changeImagePath,
-} = componentReducerUtil;
+  addProp,
+  deleteProp,
+} from '../utils/componentReducer.util';
+
 
 const initialApplicationState = {
   totalComponents: 0,
@@ -64,7 +68,7 @@ const componentReducer = (state = initialApplicationState, action) => {
     case REASSIGN_PARENT:
       return reassignParent(state, action.payload);
     case SET_SELECTABLE_PARENTS:
-      return setSelectableParents(state);
+      return setSelectableP(state);
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
     case EXPORT_FILES_ERROR:
@@ -85,6 +89,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return initialApplicationState;
     case CHANGE_IMAGE_PATH:
       return changeImagePath(state, action.payload);
+    case ADD_PROP:
+      return addProp(state, action.payload);
+    case DELETE_PROP:
+      return deleteProp(state, action.payload);
     default:
       return state;
   }

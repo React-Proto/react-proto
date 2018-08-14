@@ -18,6 +18,8 @@ import {
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
+  DELETE_PROP,
+  ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
 } from '../actionTypes/index';
@@ -176,4 +178,14 @@ export const deleteAllData = () => ({
 export const changeImagePath = path => ({
   type: CHANGE_IMAGE_PATH,
   paylod: path,
+});
+
+export const deleteCompProp = ({ id, index }) => ({
+  type: DELETE_PROP,
+  payload: { id, index },
+});
+
+export const addCompProp = prop => ({
+  type: ADD_PROP,
+  payload: { ...prop },
 });

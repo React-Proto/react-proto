@@ -43,7 +43,7 @@ header {
 
 .column {
   width: 25%;
-  background-color: rgb(37, 37, 38);
+  background-color: #252526;
 }
 
 /* .column-right-export-btn {
@@ -199,6 +199,10 @@ RIGHT COLUMN
   background-color: #303030;
 }
 
+.props-container {
+  margin-left: 10px;
+}
+
 /* Sortable tree sorting */
 .sortable-tree {
   height: 100%;
@@ -209,11 +213,11 @@ div.rst__rowContents {
   width: 45px;
   border: none;
   color: #eee;
-  background-color: #424242;
+  background-color: #333333;
 }
 
 .rst__rowContentsDragDisabled {
-  background-color: #424242;
+  background-color: #333333;
   background-color: rgba(37, 37, 38, .4);
 }
 

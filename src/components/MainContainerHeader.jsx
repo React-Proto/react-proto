@@ -138,7 +138,7 @@ const MainContainerHeader = (props) => {
           <Button color="default" className={classes.button} onClick={() => collapseColumn()}>
             {rightColumnOpen ? <KeyboardArrowRightIcon
               className={classes.light} /> : <KeyboardArrowLeftIcon className={classes.light}
-            />}
+              />}
           </Button>
         </div>
       </div>

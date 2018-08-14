@@ -17,5 +17,7 @@ export const TOGGLE_DRAGGING = 'TOGGLE_DRAGGING';
 export const MOVE_TO_BOTTOM = 'MOVE_TO_BOTTOM';
 export const MOVE_TO_TOP = 'MOVE_TO_TOP';
 export const OPEN_EXPANSION_PANEL = 'OPEN_EXPANSION_PANEL';
+export const DELETE_PROP = 'DELETE_PROP';
+export const ADD_PROP = 'ADD_PROP';
 export const DELETE_ALL_DATA = 'DELETE_ALL_DATA';
 export const CHANGE_IMAGE_PATH = 'CHANGE_IMAGE_PATH';

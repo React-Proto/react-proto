@@ -96,7 +96,7 @@ const LeftColExpansionPanel = (props) => {
         onChange={() => onExpansionPanelChange(component)}
         elevation={4}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.light} />}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
           <Typography className={classes.light}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
