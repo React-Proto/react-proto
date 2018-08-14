@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>BuildMachineOSBuild</key>
+    <string>16G1510</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.electron.react-proto.helper</string>
+    <key>CFBundleName</key>
+    <string>react-proto</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>DTSDKBuild</key>
+    <string>14D125</string>
+    <key>DTSDKName</key>
+    <string>macosx10.1010.10</string>
+    <key>DTXcode</key>
+    <string>0833</string>
+    <key>DTXcodeBuild</key>
+    <string>8E3004b</string>
+    <key>LSUIElement</key>
+    <true/>
+    <key>NSSupportsAutomaticGraphicsSwitching</key>
+    <true/>
+    <key>CFBundleDisplayName</key>
+    <string>react-proto Helper</string>
+    <key>CFBundleExecutable</key>
+    <string>react-proto Helper</string>
+  </dict>
+</plist>

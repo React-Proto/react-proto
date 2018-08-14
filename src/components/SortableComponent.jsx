@@ -6,7 +6,7 @@ import 'react-sortable-tree/style.css';
 const SortableComponent = (props) => {
   const rootComponents = props.components.filter(
     comp => comp.parentId.length === 0,
-  );
+  ).reverse();
   return (
     <div className="sortable-tree">
       <SortableTree
