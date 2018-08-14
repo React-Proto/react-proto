@@ -11,8 +11,9 @@
     "sourceType": "module"
   },
   "plugins": [
-    "import",                                                                                                              
-    "react",                                                                                                               
+    "import",
+    "react",
+    "jest",
     "jsx-a11y",
     "babel"
   ],

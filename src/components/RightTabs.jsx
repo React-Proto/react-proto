@@ -10,20 +10,23 @@ import SortableComponent from './SortableComponent.jsx';
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#212121',
     height: '100%',
+    color: '#fff',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   tabsRoot: {
-    borderBottom: '1px solid #e8e8e8',
+    // borderBottom: '1px solid #e8e8e8',
   },
   tabsIndicator: {
-    backgroundColor: '#1890ff',
+    backgroundColor: '#1de9b6',
   },
   tabRoot: {
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
     marginRight: theme.spacing.unit * 4,
+
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -37,15 +40,15 @@ const styles = theme => ({
       '"Segoe UI Symbol"',
     ].join(','),
     '&:hover': {
-      color: '#40a9ff',
+      color: '#1de9b6',
       opacity: 1,
     },
     '&$tabSelected': {
-      color: '#1890ff',
+      color: '#33eb91',
       fontWeight: theme.typography.fontWeightMedium,
     },
     '&:focus': {
-      color: '#40a9ff',
+      color: '#4aedc4',
     },
   },
   tabSelected: {},
@@ -73,6 +76,7 @@ class RightTabs extends Component {
       focusComponent,
       deleteProp,
       addProp,
+      rightColumnOpen
     } = this.props;
     const { value } = this.state;
 
@@ -105,11 +109,12 @@ class RightTabs extends Component {
         </Tabs>
         {value === 0 && <SortableComponent components={components} />}
         {value === 1 && <Props
-            focusComponent={focusComponent}
-            deleteProp={deleteProp}
-            addProp={addProp}
-          />
-          }
+          rightColumnOpen={rightColumnOpen}
+          focusComponent={focusComponent}
+          deleteProp={deleteProp}
+          addProp={addProp}
+        />
+        }
       </div>
     );
   }

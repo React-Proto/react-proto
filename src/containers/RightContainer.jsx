@@ -9,7 +9,7 @@ import {
 import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from '../components/RightTabs.jsx';
 
-const { ipcRenderer } = window.require('electron');
+const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
@@ -30,7 +30,7 @@ class RightContainer extends Component {
   }
 
   viewAppDir = () => {
-    ipcRenderer.send('view_app_dir', this.props.appDir);
+    IPC.send('view_app_dir', this.props.appDir);
   }
 
   render() {
@@ -43,6 +43,7 @@ class RightContainer extends Component {
       focusComponent,
       deleteProp,
       addProp,
+      rightColumnOpen,
     } = this.props;
 
     return (
@@ -52,7 +53,8 @@ class RightContainer extends Component {
           focusComponent={focusComponent}
           deleteProp={deleteProp}
           addProp={addProp}
-         />
+          rightColumnOpen={rightColumnOpen}
+        />
         <Snackbars
           successOpen={successOpen}
           errorOpen={errorOpen}

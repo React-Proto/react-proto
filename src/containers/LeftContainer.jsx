@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
 import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
@@ -22,9 +24,44 @@ const mapDispatchToProps = dispatch => ({
     index, id, parent,
   }) => dispatch(actions.deleteComponent({ index, id, parent })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
+  moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
 });
+
+const styles = theme => ({
+  cssLabel: {
+    color: 'white',
+
+    '&$cssFocused': {
+      color: 'green',
+    },
+  },
+  cssFocused: {},
+  input: {
+    color: '#fff',
+    opacity: '0.7',
+    marginBottom: '10px',
+  },
+  button: {
+    color: '#fff',
+
+    '&:disabled': {
+      color: 'grey',
+    },
+  },
+  clearButton: {
+    top: '96%',
+    position: 'sticky!important',
+    zIndex: '1',
+
+    '&:disabled': {
+      color: 'grey',
+      backgroundColor: '#424242',
+    },
+  },
+});
+
 
 class LeftContainer extends Component {
   state = {
@@ -69,8 +106,10 @@ class LeftContainer extends Component {
       updateComponent,
       deleteComponent,
       moveToBottom,
+      moveToTop,
       focusComponent,
       totalComponents,
+      classes,
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -85,12 +124,19 @@ class LeftContainer extends Component {
         focusComponent={focusComponent}
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
+        moveToTop={moveToTop}
       />,
     );
+    // className={classes.root}
 
     return (
       <div className='column left'>
-        <FormControl fullWidth={true} className='component-input'>
+        <FormControl
+          fullWidth={true}
+          formlabellasses={{
+            root: classes.cssLabel,
+          }}
+        >
           <Grid container alignItems='baseline' align='stretch'>
             <Grid item xs={10}>
               <TextField
@@ -100,9 +146,22 @@ class LeftContainer extends Component {
                 margin='normal'
                 autoFocus
                 onChange={this.handleChange}
+                onKeyPress={(ev) => {
+                  if (ev.key === 'Enter') {
+                    // Do code here
+                    this.handleAddComponent();
+                    ev.preventDefault();
+                  }
+                }}
                 value={componentName}
                 name='componentName'
-                style={{ width: '95%', color: '#fff' }}
+                className={classes.light}
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  className: classes.input,
+                }}
               />
             </Grid>
             <Grid item xs={2}>
@@ -110,6 +169,7 @@ class LeftContainer extends Component {
                 variant='fab'
                 mini
                 color='primary'
+                className={classes.button}
                 aria-label='Add'
                 onClick={this.handleAddComponent}
                 disabled={!this.state.componentName}
@@ -128,17 +188,17 @@ class LeftContainer extends Component {
           variant='contained'
           onClick={this.clearWorkspace}
           disabled={totalComponents < 1}
-          className='clear-workspace'
+          className={classes.clearButton}
         >
           Clear workspace
         </Button>
         {modal}
-      </div>
+      </div >
     );
   }
 }
 
-export default connect(null, mapDispatchToProps)(LeftContainer);
+export default compose(withStyles(styles), connect(null, mapDispatchToProps))(LeftContainer);
 
 LeftContainer.propTypes = {
   components: PropTypes.array.isRequired,
@@ -147,7 +207,9 @@ LeftContainer.propTypes = {
   updateComponent: PropTypes.func.isRequired,
   deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
+  moveToTop: PropTypes.func.isRequired,
   focusComponent: PropTypes.object.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
+  classes: PropTypes.object,
 };

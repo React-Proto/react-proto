@@ -12,6 +12,7 @@ import Switch from '@material-ui/core/Switch';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FlipToBackIcon from '@material-ui/icons/FlipToBack';
+import FlipToFrontIcon from '@material-ui/icons/FlipToFront';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
@@ -20,11 +21,14 @@ const styles = theme => ({
   root: {
     width: '100%',
     marginTop: 10,
-
+    // backgroundColor: '#333333',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  panel: {
+    backgroundColor: '#333333',
   },
   details: {
     display: 'flex',
@@ -36,6 +40,10 @@ const styles = theme => ({
   column: {
     display: 'flex',
     alignItems: 'center',
+  },
+  light: {
+    color: '#eee',
+    // opacity: '0.8',
   },
   formControl: {
     margin: theme.spacing.unit * 3,
@@ -55,6 +63,7 @@ const LeftColExpansionPanel = (props) => {
     deleteComponent,
     onExpansionPanelChange,
     moveToBottom,
+    moveToTop,
   } = props;
   const {
     title,
@@ -85,13 +94,14 @@ const LeftColExpansionPanel = (props) => {
         className={classes.panel}
         expanded={focusComponent.id === id}
         onChange={() => onExpansionPanelChange(component)}
+        elevation={4}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.light} />}>
-          <Typography>{title}</Typography>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
+          <Typography className={classes.light}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.light} htmlFor='stateful'>Stateful?</InputLabel>
             <Switch
               checked={stateful}
               onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
@@ -101,7 +111,7 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel htmlFor='boxColor'>Box Color</InputLabel>
+            <InputLabel className={classes.light} htmlFor='boxColor'>Box Color</InputLabel>
             <Input
               type='color'
               id='boxColor'
@@ -136,6 +146,12 @@ const LeftColExpansionPanel = (props) => {
         <ExpansionPanelActions className={classes.actions}>
           <IconButton
             className={classes.button}
+            onClick={() => moveToTop(id)}
+            aria-label='Flip to back'>
+            <FlipToFrontIcon className={classes.light} />
+          </IconButton>
+          <IconButton
+            className={classes.button}
             onClick={() => moveToBottom(id)}
             aria-label='Flip to back'>
             <FlipToBackIcon className={classes.light} />
@@ -152,7 +168,7 @@ const LeftColExpansionPanel = (props) => {
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div >
+    </div>
   );
 };
 
@@ -167,4 +183,5 @@ LeftColExpansionPanel.propTypes = {
   updateComponent: PropTypes.func,
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
+  moveToTop: PropTypes.func,
 };

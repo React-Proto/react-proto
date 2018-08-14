@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.jsx';
 import RightContainer from './RightContainer.jsx';
 import convertIdToObjs from '../utils/convertIdsToObjs.util';
+import theme from '../components/theme';
 
 const mapStateToProps = store => ({
   components: store.workspace.components,
@@ -38,26 +40,28 @@ class AppContainer extends Component {
     const updatedComponents = convertIdToObjs(components);
 
     return (
-      <div className="app-container">
-        <LeftContainer
-          components={updatedComponents}
-          totalComponents={totalComponents}
-          focusComponent={focusComponent}
-        />
-        <MainContainer
-          components={updatedComponents}
-          collapseColumn={this.collapseColumn}
-          width={width}
-          rightColumnOpen={rightColumnOpen}
-          totalComponents={totalComponents}
-        />
-        <RightContainer
-          width={width}
-          components={updatedComponents}
-          rightColumnOpen={rightColumnOpen}
-          focusComponent={focusComponent}
-        />
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div className="app-container">
+          <LeftContainer
+            components={updatedComponents}
+            totalComponents={totalComponents}
+            focusComponent={focusComponent}
+          />
+          <MainContainer
+            components={updatedComponents}
+            collapseColumn={this.collapseColumn}
+            width={width}
+            rightColumnOpen={rightColumnOpen}
+            totalComponents={totalComponents}
+          />
+          <RightContainer
+            width={width}
+            components={updatedComponents}
+            rightColumnOpen={rightColumnOpen}
+            focusComponent={focusComponent}
+          />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

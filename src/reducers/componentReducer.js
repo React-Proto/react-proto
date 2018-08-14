@@ -12,8 +12,10 @@ import {
   HANDLE_TRANSFORM,
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
+  MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
+  CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
 } from '../actionTypes';
@@ -32,14 +34,18 @@ import {
   handleTransform,
   toggleDragging,
   moveToBottom,
+  moveToTop,
   openExpansionPanel,
+  changeImagePath,
   addProp,
   deleteProp,
 } from '../utils/componentReducer.util';
 
+
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
+  imagePath: '',
   successOpen: false,
   errorOpen: false,
   focusComponent: {},
@@ -75,10 +81,14 @@ const componentReducer = (state = initialApplicationState, action) => {
       return toggleDragging(state, action.payload);
     case MOVE_TO_BOTTOM:
       return moveToBottom(state, action.payload);
+    case MOVE_TO_TOP:
+      return moveToTop(state, action.payload);
     case OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
     case DELETE_ALL_DATA:
       return initialApplicationState;
+    case CHANGE_IMAGE_PATH:
+      return changeImagePath(state, action.payload);
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:

@@ -16,10 +16,12 @@ import {
   CREATE_APPLICATION_ERROR,
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
+  MOVE_TO_TOP,
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
   DELETE_ALL_DATA,
+  CHANGE_IMAGE_PATH,
 } from '../actionTypes/index';
 
 import createFiles from '../utils/createFiles.util';
@@ -159,6 +161,11 @@ export const moveToBottom = componentId => ({
   payload: componentId,
 });
 
+export const moveToTop = componentId => ({
+  type: MOVE_TO_TOP,
+  payload: componentId,
+});
+
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
   payload: { component },
@@ -166,6 +173,11 @@ export const openExpansionPanel = component => ({
 
 export const deleteAllData = () => ({
   type: DELETE_ALL_DATA,
+});
+
+export const changeImagePath = path => ({
+  type: CHANGE_IMAGE_PATH,
+  paylod: path,
 });
 
 export const deleteCompProp = ({ id, index }) => ({

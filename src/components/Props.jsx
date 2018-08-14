@@ -25,6 +25,22 @@ const styles = theme => ({
     display: 'inline-flex',
     alignItems: 'baseline',
   },
+  cssLabel: {
+    color: 'white',
+
+    '&$cssFocused': {
+      color: 'green',
+    },
+  },
+  cssFocused: {},
+  input: {
+    color: '#eee',
+    marginBottom: '10px',
+    width: '60%',
+  },
+  light: {
+    color: '#eee',
+  }
 });
 
 const availablePropTypes = {
@@ -96,11 +112,13 @@ class Props extends Component {
       focusComponent,
       classes,
       deleteProp,
+      rightColumnOpen
     } = this.props;
-    return <div className='props-comp'> {
+
+    return <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}> {
       Object.keys(focusComponent).length < 1
-        ? <div>Click on a component to view its props.</div>
-        : <div>
+        ? <div style={{ marginTop: '20px', marginLeft: '20px' }}>Add a component to view its props.</div>
+        : <div className='props-container'>
           <form className='props-input' onSubmit={this.handleAddProp}>
             <Grid container spacing={24}>
               <Grid item xs={6}>
@@ -112,6 +130,12 @@ class Props extends Component {
                   onChange={this.handleChange}
                   value={this.state.propKey}
                   required
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  InputLabelProps={{
+                    className: classes.input,
+                  }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -120,12 +144,18 @@ class Props extends Component {
                   label='Value'
                   margin='normal'
                   onChange={this.handleChange}
+                  InputProps={{
+                    className: classes.input,
+                  }}
+                  InputLabelProps={{
+                    className: classes.input,
+                  }}
                   value={this.state.propValue}
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormControl required>
-                  <InputLabel htmlFor='propType'>Type</InputLabel>
+                  <InputLabel className={classes.light} htmlFor='propType'>Type</InputLabel>
                   <Select
                     native
                     id='propType'
@@ -140,7 +170,7 @@ class Props extends Component {
               </Grid>
               <Grid item xs={6}>
                 <div className={classes.column}>
-                  <InputLabel htmlFor='propRequired'>Required?</InputLabel>
+                  <InputLabel className={classes.light} htmlFor='propRequired'>Required?</InputLabel>
                   <Switch
                     checked={this.state.propRequired}
                     onChange={this.handleChange}
@@ -169,20 +199,20 @@ class Props extends Component {
               focusComponent.props.map(({
                 id, type, key, value, required,
               }, index) => (
-                <Chip
-                  key={id}
-                  avatar={<Avatar>{availablePropTypes[type]}</Avatar>}
-                  label={`${key}: ${value}`}
-                  onDelete={() => deleteProp({ id, index })}
-                  className={classes.chip}
-                  color={required ? 'secondary' : 'primary'}
-                  deleteIcon={<DeleteIcon />}
-                />
-              ))
+                  <Chip
+                    key={id}
+                    avatar={<Avatar>{availablePropTypes[type]}</Avatar>}
+                    label={`${key}: ${value}`}
+                    onDelete={() => deleteProp({ id, index })}
+                    className={classes.chip}
+                    color={required ? 'secondary' : 'primary'}
+                    deleteIcon={<DeleteIcon />}
+                  />
+                ))
             }
           </div>
         </div>
-      }
+    }
     </div>;
   }
 }

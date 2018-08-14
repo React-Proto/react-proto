@@ -22,11 +22,13 @@ const initialComponentState = {
 };
 
 export const addComponent = (state, { title }) => {
-  const strippedTitle = title.replace(/[^\w]/g, '');
-  const capitalizedTitle = strippedTitle[0].toUpperCase() + strippedTitle.slice(1);
+  const strippedTitle = title
+    .replace(/[a-z]+/gi,
+      word => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .replace(/[-_\s0-9\W]+/g, '');
   const newComponent = {
     ...initialComponentState,
-    title: capitalizedTitle,
+    title: strippedTitle,
     id: state.nextId.toString(),
     color: getColor(),
   };
@@ -125,6 +127,23 @@ export const deleteChild = ((state, { parent, childId }) => {
     ...state,
     components,
   };
+});
+
+export const moveToTop = (state, componentId) => {
+  const components = state.components.concat();
+  const index = components.findIndex(component => component.id === componentId);
+  const removedComponent = components.splice(index, 1);
+  components.push(removedComponent[0]);
+
+  return {
+    ...state,
+    components,
+  };
+};
+
+export const changeImagePath = (state, imagePath) => ({
+  ...state,
+  imagePath,
 });
 
 export const reassignParent = ((state, { index, parent = {} }) => {

@@ -30,7 +30,7 @@ class Rectangle extends Component {
         width={width}
         height={height}
         stroke={color}
-        strokeWidth={4}
+        strokeWidth={6}
         strokeScaleEnabled={false}
         onTransformEnd={event => this.extractPositionInfo(componentId, event.target)}
         onDragEnd={event => this.extractPositionInfo(componentId, event.target)}
