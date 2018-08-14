@@ -83,6 +83,7 @@ node_modules/
 jspm_packages/
 dist/
 build/
+release-builds/
 
 # TypeScript v1 declaration files
 typings/
@@ -474,5 +475,8 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder
 .mfractor/
+
+# DMG File
+React-Proto.dmg
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
