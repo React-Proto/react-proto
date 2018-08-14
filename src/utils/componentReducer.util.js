@@ -22,9 +22,9 @@ const initialComponentState = {
 const componentReducerUtil = {
   addComponent: (state, { title }) => {
     const strippedTitle = title
-      .replace(/[a-z]+/g,
-        word => word[0].toUpperCase() + word.slice(1))
-      .replace(/[-_\s0-9]+/g, '');
+      .replace(/[a-z]+/gi,
+        word => word[0].toUpperCase() + word.slice(1).toLowerCase())
+      .replace(/[-_\s0-9\W]+/g, '');
     const newComponent = {
       ...initialComponentState,
       title: strippedTitle,

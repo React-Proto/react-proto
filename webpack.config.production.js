@@ -12,7 +12,7 @@ module.exports = {
   target: 'electron-renderer',
   context: SRC_DIR,
   entry: {
-    app: './index.js',
+    app: ['babel-polyfill', './index.js'],
     vendor: [
       '@material-ui/core',
     ],
