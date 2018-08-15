@@ -129,7 +129,7 @@ class MainContainer extends Component {
         closeModal,
         message: 'Are you sure you want to delete image?',
         secBtnLabel: 'Delete',
-        secBtnAction: deleteImage,
+        secBtnAction: () => { deleteImage(); closeModal(); },
       }),
     });
   }

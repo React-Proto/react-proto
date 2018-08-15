@@ -24,8 +24,8 @@ const initialComponentState = {
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi,
-      word => word[0].toUpperCase() + word.slice(1).toLowerCase())
-    .replace(/[-_\s0-9\W]+/g, '');
+      word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[-_\s0-9\W]+/gi, '');
   const newComponent = {
     ...initialComponentState,
     title: strippedTitle,
