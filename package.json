@@ -27,7 +27,7 @@
     "linter": "eslint src",
     "package-mac": " electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
     "installer-mac": "electron-installer-dmg ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/png/32x32.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
     "create-installer-win": "node installers/windows/createinstaller.js"
   },
   "contributors": [
