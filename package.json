@@ -8,6 +8,55 @@
     "type": "git",
     "url": "https://github.com/CS-Eevee/react-proto"
   },
+  "build": {
+    "appId": "com.eevee.react-proto",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icons/icon.icns"
+    },
+    "files": [
+      "main.js",
+      "build/index.html",
+      "build/js/bundle.js",
+      "build/js/1.bundle.js",
+      "build/styles/style.css"
+    ],
+    "productName": "React-Proto",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "dist": "electron-builder",
+    "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
+    "start": "electron .",
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
+    "electron": "cross-env NODE_ENV=development electron .",
+    "test": "jest",
+    "linter": "eslint src",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/public/icons/mac/icon.icns --prune=true --out=release-builds",
+    "installer-mac": "electron-installer-dmg --overwrite ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
+    "installer-win": "node installers/windows/createinstaller.js"
+  },
+  "contributors": [
+    "Blessing Ebowe <blessingebowe.repo@gmail.com> (https://www.linkedin.com/in/blessingebowe/)",
+    "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brianwtaylor/)",
+    "Erik Guntner <erikguntner@gmail.com> (https://www.linkedin.com/in/erik-guntner-9aa324b9/)"
+  ],
+  "license": "MIT",
   "jest": {
     "moduleNameMapper": {
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
@@ -17,25 +66,6 @@
       "./src/setupTests.js"
     ]
   },
-  "scripts": {
-    "prestart": "webpack --config webpack.config.production.js",
-    "start": "electron .",
-    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "electron": "cross-env NODE_ENV=development electron .",
-    "test": "jest",
-    "linter": "eslint src",
-    "package-mac": "cross-env NODE_ENV=production electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/public/icons/mac/icon.icns --prune=true --out=release-builds",
-    "installer-mac": "cross-env NODE_ENV=production electron-installer-dmg --overwrite ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto",
-    "package-win": "cross-env NODE_ENV=production electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
-    "installer-win": "cross-env NODE_ENV=production node installers/windows/createinstaller.js"
-  },
-  "contributors": [
-    "Blessing Ebowe <blessingebowe.repo@gmail.com> (https://www.linkedin.com/in/blessingebowe/)",
-    "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brianwtaylor/)",
-    "Erik Guntner <erikguntner@gmail.com> (https://www.linkedin.com/in/erik-guntner-9aa324b9/)"
-  ],
-  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.0",
@@ -71,6 +101,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "electron": "^2.0.5",
+    "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^12.1.0",
