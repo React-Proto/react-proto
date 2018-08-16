@@ -1,10 +1,10 @@
- // handle setupevents as quickly as possible
-const setupEvents = require('./installers/setupEvents');
+// handle setupevents as quickly as possible
+// const setupEvents = require('./installers/setupEvents');
 
-if (setupEvents.handleSquirrelEvent()) {
-  // squirrel event handled and app will exit in 1000ms, so don't do anything else
-      return;
- }
+// if (setupEvents.handleSquirrelEvent()) {
+//   // squirrel event handled and app will exit in 1000ms, so don't do anything else
+//   return;
+// }
 
 const {
   app,
@@ -14,18 +14,12 @@ const {
   dialog,
   ipcMain,
 } = require('electron');
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS,
-} = require('electron-devtools-installer');
-const fs = require('fs');
 
+const isDev = process.env.NODE_ENV === 'development';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-const isDev = process.env.NODE_ENV === 'development';
 
 // Open image file
 function openFile() {
@@ -162,9 +156,9 @@ const createWindow = () => {
     template[2].submenu.push({
       type: 'separator',
     }, {
-        label: 'Speech',
-        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-      });
+      label: 'Speech',
+      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+    });
 
     // Window menu
     template[4].submenu = [
@@ -196,6 +190,12 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if (isDev) {
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS,
+      REDUX_DEVTOOLS,
+    } = require('electron-devtools-installer');
+
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then(() => {
         createWindow();
