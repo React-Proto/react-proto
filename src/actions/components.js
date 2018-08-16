@@ -1,4 +1,5 @@
 import {
+  LOAD_INIT_DATA,
   ADD_COMPONENT,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
@@ -24,8 +25,20 @@ import {
   CHANGE_IMAGE_PATH,
 } from '../actionTypes/index';
 
+import { loadState } from '../localStorage';
+
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+
+export const loadInitData = () => (dispatch) => {
+  loadState()
+    .then(({ workspace }) => dispatch({
+      type: LOAD_INIT_DATA,
+      payload: {
+        data: workspace,
+      },
+    }));
+};
 
 export const addNewChild = (({
   id, childIndex, childId,
