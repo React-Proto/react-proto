@@ -53,6 +53,9 @@ class KonvaStage extends Component {
   //   // console.log(componentX, componentY);
   // }
 
+  componentDidMount() {
+    this.props.setImage();
+  }
 
   render() {
     const {

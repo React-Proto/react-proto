@@ -190,7 +190,7 @@ export const deleteAllData = () => ({
 
 export const changeImagePath = path => ({
   type: CHANGE_IMAGE_PATH,
-  paylod: path,
+  payload: path,
 });
 
 export const deleteCompProp = ({ id, index }) => ({

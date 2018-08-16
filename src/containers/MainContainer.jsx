@@ -60,6 +60,7 @@ class MainContainer extends Component {
     IPC.on('new-file', (event, file) => {
       const image = new window.Image();
       image.src = file;
+      this.props.changeImagePath(file);
       image.onload = () => {
         this.setState({ image });
       };
@@ -75,9 +76,9 @@ class MainContainer extends Component {
     });
   }
 
-  componentDidMount() {
+  setImage = () => {
     const image = new window.Image();
-    image.src = this.state.image;
+    image.src = this.props.imagePath;
     image.onload = () => {
       // setState will redraw layer
       // because "image" property is changed
@@ -85,6 +86,10 @@ class MainContainer extends Component {
         image,
       });
     };
+  }
+
+  componentDidMount() {
+    this.setImage();
   }
 
   handleChange = (event) => {
@@ -109,7 +114,10 @@ class MainContainer extends Component {
     });
   }
 
-  deleteImage = () => this.setState({ image: '' });
+  deleteImage = () => {
+    this.props.changeImagePath('');
+    this.setState({ image: '' });
+  };
 
   closeModal = () => this.setState({ modal: null });
 
@@ -211,6 +219,7 @@ class MainContainer extends Component {
       main,
       showImageDeleteModal,
       showGenerateAppModal,
+      setImage,
     } = this;
 
     return (
@@ -242,6 +251,7 @@ class MainContainer extends Component {
                   handleTransform={handleTransformation}
                   openExpansionPanel={openPanel}
                   focusComponent={focusComponent}
+                  setImage={setImage}
                 />
               ) : <Info />
             }
@@ -261,6 +271,7 @@ MainContainer.propTypes = {
   openPanel: PropTypes.func.isRequired,
   collapseColumn: PropTypes.func.isRequired,
   createApp: PropTypes.func.isRequired,
+  changeImagePath: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
 };
 
