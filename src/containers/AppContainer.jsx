@@ -7,12 +7,15 @@ import MainContainer from './MainContainer.jsx';
 import RightContainer from './RightContainer.jsx';
 import convertIdToObjs from '../utils/convertIdsToObjs.util';
 import theme from '../components/theme';
+import { loadInitData } from '../actions/components';
 
 const mapStateToProps = store => ({
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
 });
+
+const mapDispatchToProps = { loadInitData };
 
 class AppContainer extends Component {
   state = {
@@ -32,6 +35,10 @@ class AppContainer extends Component {
         rightColumnOpen: true,
       });
     }
+  }
+
+  componentDidMount() {
+    this.props.loadInitData();
   }
 
   render() {
@@ -66,10 +73,11 @@ class AppContainer extends Component {
   }
 }
 
-export default connect(mapStateToProps)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
 
 AppContainer.propTypes = {
   components: PropTypes.array.isRequired,
   totalComponents: PropTypes.number.isRequired,
   focusComponent: PropTypes.object.isRequired,
+  loadInitData: PropTypes.func.isRequired,
 };

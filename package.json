@@ -48,6 +48,7 @@
     "enzyme-adapter-react-16": "^1.2.0",
     "eslint-plugin-jest": "^21.21.0",
     "konva": "^2.1.7",
+    "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
