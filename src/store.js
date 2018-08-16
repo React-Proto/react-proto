@@ -13,7 +13,7 @@ const store = createStore(
   compose(
     applyMiddleware(logger, thunk),
     composeWithDevTools(),
-  )
+  ),
 );
 
 // store.subscribe(throttle(() => saveState(store.getState()), 1000));

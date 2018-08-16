@@ -40,7 +40,7 @@ const styles = theme => ({
   },
   light: {
     color: '#eee',
-  }
+  },
 });
 
 const availablePropTypes = {
@@ -112,12 +112,12 @@ class Props extends Component {
       focusComponent,
       classes,
       deleteProp,
-      rightColumnOpen
+      rightColumnOpen,
     } = this.props;
 
     return <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}> {
       Object.keys(focusComponent).length < 1
-        ? <div style={{ marginTop: '20px', marginLeft: '20px' }}>Add a component to view its props.</div>
+        ? <div style={{ marginTop: '20px', marginLeft: '20px' }}>Click a component to view its props.</div>
         : <div className='props-container'>
           <form className='props-input' onSubmit={this.handleAddProp}>
             <Grid container spacing={24}>
@@ -208,7 +208,7 @@ class Props extends Component {
                     color={required ? 'secondary' : 'primary'}
                     deleteIcon={<DeleteIcon />}
                   />
-                ))
+              ))
             }
           </div>
         </div>

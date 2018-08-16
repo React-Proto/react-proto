@@ -129,6 +129,12 @@ export const deleteChild = ((state, { parent, childId }) => {
   };
 });
 
+/**
+ * Moves component to the end of the components effectively giving it the highest z-index
+ * @param {object} state - The current state of the application
+ * @param {string} componentId - The id of the component that is to be moved
+ */
+
 export const moveToTop = (state, componentId) => {
   const components = state.components.concat();
   const index = components.findIndex(component => component.id === componentId);
@@ -140,6 +146,12 @@ export const moveToTop = (state, componentId) => {
     components,
   };
 };
+
+/**
+ * Updates the current image path with the newly provided path
+ * @param {object} state - The current state of the application
+ * @param {string} imagePath - The new path for the updated image
+ */
 
 export const changeImagePath = (state, imagePath) => ({
   ...state,
@@ -212,6 +224,20 @@ export const updatePosition = (state, { id, x, y }) => {
   };
 };
 
+/**
+ * Applies the new x and y coordinates, as well as, the new width
+ * and height the of components to the component with the provided id.
+ * The transformation is calculated on component drags, as well as, whe the
+ * component is resized
+ * @param {object} state - The current state of the application
+ * @param {object} transform - Object containing new transformation
+ * @param {string} id - id of the component we want to apply the transformation to
+ * @param {number} x - updated x coordinate
+ * @param {number} y - updated y coordinate
+ * @param {number} width - updated width
+ * @param {number} height - updated height
+ */
+
 export const handleTransform = (state, {
   id, x, y, width, height,
 }) => {
@@ -235,6 +261,13 @@ export const handleTransform = (state, {
   };
 };
 
+/**
+ * Toggles the drag of the group, as well as all components. If the group is draggable the
+ * rectangles need to be undraggable so the user can drag the group from anywhere
+ * @param {object} state - The current state of the application
+ * @param {boolean} status - The boolean value to apply to all draggable components
+ */
+
 export const toggleDragging = (state, status) => {
   const components = state.components.map(component => ({
     ...component,
@@ -245,6 +278,12 @@ export const toggleDragging = (state, status) => {
     components,
   };
 };
+
+/**
+ * Moves component to the front of the components effectively giving it the lowest z-index
+ * @param {object} state - The current state of the application
+ * @param {string} componentId - The id of the component that is to be moved
+ */
 
 export const moveToBottom = (state, componentId) => {
   const components = state.components.concat();
@@ -257,6 +296,14 @@ export const moveToBottom = (state, componentId) => {
     components,
   };
 };
+
+/**
+ * Selects a component and sets it as the focusComponent. The focus component is used to
+ * sync up expanding the panel, adding the transformer, and showing the components
+ * corresponding props.
+ * @param {object} state - The current state of the application
+ * @param {object} component - The component we want to assign as the currently focused component
+ */
 
 export const openExpansionPanel = (state, { component }) => ({
   ...state,

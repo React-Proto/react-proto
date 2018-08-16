@@ -45,6 +45,10 @@ const styles = theme => ({
     color: '#eee',
     // opacity: '0.8',
   },
+  label: {
+    color: '#eee',
+    marginRight: '10px',
+  },
   formControl: {
     margin: theme.spacing.unit * 3,
   },
@@ -101,7 +105,7 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel className={classes.light} htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.label} htmlFor='stateful'>Stateful?</InputLabel>
             <Switch
               checked={stateful}
               onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
@@ -111,7 +115,7 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.light} htmlFor='boxColor'>Box Color</InputLabel>
+            <InputLabel className={classes.label} htmlFor='boxColor'>Box Color</InputLabel>
             <Input
               type='color'
               id='boxColor'
@@ -121,7 +125,7 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.light} htmlFor='parentSelect'>Parent</InputLabel>
+            <InputLabel className={classes.label} htmlFor='parentSelect'>Parent</InputLabel>
             <Select
               className={classes.light}
               native
