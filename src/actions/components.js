@@ -32,10 +32,10 @@ import createApplicationUtil from '../utils/createApplication.util';
 
 export const loadInitData = () => (dispatch) => {
   loadState()
-    .then(({ workspace }) => dispatch({
+    .then(data => dispatch({
       type: LOAD_INIT_DATA,
       payload: {
-        data: workspace,
+        data: data ? data.workspace : {},
       },
     }));
 };
