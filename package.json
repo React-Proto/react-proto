@@ -26,11 +26,13 @@
     "test": "jest",
     "linter": "eslint src",
     "package-mac": " electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds",
-    "installer-mac": "electron-installer-dmg ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto"
+    "installer-mac": "electron-installer-dmg ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto",
+    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/png/32x32.png --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
+    "create-installer-win": "node installers/windows/createinstaller.js"
   },
   "contributors": [
     "Blessing Ebowe <blessingebowe.repo@gmail.com> (https://www.linkedin.com/in/blessingebowe/)",
-    "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brian-taylor-1a41a29a/)",
+    "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brianwtaylor/)",
     "Erik Guntner <erikguntner@gmail.com> (https://www.linkedin.com/in/erik-guntner-9aa324b9/)"
   ],
   "license": "MIT",
@@ -73,6 +75,7 @@
     "css-loader": "^0.28.11",
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^12.1.0",
+    "electron-winstaller": "^2.6.4",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
