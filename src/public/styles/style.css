@@ -80,6 +80,7 @@ LEFT COLUMN
 .expansionPanel {
   flex-direction: column-reverse;
   display: flex;
+  max-height: 80%;
   overflow-y: scroll;
   padding: 1%;
 }

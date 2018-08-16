@@ -9,7 +9,6 @@ import Rectangle from './Rectangle.jsx';
 
 class KonvaStage extends Component {
   state = {
-    selectedShapeName: '',
     x: undefined,
     y: undefined,
   };
@@ -24,9 +23,6 @@ class KonvaStage extends Component {
     // clicked on stage - cler selection
     if (e.target === e.target.getStage()) {
       this.props.openExpansionPanel({});
-      this.setState({
-        selectedShapeName: '',
-      });
       return;
     }
     // clicked on transformer - do nothing
@@ -36,19 +32,13 @@ class KonvaStage extends Component {
     }
 
     // find clicked rect by its name
-    const name = e.target.name();
-    const rect = this.props.components.find(r => r.title === name);
+    const id = e.target.name();
+    const rect = this.props.components.find(r => r.id === id);
 
     if (rect) {
       this.props.openExpansionPanel(rect);
-      this.setState({
-        selectedShapeName: name,
-      });
     } else {
       this.props.openExpansionPanel({});
-      this.setState({
-        selectedShapeName: '',
-      });
     }
   };
 
@@ -66,7 +56,7 @@ class KonvaStage extends Component {
 
   render() {
     const {
-      components, handleTransform, image, draggable, scaleX, scaleY,
+      components, handleTransform, image, draggable, scaleX, scaleY, focusComponent,
     } = this.props;
     const { selectedShapeName } = this.state;
 
@@ -102,6 +92,7 @@ class KonvaStage extends Component {
               handleTransform={handleTransform}
             />)}
             <TransformerComponent
+              focusComponent={focusComponent}
               selectedShapeName={selectedShapeName}
             />
           </Group>
@@ -122,6 +113,7 @@ KonvaStage.propTypes = {
   scaleX: PropTypes.number.isRequired,
   scaleY: PropTypes.number.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
+  focusComponent: PropTypes.object.isRequired,
 };
 
 export default KonvaStage;

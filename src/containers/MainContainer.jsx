@@ -36,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
   imagePath: store.workspace.imagePath,
+  focusComponent: store.workspace.focusComponent,
 });
 
 class MainContainer extends Component {
@@ -129,7 +130,7 @@ class MainContainer extends Component {
         closeModal,
         message: 'Are you sure you want to delete image?',
         secBtnLabel: 'Delete',
-        secBtnAction: deleteImage,
+        secBtnAction: () => { deleteImage(); closeModal(); },
       }),
     });
   }
@@ -200,6 +201,7 @@ class MainContainer extends Component {
       totalComponents,
       collapseColumn,
       rightColumnOpen,
+      focusComponent,
     } = this.props;
     const {
       increaseHeight,
@@ -239,6 +241,7 @@ class MainContainer extends Component {
                   components={components}
                   handleTransform={handleTransformation}
                   openExpansionPanel={openPanel}
+                  focusComponent={focusComponent}
                 />
               ) : <Info />
             }
