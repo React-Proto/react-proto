@@ -116,6 +116,7 @@ KonvaStage.propTypes = {
   scaleX: PropTypes.number.isRequired,
   scaleY: PropTypes.number.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
+  setImage: PropTypes.func.isRequired,
   focusComponent: PropTypes.object.isRequired,
 };
 

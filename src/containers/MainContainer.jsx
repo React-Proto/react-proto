@@ -272,7 +272,9 @@ MainContainer.propTypes = {
   collapseColumn: PropTypes.func.isRequired,
   createApp: PropTypes.func.isRequired,
   changeImagePath: PropTypes.func.isRequired,
+  imagePath: PropTypes.string.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
+  focusComponent: PropTypes.object.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

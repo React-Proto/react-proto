@@ -44,6 +44,10 @@ const styles = theme => ({
   light: {
     color: '#eee',
     // opacity: '0.8',
+
+    '&:hover': {
+      color: '#1de9b6',
+    },
   },
   label: {
     color: '#eee',

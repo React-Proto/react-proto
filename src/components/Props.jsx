@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import DeleteIcon from '@material-ui/icons/Delete';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 const styles = theme => ({
   root: {
@@ -20,10 +20,22 @@ const styles = theme => ({
   },
   chip: {
     margin: theme.spacing.unit,
+    color: '#eee',
+    backgroundColor: '#333333',
   },
   column: {
     display: 'inline-flex',
     alignItems: 'baseline',
+  },
+  icon: {
+    fontSize: '20px',
+    color: '#eee',
+    opacity: '0.7',
+    transition: 'all .2s ease',
+
+    '&:hover': {
+      color: 'red',
+    },
   },
   cssLabel: {
     color: 'white',
@@ -40,6 +52,10 @@ const styles = theme => ({
   },
   light: {
     color: '#eee',
+  },
+  avatar: {
+    color: '#eee',
+    fontSize: '10px',
   },
 });
 
@@ -158,6 +174,7 @@ class Props extends Component {
                   <InputLabel className={classes.light} htmlFor='propType'>Type</InputLabel>
                   <Select
                     native
+                    className={classes.light}
                     id='propType'
                     placeholder='title'
                     onChange={this.handleChange}
@@ -201,12 +218,13 @@ class Props extends Component {
               }, index) => (
                   <Chip
                     key={id}
-                    avatar={<Avatar>{availablePropTypes[type]}</Avatar>}
+                    avatar={<Avatar className={classes.avatar} >{availablePropTypes[type]}</Avatar>}
                     label={`${key}: ${value}`}
                     onDelete={() => deleteProp({ id, index })}
                     className={classes.chip}
+                    elevation={6}
                     color={required ? 'secondary' : 'primary'}
-                    deleteIcon={<DeleteIcon />}
+                    deleteIcon={<RemoveCircleOutlineIcon className={classes.icon} />}
                   />
               ))
             }
