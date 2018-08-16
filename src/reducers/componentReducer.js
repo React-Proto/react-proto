@@ -1,4 +1,5 @@
 import {
+  LOAD_INIT_DATA,
   ADD_COMPONENT,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
@@ -41,7 +42,6 @@ import {
   deleteProp,
 } from '../utils/componentReducer.util';
 
-
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
@@ -55,6 +55,8 @@ const initialApplicationState = {
 
 const componentReducer = (state = initialApplicationState, action) => {
   switch (action.type) {
+    case LOAD_INIT_DATA:
+      return { ...state, ...action.payload.data };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case UPDATE_COMPONENT:
