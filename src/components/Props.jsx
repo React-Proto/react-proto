@@ -240,6 +240,7 @@ Props.propTypes = {
   focusComponent: PropTypes.object.isRequired,
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(Props);
