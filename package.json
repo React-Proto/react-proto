@@ -1,6 +1,6 @@
 {
   "name": "react-proto",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An application for prototyping React components.",
   "main": "main.js",
   "homepage": "https://cs-eevee.github.io/react-proto/",
@@ -10,16 +10,28 @@
   },
   "build": {
     "appId": "com.eevee.react-proto",
+    "copyright": "Copyright © 2018",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "maintainer": "blessingebowe@gmail.com"
+    },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "icon": "build/icons/icon.icns"
+      "target": "dmg"
+    },
+    "nsis": {
+      "createStartMenuShortcut": true,
+      "createDesktopShortcut": true
+    },
+    "win": {
+      "target": "nsis-web"
     },
     "files": [
       "main.js",
-      "build/index.html",
-      "build/js/bundle.js",
-      "build/js/1.bundle.js",
-      "build/styles/style.css"
+      "build"
     ],
     "productName": "React-Proto",
     "dmg": {
@@ -38,19 +50,19 @@
     }
   },
   "scripts": {
-    "dist": "electron-builder",
-    "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "start": "electron .",
+    "build-bin": "electron-builder -mwl",
+    "start": "cross-env NODE_ENV=production electron .",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "electron": "cross-env NODE_ENV=development electron .",
     "test": "jest",
     "linter": "eslint src",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/public/icons/mac/icon.icns --prune=true --out=release-builds",
-    "installer-mac": "electron-installer-dmg --overwrite ./release-builds/react-proto-darwin-x64/react-proto.app React-Proto",
-    "package-win": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"React Proto\"",
     "installer-win": "node installers/windows/createinstaller.js"
   },
+  "bin": {
+    "react-proto": "./index.js"
+  },
+  "preferGlobal": true,
   "contributors": [
     "Blessing Ebowe <blessingebowe.repo@gmail.com> (https://www.linkedin.com/in/blessingebowe/)",
     "Brian Taylor <brianwtaylor@protonmail.com> (https://www.linkedin.com/in/brianwtaylor/)",
@@ -72,14 +84,15 @@
     "autoprefixer": "^9.0.1",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
+    "commander": "^2.17.1",
     "enzyme": "^3.4.1",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
     "react-draggable": "^3.0.5",
     "react-konva": "^1.7.12",
     "react-redux": "^5.0.7",
@@ -104,8 +117,6 @@
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
-    "electron-packager": "^12.1.0",
-    "electron-winstaller": "^2.6.4",
     "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",

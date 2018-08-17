@@ -1,11 +1,3 @@
-// handle setupevents as quickly as possible
-// const setupEvents = require('./installers/setupEvents');
-
-// if (setupEvents.handleSquirrelEvent()) {
-//   // squirrel event handled and app will exit in 1000ms, so don't do anything else
-//   return;
-// }
-
 const {
   app,
   BrowserWindow,
@@ -15,7 +7,7 @@ const {
   ipcMain,
 } = require('electron');
 
-const isDev = process.env.NODE_ENV === 'development';
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
