@@ -16,12 +16,12 @@ class Rectangle extends Component {
 
   render() {
     const {
-      title, color, x, y, componentId, draggable, width, height,
+      color, x, y, componentId, draggable, width, height,
     } = this.props;
 
     return (
       <Rect
-        name={title}
+        name={componentId}
         x={x}
         y={y}
         componentid={componentId}
@@ -41,7 +41,7 @@ class Rectangle extends Component {
 }
 
 Rectangle.propTypes = {
-  title: PropTypes.string.isRequired,
+  // title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   handleTransform: PropTypes.func.isRequired,
   x: PropTypes.number,

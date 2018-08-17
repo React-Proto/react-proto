@@ -80,6 +80,7 @@ LEFT COLUMN
 .expansionPanel {
   flex-direction: column-reverse;
   display: flex;
+  max-height: 80%;
   overflow-y: scroll;
   padding: 1%;
 }
@@ -201,6 +202,16 @@ RIGHT COLUMN
 
 .props-container {
   margin-left: 10px;
+  height: 100%;
+}
+
+.props-input {
+  margin-bottom: 15px;
+}
+
+.chips {
+  height: 55%;
+  overflow: scroll;
 }
 
 /* Sortable tree sorting */

@@ -154,9 +154,9 @@ const createWindow = () => {
     template[2].submenu.push({
       type: 'separator',
     }, {
-        label: 'Speech',
-        submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
-      });
+      label: 'Speech',
+      submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+    });
 
     // Window menu
     template[4].submenu = [

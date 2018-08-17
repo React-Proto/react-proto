@@ -13,8 +13,8 @@ export default class TransformerComponent extends Component {
 
   checkNode() {
     const stage = this.transformer.getStage();
-    const { selectedShapeName } = this.props;
-    const selectedNode = stage.findOne(`.${selectedShapeName}`);
+    const { focusComponent } = this.props;
+    const selectedNode = stage.findOne(`.${focusComponent.id}`);
 
     if (selectedNode === this.transformer.node()) {
       return;
@@ -41,5 +41,5 @@ export default class TransformerComponent extends Component {
 }
 
 TransformerComponent.propTypes = {
-  selectedShapeName: PropTypes.string,
+  focusComponent: PropTypes.object,
 };

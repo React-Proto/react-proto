@@ -76,7 +76,7 @@ class RightTabs extends Component {
       focusComponent,
       deleteProp,
       addProp,
-      rightColumnOpen
+      rightColumnOpen,
     } = this.props;
     const { value } = this.state;
 
@@ -126,6 +126,7 @@ RightTabs.propTypes = {
   focusComponent: PropTypes.object.isRequired,
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 export default withStyles(styles)(RightTabs);
