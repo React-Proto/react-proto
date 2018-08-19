@@ -43,6 +43,12 @@ const styles = theme => ({
     opacity: '0.7',
     marginBottom: '10px',
   },
+  underline: {
+    color: 'white',
+    '&::before': {
+      color: 'white',
+    },
+  },
   button: {
     color: '#fff',
 
@@ -141,7 +147,7 @@ class LeftContainer extends Component {
             <Grid item xs={10}>
               <TextField
                 id='title-input'
-                label='New component'
+                label='Add a new component'
                 placeholder='AppComponent'
                 margin='normal'
                 autoFocus

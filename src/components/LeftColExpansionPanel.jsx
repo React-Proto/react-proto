@@ -14,6 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FlipToBackIcon from '@material-ui/icons/FlipToBack';
 import FlipToFrontIcon from '@material-ui/icons/FlipToFront';
 import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
 
@@ -152,18 +153,22 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions className={classes.actions}>
-          <IconButton
-            className={classes.button}
-            onClick={() => moveToTop(id)}
-            aria-label='Flip to back'>
-            <FlipToFrontIcon className={classes.light} />
-          </IconButton>
-          <IconButton
-            className={classes.button}
-            onClick={() => moveToBottom(id)}
-            aria-label='Flip to back'>
-            <FlipToBackIcon className={classes.light} />
-          </IconButton>
+          <Tooltip title="move layer up">
+            <IconButton
+              className={classes.button}
+              onClick={() => moveToTop(id)}
+              aria-label='Flip to back'>
+              <FlipToFrontIcon className={classes.light} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="move layer down">
+            <IconButton
+              className={classes.button}
+              onClick={() => moveToBottom(id)}
+              aria-label='Flip to back'>
+              <FlipToBackIcon className={classes.light} />
+            </IconButton>
+          </Tooltip>
           <IconButton
             className={classes.button}
             onClick={() => {
@@ -176,7 +181,7 @@ const LeftColExpansionPanel = (props) => {
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div>
+    </div >
   );
 };
 

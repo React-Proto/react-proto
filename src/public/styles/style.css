@@ -46,6 +46,7 @@ header {
   background-color: #252526;
 }
 
+
 /* .column-right-export-btn {
   transition: display 400ms ease-in-out 300ms;
 } */
@@ -69,6 +70,7 @@ LEFT COLUMN
 
 .left {
   padding: 20px;
+  width: 22%;
   display: flex;
   flex-direction: column;
 }
