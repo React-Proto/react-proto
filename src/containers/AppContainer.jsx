@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.jsx';
 import RightContainer from './RightContainer.jsx';
@@ -13,6 +14,7 @@ const mapStateToProps = store => ({
   components: store.workspace.components,
   totalComponents: store.workspace.totalComponents,
   focusComponent: store.workspace.focusComponent,
+  loading: store.workspace.loading,
 });
 
 const mapDispatchToProps = { loadInitData };
@@ -42,13 +44,18 @@ class AppContainer extends Component {
   }
 
   render() {
-    const { components, totalComponents, focusComponent } = this.props;
+    const {
+      components,
+      totalComponents,
+      focusComponent,
+      loading,
+    } = this.props;
     const { width, rightColumnOpen } = this.state;
     const updatedComponents = convertIdToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="app-container">
+        <div className='app-container'>
           <LeftContainer
             components={updatedComponents}
             totalComponents={totalComponents}
@@ -67,6 +74,10 @@ class AppContainer extends Component {
             rightColumnOpen={rightColumnOpen}
             focusComponent={focusComponent}
           />
+          {
+            loading ? <div style={{ alignSelf: 'flex-end', position: 'fixed', width: '100%' }}>
+            <LinearProgress color="secondary" /></div> : null
+          }
         </div>
       </MuiThemeProvider>
     );
@@ -80,4 +91,5 @@ AppContainer.propTypes = {
   totalComponents: PropTypes.number.isRequired,
   focusComponent: PropTypes.object.isRequired,
   loadInitData: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 };

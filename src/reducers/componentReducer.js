@@ -7,8 +7,11 @@ import {
   DELETE_CHILD,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
+  EXPORT_FILES,
+  CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
+  CREATE_APPLICATION_ERROR,
   HANDLE_CLOSE,
   HANDLE_TRANSFORM,
   TOGGLE_DRAGGING,
@@ -51,12 +54,13 @@ const initialApplicationState = {
   focusComponent: {},
   components: [],
   appDir: '',
+  loading: false,
 };
 
 const componentReducer = (state = initialApplicationState, action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
-      return { ...state, ...action.payload.data };
+      return { ...state, ...action.payload.data, loading: false };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case UPDATE_COMPONENT:
@@ -71,8 +75,12 @@ const componentReducer = (state = initialApplicationState, action) => {
       return reassignParent(state, action.payload);
     case SET_SELECTABLE_PARENTS:
       return setSelectableP(state);
+    case CREATE_APPLICATION:
+    case EXPORT_FILES:
+      return { ...state, loading: true };
     case EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
+    case CREATE_APPLICATION_ERROR:
     case EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
     case HANDLE_CLOSE:

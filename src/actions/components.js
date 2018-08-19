@@ -159,7 +159,7 @@ export const createApplication = ({
       })
       .catch(err => dispatch({
         type: CREATE_APPLICATION_ERROR,
-        payload: { err },
+        payload: { status: true, err },
       }));
   }
 };

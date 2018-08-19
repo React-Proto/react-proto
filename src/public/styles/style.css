@@ -41,6 +41,10 @@ header {
   height: 100vh;
 }
 
+.progress-bar {
+  flex-grow: 1;
+}
+
 .column {
   width: 25%;
   background-color: #252526;
