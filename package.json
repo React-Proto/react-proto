@@ -1,6 +1,6 @@
 {
   "name": "react_proto",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "An application for prototyping React components.",
   "main": "main.js",
   "homepage": "https://cs-eevee.github.io/react-proto/",

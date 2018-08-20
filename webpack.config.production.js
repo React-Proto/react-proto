@@ -73,7 +73,7 @@ module.exports = {
     },
   },
   plugins: [
-    new CleanWebpackPlugin([BUILD_DIR]),
+    // new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
