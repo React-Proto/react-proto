@@ -88,6 +88,12 @@ module.exports = {
         flatten: true,
         force: true,
       },
+      {
+        from: 'public/icons/**/*',
+        to: 'icons/',
+        flatten: true,
+        force: true,
+      },
     ]),
   ],
 };
