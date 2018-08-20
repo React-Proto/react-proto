@@ -189,12 +189,14 @@ export const exportFilesSuccess = ((state, { status, dir }) => ({
   ...state,
   successOpen: status,
   appDir: dir,
+  loading: false,
 }));
 
 export const exportFilesError = ((state, { status, err }) => ({
   ...state,
   errorOpen: status,
   appDir: err,
+  loading: false,
 }));
 
 export const handleClose = ((state, status) => ({
