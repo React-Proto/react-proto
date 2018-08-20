@@ -6,18 +6,12 @@ const {
   dialog,
   ipcMain,
 } = require('electron');
-const {
-  default: installExtension,
-  REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS,
-} = require('electron-devtools-installer');
-const fs = require('fs');
 
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-const isDev = process.env.NODE_ENV === 'development';
 
 // Open image file
 function openFile() {
@@ -171,9 +165,6 @@ const createWindow = () => {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -188,6 +179,12 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   if (isDev) {
+    const {
+      default: installExtension,
+      REACT_DEVELOPER_TOOLS,
+      REDUX_DEVTOOLS,
+    } = require('electron-devtools-installer');
+
     installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
       .then(() => {
         createWindow();
