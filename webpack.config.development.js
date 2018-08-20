@@ -62,7 +62,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
       filename: 'styles/style.css',
       allChunks: true,
