@@ -13,6 +13,8 @@ If you find any issues, [file issue](https://github.com/CS-Eevee/react-proto/iss
 
 - Using the input at the top of the left column, input the name of the component you would like to create, then drag it into place and resize accordingly.
 
+<img src="https://github.com/CS-Eevee/react-proto/blob/master/assets/dragging.gif"/>
+
 - While building, you can use the icons in the toolbar to zomm in and zoom out, toggle the draggability of the stage, update or remove the image, collapse the left container, and eventually export your files.
 
 - For each component you have a series of options: You can define whether your component will have state, the color of the component on the screen, and the ability to apply a parent component.
@@ -21,12 +23,17 @@ If you find any issues, [file issue](https://github.com/CS-Eevee/react-proto/iss
 
 - After you have successfully structured your components, you can use the dropdown menu to apply parent components and visualize the hierarchy of your application structure.
 
+<img src="https://github.com/CS-Eevee/react-proto/blob/master/assets/hierarchy.gif"/>
+
 - In the right container, the props tab allows you to define props in key value pairs, as well as the necessary prop type.
 
 - Once you are finished, you can use the export button in the toolbar to choose from three options of how to export your files: 
   1. Import your files into an existing project. Just choose the path where you would like to create your components folder.
   2. Use create-react-app to start a new project (the project will be under the "proto_app").
   3. Clone your favorite Github repo to start a project with your favorite starter files.
+
+<img src="https://github.com/CS-Eevee/react-proto/blob/master/assets/export.gif"/>
+
 
 - Lastly, start building!
 
