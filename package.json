@@ -55,7 +55,6 @@
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "electron": "cross-env NODE_ENV=development electron .",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "prod-electron": "cross-env NODE_ENV=production electron .",
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
     "linter": "eslint src"
