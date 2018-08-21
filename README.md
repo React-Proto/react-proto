@@ -52,7 +52,7 @@ Run ```npm test``` or ```yarn test``` to run test suite.
 
 ## Acknowledgments
 
-* Logo Design by: [Clariz Mariano] - (https://github.com/havengoer/)
+* Logo Design by: [Clariz Mariano](www.clarizmariano.com) [@havengoer](https://github.com/havengoer)
 
 ## License
 
