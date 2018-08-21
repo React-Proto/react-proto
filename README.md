@@ -2,9 +2,9 @@
 
 [React-Proto](https://cs-eevee.github.io/react-proto/) is a React application prototyping tool.
 
-It allows you to visualize/setup your application architecture upfront and recreate this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
+React-Proto allows developers to visualize/setup your application architecture upfront and recreate this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
 
-React-Proto works on macOS, Windows, Linux.
+React-Proto works on macOS, & Windows
 If you find any issues, [file issue](https://github.com/CS-Eevee/react-proto/issues)
 
 ## How To Use
@@ -71,6 +71,18 @@ npm run linter
 ## Testing
 
 Run ```npm test``` or ```yarn test``` to run test suite.
+
+## Built With
+
+* [React](https://reactjs.org/) - Framework for building user interaces
+* [Redux](https://redux.js.org/) - Predictable state container for JavaScript apps
+* [Electron](https://electronjs.org/) - Cross-platform desktop apps with HTML, CSS and JS
+* [KonvaJS](https://konvajs.github.io/) - HTML5 2d canvas library for desktop and mobile applications
+* [React-Sortable-Tree](https://github.com/frontend-collective/react-sortable-tree#options) - Drag-and-drop sortable component for nested data and hierarchies 
+
+## Acknowledgments
+
+* Logo Design by: [Clariz Mariano] - (https://github.com/havengoer/)
 
 ## License
 
