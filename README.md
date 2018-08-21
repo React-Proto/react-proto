@@ -45,27 +45,30 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 
 [Erik Guntner](https://www.linkedin.com/in/erik-guntner-9aa324b9/) [@erikguntner](https://github.com/erikguntner)
 
+
 ## Running Your Own Version
 
-Click on the **Fork** button on the top right of the page.
+**Fork** and **Clone** Repository.
 
-<img src="https://help.github.com/assets/images/help/repository/fork_button.jpg" width="300px"></img>
 
 ``` bash
+# Open project directory
+cd react-proto
+
 # Install dependencies
-npm install
+yarn install
 
 # Run application
-npm start
+yarn start
 
 # For development environment...
-npm run dev
+yarn run dev
 
 # on another terminal
-npm run electron
+yarn run electron
 
 # Run Linter
-npm run linter
+yarn run linter
 ```
 
 ## Testing
@@ -82,7 +85,7 @@ Run ```npm test``` or ```yarn test``` to run test suite.
 
 ## Acknowledgments
 
-* Logo Design by: [Clariz Mariano] - (https://github.com/havengoer/)
+Logo Design by: [Clariz Mariano](www.clarizmariano.com) [@havengoer](https://github.com/havengoer)
 
 ## License
 
