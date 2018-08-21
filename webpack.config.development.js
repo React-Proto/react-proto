@@ -3,15 +3,17 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
-const port = process.env.PORT || 3000;
 
 module.exports = {
   mode: 'development',
+  target: 'electron-main',
   context: SRC_DIR,
-  entry: './index.js',
+  entry: ['babel-polyfill', './index.js'],
+  devtool: 'eval-source-map',
   output: {
     path: BUILD_DIR,
     filename: 'js/bundle.js',
@@ -56,10 +58,10 @@ module.exports = {
     ],
   },
   plugins: [
+    // new CleanWebpackPlugin([BUILD_DIR]),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({
       filename: 'styles/style.css',
       allChunks: true,
@@ -74,11 +76,8 @@ module.exports = {
     ]),
   ],
   devServer: {
-    historyApiFallback: true,
     contentBase: BUILD_DIR,
     hot: true,
-    open: true,
-    port,
   },
   watch: true,
 };

@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import componentReducer from './componentReducer';
 
 const reducers = combineReducers({
-  components: componentReducer,
+  workspace: componentReducer,
 });
 
 export default reducers;
