@@ -1,6 +1,6 @@
 {
-  "name": "react_proto",
-  "version": "0.1.7",
+  "name": "react-proto",
+  "version": "1.0.0",
   "description": "An application for prototyping React components.",
   "main": "main.js",
   "homepage": "https://cs-eevee.github.io/react-proto/",
@@ -55,7 +55,6 @@
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "electron": "cross-env NODE_ENV=development electron .",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
-    "prod-electron": "cross-env NODE_ENV=production electron .",
     "build-bin": "electron-builder -mwl",
     "test": "cross-env NODE_ENV=test jest",
     "linter": "eslint src"

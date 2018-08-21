@@ -8,7 +8,7 @@ const spinner = new Spinner('running app... %s');
 spinner.setSpinnerString('|/-\\');
 
 program
-  .version('0.1.7', '-v, --version, -V')
+  .version('1.0.0', '-v, --version, -V')
   .description('An application for prototyping React application.');
 
 program
