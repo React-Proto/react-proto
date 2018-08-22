@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; 
 
 module.exports = {
   mode: 'development',
