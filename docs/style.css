@@ -83,6 +83,7 @@ body {
   display: flex;
   padding: 2rem;
   justify-content: start;
+  align-items: center;
   position: relative;
   background-color: var(--color-dary-grey-1);
   /* background-color: var(--color-primary); */
@@ -90,6 +91,12 @@ body {
 
 .nav-logo {
   margin-right: auto;
+}
+
+.nav-logo > img {
+
+  width: 4rem;
+  height: 4rem;
 }
 
 .nav-list {
@@ -314,6 +321,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 4rem 0;
   margin-top: 2rem;
 }
 
@@ -345,6 +353,35 @@ body {
   align-items: center;
 }
 
+.team-profile:not(:last-child) {
+  margin-right: 4rem;
+}
+
+.erik {
+  background-image: url(assets/IMG-1710.jpeg);
+}
+
+
+.brian {
+  background-image: url(assets/BTPhoto.jpg);
+}
+
+.blessing {
+  background-image: url(assets/LadyB-007.jpg);
+}
+
+.team-images {
+  width: 30rem;
+  height: 30rem;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex: 1 1 auto; 
+  justify-content: center;
+  align-items: center;
+}
+
 .team-image img {
   width: 100%;
 }
@@ -355,9 +392,19 @@ body {
 }
 
 .team-icon {
-  height: 2rem;
-  width: 2rem;
+  height: 3rem;
+  width: 3rem;
+  transition: all .2s ease;
+  margin-right: 1rem;
+}
 
+.team-icon:hover {
+  fill: var(--color-primary-light);
+}
+
+
+a {
+  text-decoration: none;
 }
 
 /* ********************************* */
@@ -372,6 +419,16 @@ body {
   to {
     transform: translateY(0);
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .team-profiles {
+    flex-direction: column;
+  }
+
+  .team-profile:not(:last-child) {
+    margin-bottom: 4rem;
   }
 }
 
@@ -431,6 +488,6 @@ body {
   }
 
   .team-profile:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
   }
 }

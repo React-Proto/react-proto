@@ -15,20 +15,17 @@
 <body>
   <nav class="nav">
     <div class="nav-logo">
-      <a href="#">Logo</a>
+      <img src="./assets/react-proto-logo.png" alt="" srcset="">
     </div>
     <ul class="nav-list">
       <li class="nav-item">
-        <a href="#" class="nav-link">About</a>
+        <a href="#about" class="nav-link">About</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">Team</a>
+        <a href="#team" class="nav-link">Team</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">Contact</a>
-      </li>
-      <li class="nav-item">
-        <a href="https://github.com/CS-Eevee/react-proto" target="_blank">
+        <a href="https://github.com/React-Proto/react-proto" target="_blank">
           <svg class="nav-icon">
             <use xlink:href="assets/sprites.svg#icon-github"></use>
           </svg>
@@ -42,16 +39,20 @@
       <h1 class="hero-title">React Proto</h1>
       <h3 class="hero-subtitle">React prototyping for designers and developers</h3>
       <div class="buttons">
-        <button class="btn-primary hero-btn">Checkout our Github</button>
-        <button class="btn-primary hero-btn">Download React Proto</button>
+        <a href="https://github.com/React-Proto/react-proto">
+          <button class="btn-primary hero-btn">Checkout our Github</button>
+        </a>
+        <a href="https://github.com/React-Proto/react-proto/releases">
+          <button class="btn-primary hero-btn">Download React Proto</button>
+        </a>
       </div>
       <div class="github-buttons">
         <!-- Place this tag where you want the button to render. -->
-        <a class="github-button" href="https://github.com/CS-Eevee/react-proto" aria-label="Follow on GitHub">Follow</a>
+        <a class="github-button" href="https://github.com/React-Proto/react-proto" aria-label="Follow on GitHub">Follow</a>
         <!-- Place this tag where you want the button to render. -->
-        <a class="github-button" href="https://github.com/CS-Eevee/react-proto/" data-icon="octicon-eye" aria-label="Watch ntkme/github-buttons on GitHub">Watch</a>
+        <a class="github-button" href="https://github.com/React-Proto/react-proto/" data-icon="octicon-eye" aria-label="Watch ntkme/github-buttons on GitHub">Watch</a>
         <!-- Place this tag where you want the button to render. -->
-        <a class="github-button" href="https://github.com/CS-Eevee/react-proto/" data-icon="octicon-star" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+        <a class="github-button" href="https://github.com/React-Proto/react-proto/" data-icon="octicon-star" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
       </div>
     </div>
     <div class="hero-image">
@@ -59,7 +60,7 @@
     </div>
   </section>
 
-  <section class="about">
+  <section class="about" id="about">
     <div class="about-container">
       <div class="about-details">
         <div class="about-detail">
@@ -100,57 +101,75 @@
     </div>
   </section>
 
-  <section class="download">
+  <section class="download" id="download">
     <h1 class="section-title">Download React Proto</h1>
     <div class="download-buttons">
-      <button class="btn-primary">Download for Mac</button>
-      <button class="btn-primary">Download for Windows</button>
+      <a href="https://github.com/React-Proto/react-proto/releases">
+        <button class="btn-primary">Download for Mac</button>
+      </a>
+      <a href="https://github.com/React-Proto/react-proto/releases">
+        <button href="https://github.com/React-Proto/react-proto/releases" class="btn-primary">Download for Windows</button>
+      </a>
     </div>
   </section>
 
-  <section class="team">
+  <section class="team" id="team">
     <h1 class="section-title">Meet Our Team</h1>
     <div class="team-profiles">
       <div class="team-profile">
-        <img class="team-image" src="./assets/LadyB-007.jpg" alt="" srcset="">
+        <div class="team-images blessing">
+          <!-- <img src="./assets/IMG-1710.jpeg" alt="" srcset=""> -->
+        </div>
         <h5 class="team-name">Blessing Ebowe</h5>
         <div class="team-links">
-          <svg class="team-icon">
-            <use xlink:href="assets/sprites.svg#icon-github"></use>
-          </svg>
-          <svg class="team-icon">
-            <use xlink:href="assets/sprites.svg#icon-linkedin"></use>
-          </svg>
+          <a href="https://github.com/refinedblessing" target="_blank">
+            <svg class="team-icon">
+              <use xlink:href="assets/sprites.svg#icon-github"></use>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/blessingebowe/" target="_blank">
+            <svg class="team-icon">
+              <use xlink:href="assets/sprites.svg#icon-linkedin"></use>
+            </svg>
+          </a>
         </div>
       </div>
 
       <div class="team-profile">
-        <div class="team-image">
-          <img src="./assets/IMG-1710.jpeg" alt="" srcset="">
+        <div class="team-images erik">
+          <!-- <img src="./assets/IMG-1710.jpeg" alt="" srcset=""> -->
         </div>
         <h5 class="team-name">Erik Guntner</h5>
         <div class="team-links">
-          <svg class="team-icon">
-            <use xlink:href="assets/sprites.svg#icon-github"></use>
-          </svg>
-          <svg class="team-icon">
-            <use xlink:href="assets/sprites.svg#icon-linkedin"></use>
-          </svg>
+          <a href="https://github.com/erikguntner" target="_blank">
+            <svg class="team-icon">
+              <use xlink:href="assets/sprites.svg#icon-github"></use>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/erik-guntner-9aa324b9/" target="_blank">
+            <svg class="team-icon">
+              <use xlink:href="assets/sprites.svg#icon-linkedin"></use>
+            </svg>
+          </a>
         </div>
       </div>
 
       <div class="team-profile">
-        <div class="team-image">
-          <img src="./assets/BTPhoto.jpg" alt="" srcset="">
+        <div class="team-images brian">
+          <!-- <img src="./assets/BTPhoto.jpg" alt="" srcset=""> -->
         </div>
-        <h5 class="team-name ">Brian Taylor</h5>
-        <div class="team-links ">
-          <svg class="team-icon ">
-            <use xlink:href="assets/sprites.svg#icon-github "></use>
-          </svg>
-          <svg class="team-icon ">
-            <use xlink:href="assets/sprites.svg#icon-linkedin "></use>
-          </svg>
+        <h5 class="team-name">Brian Taylor</h5>
+        <div class="team-links">
+          <a href="https://github.com/brianwtaylor" target="_blank">
+            <svg class="team-icon ">
+              <use xlink:href="assets/sprites.svg#icon-github "></use>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/in/brianwtaylor/" target="_blank">
+            <svg class="team-icon">
+              <use xlink:href="assets/sprites.svg#icon-linkedin"></use>
+            </svg>
+          </a>
         </div>
       </div>
     </div>
