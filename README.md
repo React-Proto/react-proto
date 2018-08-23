@@ -2,9 +2,9 @@
 
 <img src="https://github.com/React-Proto/react-proto/blob/master/icons/png/64x64.png"/>
  
-[React-Proto](https://react-proto.github.io/react-proto/) is a React application prototyping tool.
+[React-Proto](https://react-proto.github.io/react-proto/) is a React application prototyping tool for developers and designers.
 
-React-Proto allows developers to visualize/setup your application architecture upfront and recreate this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
+React-Proto allows the user to visualize/setup their application architecture upfront and eject this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
 
 Download for [MacOS](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto-1.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto.Web.Setup.1.0.0.exe), [Linux](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/react-proto_1.0.0_amd64.deb).
 
