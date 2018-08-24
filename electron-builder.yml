@@ -14,6 +14,7 @@ mac:
 nsis:
   createStartMenuShortcut: true
   createDesktopShortcut: true
+  runAfterFinish: true
 win:
   target: nsis-web
 files:
