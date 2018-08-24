@@ -24,7 +24,8 @@
     },
     "nsis": {
       "createStartMenuShortcut": true,
-      "createDesktopShortcut": true
+      "createDesktopShortcut": true,
+      "runAfterFinish": true
     },
     "win": {
       "target": "nsis-web"

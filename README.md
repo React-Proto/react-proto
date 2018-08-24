@@ -12,6 +12,8 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 
 ## How To Use
 
+- Application can be run from cli  using ```react-proto``` command or by clicking on the application icon.
+
 - To start a new project, either import a mockup or start with a blank stage.
 
 - Add components you would like to create using the input, then drag the component frame into place and resize accordingly.
@@ -35,7 +37,6 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 
 <img src="https://github.com/React-Proto/react-proto/blob/master/assets/export.gif"/>
 
-
 - Lastly, start building!
 
 ## Authors
@@ -45,7 +46,6 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 [Brian Taylor](https://www.linkedin.com/in/brianwtaylor/) [@brianwtaylor](https://github.com/brianwtaylor)
 
 [Erik Guntner](https://www.linkedin.com/in/erik-guntner-9aa324b9/) [@erikguntner](https://github.com/erikguntner)
-
 
 ## Running Your Own Version
 
@@ -95,11 +95,11 @@ yarn test
 
 ## Built With
 
-* [React](https://reactjs.org/) - Framework for building user interaces
-* [Redux](https://redux.js.org/) - Predictable state container for JavaScript apps
-* [Electron](https://electronjs.org/) - Cross-platform desktop apps with HTML, CSS and JS
-* [KonvaJS](https://konvajs.github.io/) - HTML5 2d canvas library for desktop and mobile applications
-* [React-Sortable-Tree](https://github.com/frontend-collective/react-sortable-tree#options) - Drag-and-drop sortable component for nested data and hierarchies 
+- [React](https://reactjs.org/) - Framework for building user interaces.
+- [Redux](https://redux.js.org/) - Predictable state container for JavaScript apps.
+- [Electron](https://electronjs.org/) - Cross-platform desktop apps with HTML, CSS and JS.
+- [KonvaJS](https://konvajs.github.io/) - HTML5 2d canvas library for desktop and mobile applications.
+- [React-Sortable-Tree](https://github.com/frontend-collective/react-sortable-tree#options) - Drag-and-drop sortable component for nested data and hierarchies.
 
 ## Acknowledgments
 
