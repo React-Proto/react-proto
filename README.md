@@ -1,12 +1,13 @@
-# React-Proto [![Build Status](https://travis-ci.com/CS-Eevee/react-proto.svg?branch=master)](https://travis-ci.com/CS-Eevee/react-proto) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
+# React-Proto [![Build Status](https://travis-ci.com/React-Proto/react-proto.svg?branch=master)](https://travis-ci.com/React-Proto/react-proto) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 
 <img src="https://github.com/React-Proto/react-proto/blob/master/icons/png/64x64.png"/>
  
-[React-Proto](https://react-proto.github.io/react-proto/) is a React application prototyping tool.
+[React-Proto](https://react-proto.github.io/react-proto/) is a React application prototyping tool for developers and designers.
 
-React-Proto allows developers to visualize/setup your application architecture upfront and recreate this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
+React-Proto allows the user to visualize/setup their application architecture upfront and eject this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
 
-React-Proto works on macOS, & Windows
+Download for [MacOS](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto-1.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto.Web.Setup.1.0.0.exe), [Linux](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/react-proto_1.0.0_amd64.deb).
+
 If you find any issues, [file issue](https://github.com/React-Proto/react-proto/issues)
 
 ## How To Use
@@ -48,32 +49,49 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 
 ## Running Your Own Version
 
-**Fork** and **Clone** Repository.
+- **Fork** and **Clone** Repository.
 
+- Open project directory
 
 ``` bash
-# Open project directory
 cd react-proto
+```
 
-# Install dependencies
+- Install dependencies
+
+``` bash
 yarn install
+```
 
-# Run application
+- Run application
+
+``` bash
 yarn start
+```
 
-# For development environment...
-yarn run dev
+- For development experience...
 
-# on another terminal
-yarn run electron
+``` bash
+yarn dev
+```
 
-# Run Linter
-yarn run linter
+- and on another terminal
+
+``` bash
+yarn electron
+```
+
+## Linting
+
+``` bash
+yarn linter
 ```
 
 ## Testing
 
-Run ```npm test``` or ```yarn test``` to run test suite.
+```bash
+yarn test
+```
 
 ## Built With
 
