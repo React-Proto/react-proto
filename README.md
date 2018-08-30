@@ -7,6 +7,7 @@
 React-Proto allows the user to visualize/setup their application architecture upfront and eject this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
 
 Download for [MacOS](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto-1.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto.Web.Setup.1.0.0.exe), [Linux](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/react-proto_1.0.0_amd64.deb).
+* Mac users only: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
 If you find any issues, [file issue](https://github.com/React-Proto/react-proto/issues)
 
