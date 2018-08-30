@@ -7,10 +7,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');
-<<<<<<< HEAD
-const port = process.env.PORT || 3000; 
-=======
->>>>>>> dc574b3fb6fb7596d9158a4587e539bc31fc0cf0
 
 module.exports = {
   mode: 'development',
