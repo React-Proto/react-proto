@@ -1,0 +1,32 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.eevee.react-proto
+copyright: Copyright © 2018
+linux:
+  target:
+    - AppImage
+    - deb
+  maintainer: blessingebowe@gmail.com
+mac:
+  category: public.app-category.developer-tools
+  target: dmg
+nsis:
+  createStartMenuShortcut: true
+  createDesktopShortcut: true
+  runAfterFinish: true
+win:
+  target: nsis-web
+files:
+  - main.js
+  - build
+productName: React-Proto
+dmg:
+  contents:
+    - x: 110
+      'y': 150
+    - x: 240
+      'y': 150
+      type: link
+      path: /Applications
+electronVersion: 2.0.7

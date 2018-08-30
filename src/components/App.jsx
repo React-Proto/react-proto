@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import Rnd from 'react-rnd';
-import LeftContainer from '../containers/LeftContainer';
-import MainContainer from '../containers/MainContainer';
-import RightContainer from '../containers/RightContainer';
-// import Rnd from 'react-rnd';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
 import '../public/styles/style.css';
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './theme';
+import AppContainer from '../containers/AppContainer.jsx';
 
 class App extends Component {
   render() {
     return (
-      <div className="app-container">
-        <LeftContainer />
-        <MainContainer />
-        <RightContainer />
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div className="app">
+          <div>
+            <header style={{ height: '40px', width: '100%' }}>React Proto</header>
+            <AppContainer />
+          </div>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

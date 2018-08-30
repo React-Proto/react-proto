@@ -11,8 +11,9 @@
     "sourceType": "module"
   },
   "plugins": [
-    "import",                                                                                                              
-    "react",                                                                                                               
+    "import",
+    "react",
+    "jest",
     "jsx-a11y",
     "babel"
   ],
@@ -20,7 +21,8 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "rules": {
     "class-methods-use-this": "off"
