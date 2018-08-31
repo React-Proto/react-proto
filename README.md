@@ -1,6 +1,6 @@
 # React-Proto [![Build Status](https://travis-ci.com/React-Proto/react-proto.svg?branch=master)](https://travis-ci.com/React-Proto/react-proto) [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 
-<img src="https://github.com/React-Proto/react-proto/blob/master/icons/png/64x64.png"/>
+<img src="https://github.com/React-Proto/react-proto/blob/master/src/public/icons/png/64x64.png"/>
  
 [React-Proto](https://react-proto.github.io/react-proto/) is a React application prototyping tool for developers and designers.
 
@@ -104,7 +104,12 @@ yarn test
 
 ## Acknowledgments
 
-Logo Design by: [Clariz Mariano](www.clarizmariano.com) [@havengoer](https://github.com/havengoer)
+### Logo Design
+
+[Clariz Mariano](www.clarizmariano.com) [@havengoer](https://github.com/havengoer)
+
+[Joe Thel](https://www.linkedin.com/in/joe-thel/) [@fakemonster](https://github.com/fakemonster)
+
 
 ## License
 
