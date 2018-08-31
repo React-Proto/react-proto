@@ -90,7 +90,7 @@ class RightTabs extends Component {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label="Heirarchy"
+            label="Hierarchy"
           />
           <Tab
             disableRipple
