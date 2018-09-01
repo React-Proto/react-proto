@@ -60,7 +60,14 @@ const initialApplicationState = {
 const componentReducer = (state = initialApplicationState, action) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
-      return { ...state, ...action.payload.data, loading: false };
+      return {
+        ...state,
+        ...action.payload.data,
+        loading: false,
+        appDir: '',
+        successOpen: false,
+        errorOpen: false,
+      };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case UPDATE_COMPONENT:

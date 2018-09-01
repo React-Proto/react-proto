@@ -5,11 +5,12 @@ import componentRender from './componentRender.util';
 const createFiles = (data, path) => {
   let dir = path;
   if (!dir.match(/components|\*$/)) {
+    if (fs.existsSync(`${dir}/src`)) {
+      dir = `${dir}/src`;
+    }
     dir = `${dir}/components`;
     if (!fs.existsSync(dir)) {
-      fs.mkdir(dir, (err) => {
-        if (err) console.error(err);
-      });
+      fs.mkdirSync(dir);
     }
   }
   const promises = [];

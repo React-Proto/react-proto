@@ -44,7 +44,7 @@ class MainContainer extends Component {
     repoUrl: '',
     image: '',
     modal: null,
-    genOptions: ['Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'],
+    genOptions: ['Export into existing project.', 'Export with starter repo.', 'Export with create-react-app.'],
     genOption: 0,
     draggable: false,
     toggleClass: true,
@@ -172,7 +172,7 @@ class MainContainer extends Component {
     this.setState({ genOption });
     // closeModal
     this.closeModal();
-    if (genOption === 2) {
+    if (genOption === 1) {
       this.displayUrlModal();
     } else {
       // Choose app dir
