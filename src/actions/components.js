@@ -136,7 +136,7 @@ export const handleTransform = (id, {
 
 // Application generation options
 // cosnt genOptions = [
-//   'Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'
+//   'Export into existing project.', 'Export with starter repo.', 'Export with create-react-app.'
 // ];
 
 export const createApplication = ({
