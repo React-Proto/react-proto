@@ -136,7 +136,7 @@ export const handleTransform = (id, {
 
 // Application generation options
 // cosnt genOptions = [
-//   'Export into existing project.', 'Export with create-react-app.', 'Export with starter repo'
+//   'Export into existing project.', 'Export with starter repo.', 'Export with create-react-app.'
 // ];
 
 export const createApplication = ({
@@ -155,7 +155,7 @@ export const createApplication = ({
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
-        dispatch(exportFiles({ path: `${path}/${appName}/src`, components }));
+        dispatch(exportFiles({ path: `${path}/${appName}`, components }));
       })
       .catch(err => dispatch({
         type: CREATE_APPLICATION_ERROR,
