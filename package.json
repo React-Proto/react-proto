@@ -51,7 +51,6 @@
     }
   },
   "scripts": {
-    "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "start": "cross-env NODE_ENV=production electron .",
     "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
     "electron": "cross-env NODE_ENV=development electron .",
