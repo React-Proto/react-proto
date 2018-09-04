@@ -102,6 +102,12 @@ class Props extends Component {
     });
   }
 
+  togglePropRequired = () => {
+    this.setState({
+      propRequired: !this.state.propRequired,
+    });
+  }
+
   handleAddProp = (event) => {
     event.preventDefault();
     const {
@@ -191,7 +197,7 @@ class Props extends Component {
                   <InputLabel className={classes.light} htmlFor='propRequired'>Required?</InputLabel>
                   <Switch
                     checked={this.state.propRequired}
-                    onChange={this.handleChange}
+                    onChange={this.togglePropRequired}
                     value='propRequired'
                     color='secondary'
                     id='propRequired'
