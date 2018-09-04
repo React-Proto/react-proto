@@ -77,13 +77,14 @@ const typeOptions = [
     key=''
   >
   </option>,
-  ...Object.keys(availablePropTypes).map(
-    type => <option
+  ...Object.keys(availablePropTypes).map(type => 
+  <option
       value={type}
       key={type}
+      style={{ color: '#000'}}
     >
       {type}
-    </option>,
+  </option>,
   ),
 ];
 
