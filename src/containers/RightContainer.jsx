@@ -77,6 +77,7 @@ RightContainer.propTypes = {
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
+  rightColumnOpen: PropTypes.bool.isRequired,
 };
 
 

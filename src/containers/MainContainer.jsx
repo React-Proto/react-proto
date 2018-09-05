@@ -221,10 +221,13 @@ class MainContainer extends Component {
       showGenerateAppModal,
       setImage,
     } = this;
+    const cursor = this.state.draggable ? 'move' : 'default';
 
     return (
       <MuiThemeProvider theme={theme}>
-        <div className="main-container">
+        <div
+          className="main-container"
+          style={{ cursor }}>
           <MainContainerHeader
             image={image}
             increaseHeight={increaseHeight}
