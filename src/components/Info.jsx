@@ -2,7 +2,7 @@ import React from "react";
 
 let command;
 
-window.navigator.platform.match(/^mac/) ? command = 'Cmd+O' : command = 'Ctrl+Shift+O';
+const command = window.navigator.platform.match(/^mac/) ? 'Cmd+O' : 'Ctrl+Shift+O';
 
 const Info = () => (
   <div className="info">
