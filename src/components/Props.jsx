@@ -77,13 +77,15 @@ const typeOptions = [
     key=''
   >
   </option>,
-  ...Object.keys(availablePropTypes).map(
-    type => <option
+  ...Object.keys(availablePropTypes).map(type => (
+    <option
       value={type}
       key={type}
+      style={{ color: '#000'}}
     >
       {type}
-    </option>,
+    </option>
+    ),
   ),
 ];
 
@@ -98,6 +100,12 @@ class Props extends Component {
   handleChange = (event) => {
     this.setState({
       [event.target.id]: event.target.value.trim(),
+    });
+  }
+
+  togglePropRequired = () => {
+    this.setState({
+      propRequired: !this.state.propRequired,
     });
   }
 
@@ -190,7 +198,7 @@ class Props extends Component {
                   <InputLabel className={classes.light} htmlFor='propRequired'>Required?</InputLabel>
                   <Switch
                     checked={this.state.propRequired}
-                    onChange={this.handleChange}
+                    onChange={this.togglePropRequired}
                     value='propRequired'
                     color='secondary'
                     id='propRequired'

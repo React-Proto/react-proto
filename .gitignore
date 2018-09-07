@@ -154,6 +154,9 @@ $RECYCLE.BIN/
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#VSCode
+.vscode/
+
 # User-specific files
 *.suo
 *.user
