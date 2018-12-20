@@ -110,7 +110,7 @@ const LeftColExpansionPanel = (props) => {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.label} htmlFor='stateful'>Stateful???</InputLabel>
             <Switch
               checked={stateful}
               onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
