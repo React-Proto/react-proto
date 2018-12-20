@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
+import Routes from './Routes.jsx';
 
 const styles = theme => ({
   root: {
@@ -81,20 +82,18 @@ const LeftColExpansionPanel = (props) => {
     color,
     parent,
     selectableParents,
+    router,
   } = component;
 
   const parentOptions = [
-    <option value='null' key=''>
+    <option value="null" key="">
       None
     </option>,
-    ...selectableParents.map(
-      selectableParent => <option
-        value={selectableParent.id}
-        key={selectableParent.id}
-      >
+    ...selectableParents.map(selectableParent => (
+      <option value={selectableParent.id} key={selectableParent.id}>
         {selectableParent.title}
-      </option>,
-    ),
+      </option>
+    )),
   ];
 
   return (
@@ -105,38 +104,61 @@ const LeftColExpansionPanel = (props) => {
         onChange={() => onExpansionPanelChange(component)}
         elevation={4}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon style={{ color }} />}
+        >
           <Typography className={classes.light}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.label} htmlFor="stateful">
+              Stateful?
+            </InputLabel>
             <Switch
               checked={stateful}
-              onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
-              value='stateful'
-              color='primary'
-              id='stateful'
+              onChange={event => updateComponent({ stateful: event.target.checked, index, id })
+              }
+              value="stateful"
+              color="primary"
+              id="stateful"
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='boxColor'>Box Color</InputLabel>
+            <InputLabel className={classes.label} htmlFor="stateful">
+              Router??
+            </InputLabel>
+            <Switch
+              checked={router}
+              onChange={event => updateComponent({ router: event.target.checked, index, id })
+              }
+              value="stateful"
+              color="primary"
+              id="stateful"
+            />
+          </div>
+          <div className={classes.column}>
+            <InputLabel className={classes.label} htmlFor="boxColor">
+              Box Color
+            </InputLabel>
             <Input
-              type='color'
-              id='boxColor'
+              type="color"
+              id="boxColor"
               disableUnderline={true}
               value={color}
-              onChange={event => updateComponent({ color: event.target.value, index, id })}
+              onChange={event => updateComponent({ color: event.target.value, index, id })
+              }
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='parentSelect'>Parent</InputLabel>
+            <InputLabel className={classes.label} htmlFor="parentSelect">
+              Parent
+            </InputLabel>
             <Select
               className={classes.light}
               native
               value={parent.id}
-              id='parentSelect'
-              name='parentName'
+              id="parentSelect"
+              name="parentName"
               onChange={(event) => {
                 const newParentId = event.target.value;
                 updateComponent({
@@ -150,6 +172,9 @@ const LeftColExpansionPanel = (props) => {
               {parentOptions}
             </Select>
           </div>
+          <div className="classes.column">
+            <Routes component={component} classes={classes} />
+          </div>
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions className={classes.actions}>
@@ -157,7 +182,8 @@ const LeftColExpansionPanel = (props) => {
             <IconButton
               className={classes.button}
               onClick={() => moveToTop(id)}
-              aria-label='Flip to back'>
+              aria-label="Flip to back"
+            >
               <FlipToFrontIcon className={classes.light} />
             </IconButton>
           </Tooltip>
@@ -165,7 +191,8 @@ const LeftColExpansionPanel = (props) => {
             <IconButton
               className={classes.button}
               onClick={() => moveToBottom(id)}
-              aria-label='Flip to back'>
+              aria-label="Flip to back"
+            >
               <FlipToBackIcon className={classes.light} />
             </IconButton>
           </Tooltip>
@@ -173,15 +200,18 @@ const LeftColExpansionPanel = (props) => {
             className={classes.button}
             onClick={() => {
               deleteComponent({
-                index, id, parent,
+                index,
+                id,
+                parent,
               });
             }}
-            aria-label='Delete'>
+            aria-label="Delete"
+          >
             <DeleteIcon className={classes.light} />
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div >
+    </div>
   );
 };
 
