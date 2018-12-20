@@ -93,6 +93,7 @@ const saveWorkspace = () => {
       }],
     },
     (filename) => {
+      if (!filename) return; // if no file return to main window
       // send identified new file path back to React application
       mainWindow.webContents.send('new-workspace', filename);
     },
