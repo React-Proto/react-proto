@@ -133,12 +133,14 @@ class LeftContainer extends Component {
         moveToTop={moveToTop}
       />,
     );
-    // className={classes.root}
+    console.log('classes', classes);
 
     return (
       <div className='column left'>
         <FormControl
           fullWidth={true}
+
+          // what is this??
           formlabellasses={{
             root: classes.cssLabel,
           }}

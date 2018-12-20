@@ -4,6 +4,7 @@ import getColor from './colors.util';
 const initialComponentState = {
   id: null,
   stateful: false,
+  router: false,
   title: '',
   parentId: '',
   color: getColor(),
@@ -51,7 +52,7 @@ export const addComponent = (state, { title }) => {
 };
 
 export const updateComponent = ((state, {
-  id, newParentId = null, color = null, stateful = null, props = null,
+  id, newParentId = null, color = null, stateful = null, props = null, router = null,
 }) => {
   let component;
   const components = state.components.map((comp) => {
@@ -68,6 +69,7 @@ export const updateComponent = ((state, {
       }
       component.color = color || component.color;
       component.stateful = stateful === null ? component.stateful : stateful;
+      component.router = router === null ? component.router : router;
       return component;
     }
     return comp;
