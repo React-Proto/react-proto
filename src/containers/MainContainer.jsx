@@ -8,7 +8,9 @@ import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
 import {
-  toggleDragging, openExpansionPanel, handleTransform, createApplication, changeImagePath,
+  toggleDragging, openExpansionPanel, handleTransform,
+  createApplication, changeImagePath, exportWorkspace,
+  importWorkspace,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -19,24 +21,52 @@ const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleTransformation: (id, {
-    x, y, width, height,
+    x,
+    y,
+    width,
+    height,
   }) => dispatch(handleTransform(id, {
-    x, y, width, height,
+    x,
+    y,
+    width,
+    height,
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
   createApp: ({
-    path, components, genOption, repoUrl,
-  }) => dispatch(createApplication({
-    path, components, genOption, repoUrl,
-  })),
+    path, components,
+    genOption, repoUrl,
+  }) => dispatch(
+    createApplication({
+      path,
+      components,
+      genOption,
+      repoUrl,
+    }),
+  ),
   changeImagePath: path => dispatch(changeImagePath(path)),
+  exportWorkspace: ({
+    workspaceFilePath, totalComponents, nextId,
+    imagePath, focusComponent, components,
+  }) => dispatch(
+    exportWorkspace({
+      workspaceFilePath,
+      totalComponents,
+      nextId,
+      imagePath,
+      focusComponent,
+      components,
+    }),
+  ),
+  importWorkspace: ({ workspaceFilePath }) => dispatch(importWorkspace({ workspaceFilePath })),
 });
 
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
   imagePath: store.workspace.imagePath,
   focusComponent: store.workspace.focusComponent,
+  nextId: store.workspace.nextId,
+  components: store.workspace.components,
 });
 
 class MainContainer extends Component {
@@ -74,6 +104,29 @@ class MainContainer extends Component {
         path, components, genOption, repoUrl,
       });
     });
+
+    IPC.on('chosen-workspace', (event, workspaceFilePath) => {
+      // Trigger importWorkspace handler via this.props
+      this.props.importWorkspace({
+        workspaceFilePath,
+      });
+    });
+
+    IPC.on('new-workspace', (event, workspaceFilePath) => {
+      const {
+        totalComponents, nextId, imagePath,
+        focusComponent, components,
+      } = this.props;
+      // Trigger exportWorkspace handler via this.props
+      this.props.exportWorkspace({
+        workspaceFilePath,
+        totalComponents,
+        nextId,
+        imagePath,
+        focusComponent,
+        components,
+      });
+    });
   }
 
   setImage = () => {
@@ -98,6 +151,22 @@ class MainContainer extends Component {
 
   updateImage = () => {
     IPC.send('update-file');
+  }
+
+  /*
+   * openWorkspace: Emit an event 'open_workspace'
+   *                via IPC to electron menus
+   */
+  openWorkspace = () => {
+    IPC.send('open_workspace');
+  }
+
+  /*
+   * saveWorkspace: Emit an event 'save_workspace'
+   *                via IPC to electron menus
+   */
+  saveWorkspace = () => {
+    IPC.send('save_workspace');
   }
 
   increaseHeight = () => {
@@ -220,6 +289,8 @@ class MainContainer extends Component {
       showImageDeleteModal,
       showGenerateAppModal,
       setImage,
+      openWorkspace,
+      saveWorkspace,
     } = this;
 
     return (
@@ -238,6 +309,8 @@ class MainContainer extends Component {
             rightColumnOpen={rightColumnOpen}
             components={components}
             toggleClass={toggleClass}
+            openWorkspace={openWorkspace}
+            saveWorkspace={saveWorkspace}
           />
           <div className="main" ref={main}>
             {
@@ -275,6 +348,9 @@ MainContainer.propTypes = {
   imagePath: PropTypes.string.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
   focusComponent: PropTypes.object.isRequired,
+  importWorkspace: PropTypes.func.isRequired,
+  exportWorkspace: PropTypes.func.isRequired,
+  nextId: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
