@@ -1,7 +1,9 @@
 const componentRender = (component) => {
-  console.log(component);
   const {
-    children, title, props, stateful,
+    children,
+    title,
+    props,
+    stateful,
     // router, routes,
   } = component;
 
@@ -53,7 +55,7 @@ const componentRender = (component) => {
         return (
           ${router ? '<Router><div>' : '<div>'}
           ${
-  stateful && !router
+  stateful
     ? children
       .map(
         child => `<${child.title} ${child.props
