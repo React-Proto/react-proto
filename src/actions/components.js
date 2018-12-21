@@ -23,12 +23,17 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  EXPORT_WORKSPACE,
+  EXPORT_WORKSPACE_ERROR,
+  EXPORT_WORKSPACE_SUCCESS,
+  IMPORT_WORKSPACE,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
 
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+import createWorkspaceFile from '../utils/createWorkspaceFile.util';
 
 export const loadInitData = () => (dispatch) => {
   loadState()
@@ -119,6 +124,49 @@ export const exportFiles = ({ components, path }) => (dispatch) => {
       payload: { status: true, err },
     }));
 };
+
+/*
+ *  exportWorkspace: Dispatch action EXPORT_WORKSPACE then dispatch
+ *                   EXPORT_WORKSPACE_SUCCESS or EXPORT_WORKSPACE_ERROR
+ *                   based on outcome of exporting the current state into
+ *                   a zip file.
+ */
+export const exportWorkspace = workspaceData => (dispatch) => {
+  dispatch({
+    type: EXPORT_WORKSPACE,
+  });
+
+  createWorkspaceFile(workspaceData)
+    .then((workspaceFilePath) => {
+      dispatch(
+        {
+          // What needs to be passed on Success??
+          type: EXPORT_WORKSPACE_SUCCESS,
+          payload: { status: true, workspaceFilePath },
+        },
+      );
+    })
+    .catch((err) => {
+      dispatch(
+        {
+          type: EXPORT_WORKSPACE_ERROR,
+          payload: { status: true, err },
+        },
+      );
+    });
+};
+
+
+/*
+ *  importWorkspace: Dispatch action IMPORT_WORKSPACE. This action should
+ *                   be synchronous since we are affecting the application
+ *                   store(s)/state(s).
+ */
+export const importWorkspace = ({ workspaceFilePath }) => ({
+  type: IMPORT_WORKSPACE,
+  payload: workspaceFilePath,
+});
+
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
