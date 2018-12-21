@@ -140,7 +140,6 @@ export const exportWorkspace = workspaceData => (dispatch) => {
     .then((workspaceFilePath) => {
       dispatch(
         {
-          // What needs to be passed on Success??
           type: EXPORT_WORKSPACE_SUCCESS,
           payload: { status: true, workspaceFilePath },
         },
