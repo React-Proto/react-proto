@@ -22,6 +22,10 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
+  EXPORT_WORKSPACE,
+  EXPORT_WORKSPACE_ERROR,
+  EXPORT_WORKSPACE_SUCCESS,
+  IMPORT_WORKSPACE,
 } from '../actionTypes';
 
 import {
@@ -43,6 +47,9 @@ import {
   changeImagePath,
   addProp,
   deleteProp,
+  exportWorkspaceError,
+  exportWorkspaceSuccess,
+  importWorkspace,
 } from '../utils/componentReducer.util';
 
 const initialApplicationState = {
@@ -110,6 +117,14 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case EXPORT_WORKSPACE:
+      return { ...state, loading: true };
+    case EXPORT_WORKSPACE_SUCCESS:
+      return exportWorkspaceSuccess(state, action.payload);
+    case EXPORT_WORKSPACE_ERROR:
+      return exportWorkspaceError(state, action.payload);
+    case IMPORT_WORKSPACE:
+      return importWorkspace(state, action.payload);
     default:
       return state;
   }
