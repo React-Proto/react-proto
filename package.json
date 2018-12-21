@@ -75,6 +75,9 @@
       "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
       "electron": "<rootDir>/__mocks__/electron.js"
     },
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "setupFiles": [
       "./src/setupTests.js"
     ]
@@ -83,11 +86,14 @@
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.0",
     "autoprefixer": "^9.0.1",
+    "babel-jest": "^23.6.0",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
-    "enzyme": "^3.4.1",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
@@ -119,7 +125,6 @@
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
-    "enzyme-adapter-react-16": "^1.2.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
