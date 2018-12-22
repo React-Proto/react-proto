@@ -119,14 +119,14 @@ const MainContainerHeader = (props) => {
       <div className="main-header-buttons" >
         <Tooltip title="save workspace as">
           <div>
-            <Button disabled={!image} color="default" className={classes.button} onClick={saveWorkspace}>
+            <Button color="default" className={classes.button} onClick={saveWorkspace}>
               <SaveAltIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
         <Tooltip title="open workspace">
           <div>
-            <Button disabled={!image} color="default" className={classes.button} onClick={openWorkspace}>
+            <Button color="default" className={classes.button} onClick={openWorkspace}>
               <OpenInBrowserIcon className={classes.light} />
             </Button>
           </div>
