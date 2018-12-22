@@ -1,4 +1,5 @@
 import setSelectableParents from './setSelectableParents.util';
+import readWorkspaceFile from './readWorkspaceFile.util';
 import getColor from './colors.util';
 
 const initialComponentState = {
@@ -198,6 +199,40 @@ export const exportFilesError = ((state, { status, err }) => ({
   appDir: err,
   loading: false,
 }));
+
+
+export const exportWorkspaceSuccess = ((state, { status, workspaceFilePath }) => ({
+  ...state,
+  successOpen: status,
+  appDir: workspaceFilePath,
+  loading: false,
+}));
+
+
+export const exportWorkspaceError = ((state, { status, err }) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err,
+  loading: false,
+}));
+
+export const importWorkspace = (state, workspaceFilePath) => {
+  try {
+    const retrievedWorkspaceData = readWorkspaceFile(workspaceFilePath);
+    return ({
+      ...state,
+      ...retrievedWorkspaceData,
+      loading: false,
+    });
+  } catch (err) {
+    return ({
+      ...state,
+      errorOpen: true,
+      appDir: err.message,
+      loading: false,
+    });
+  }
+};
 
 export const handleClose = ((state, status) => ({
   ...state,
