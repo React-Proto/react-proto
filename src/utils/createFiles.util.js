@@ -17,13 +17,14 @@ const createFiles = (data, path) => {
   data.forEach((component) => {
     const newPromise = new Promise((resolve, reject) => {
       fs.writeFile(`${dir}/${component.title}.jsx`,
-        format(componentRender(component, data), {
-          singleQuote: true,
-          trailingComma: 'es5',
-          bracketSpacing: true,
-          jsxBracketSameLine: true,
-          parser: 'babylon',
-        }),
+        componentRender(component, data),
+        // , {
+        //   singleQuote: true,
+        //   trailingComma: 'es5',
+        //   bracketSpacing: true,
+        //   jsxBracketSameLine: true,
+        //   parser: 'babylon',
+        // }),
         (err) => {
           if (err) return reject(err.message);
           return resolve(path);

@@ -5,6 +5,7 @@ const initialComponentState = {
   id: null,
   stateful: false,
   router: false,
+  routes: [],
   title: '',
   parentId: '',
   color: getColor(),
