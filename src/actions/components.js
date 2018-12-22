@@ -137,10 +137,7 @@ export const exportWorkspace = workspaceData => (dispatch) => {
   });
 
   createWorkspaceFile(workspaceData)
-    .then((data) => {
-      // Promise.all() used within createWorkspaceFile
-      // which will return an array
-      const workspaceFilePath = data[0];
+    .then((workspaceFilePath) => {
       dispatch({
         type: EXPORT_WORKSPACE_SUCCESS,
         payload: { status: true, workspaceFilePath },
@@ -160,6 +157,9 @@ export const exportWorkspace = workspaceData => (dispatch) => {
  *                   be synchronous since we are affecting the application
  *                   store(s)/state(s).
  */
+
+// Need to Initialize the state/store with retrievedWorkspaceData
+// Need to CHANGE_IMAGE_PATH
 export const importWorkspace = ({ workspaceFilePath }) => ({
   type: IMPORT_WORKSPACE,
   payload: workspaceFilePath,
