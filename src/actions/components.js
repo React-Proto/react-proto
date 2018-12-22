@@ -137,21 +137,20 @@ export const exportWorkspace = workspaceData => (dispatch) => {
   });
 
   createWorkspaceFile(workspaceData)
-    .then((workspaceFilePath) => {
-      dispatch(
-        {
-          type: EXPORT_WORKSPACE_SUCCESS,
-          payload: { status: true, workspaceFilePath },
-        },
-      );
+    .then((data) => {
+      // Promise.all() used within createWorkspaceFile
+      // which will return an array
+      const workspaceFilePath = data[0];
+      dispatch({
+        type: EXPORT_WORKSPACE_SUCCESS,
+        payload: { status: true, workspaceFilePath },
+      });
     })
     .catch((err) => {
-      dispatch(
-        {
-          type: EXPORT_WORKSPACE_ERROR,
-          payload: { status: true, err },
-        },
-      );
+      dispatch({
+        type: EXPORT_WORKSPACE_ERROR,
+        payload: { status: true, err },
+      });
     });
 };
 
