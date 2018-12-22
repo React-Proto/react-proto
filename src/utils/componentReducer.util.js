@@ -1,4 +1,5 @@
 import setSelectableParents from './setSelectableParents.util';
+import setSelectableRoutes from './setSelectableRoutes.utils';
 import getColor from './colors.util';
 
 const initialComponentState = {
@@ -11,6 +12,7 @@ const initialComponentState = {
   draggable: true,
   childrenIds: [],
   selectableParents: [],
+  selectableRoutes: [],
   expanded: true,
   props: [],
   nextPropId: 0,
@@ -20,6 +22,7 @@ const initialComponentState = {
     width: 50,
     height: 50,
   },
+  routes: [],
 };
 
 export const addComponent = (state, { title }) => {
@@ -186,6 +189,47 @@ export const setSelectableP = (state => ({
   ...state,
   components: setSelectableParents(state.components),
 }));
+
+export const setSelectableR = ((state, id) => ({
+  ...state,
+  components: setSelectableRoutes(state.components, id),
+}));
+
+export const addRoute = (state, {
+  path,
+  routerCompId,
+  routeCompId,
+}) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.id === routerCompId) {
+      const newRoute = { path, routeCompId };
+      comp.selectableRoutes.forEach((route) => {
+        if (route.id === routeCompId) newRoute.routeCompTitle = route.title;
+      });
+      comp.routes = [...comp.routes, newRoute];
+      return comp;
+    }
+    return comp;
+  }),
+});
+
+export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.id === routerCompId) {
+      const routes = [...comp.routes];
+      let indexOfRouteToDelete;
+      routes.forEach((route, i) => {
+        if (route.routeCompId === routeCompId) indexOfRouteToDelete = i;
+      });
+      routes.splice(indexOfRouteToDelete, 1);
+      comp.routes = routes;
+      return comp;
+    }
+    return comp;
+  }),
+});
 
 export const exportFilesSuccess = ((state, { status, dir }) => ({
   ...state,

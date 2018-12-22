@@ -2,21 +2,23 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const routeListItem = ({
-  routeName, 
-  componentName, 
-  id, 
+const RouteListItem = ({
+  pathName, 
+  componentTitle, 
+  routeCompId, 
   deleteRoute,
   classes,
+  routerCompId,
 }) => (
   <div className="routeListItem">
-    /home
-    HOME
+    Path: / {pathName}
+    Component: {componentTitle}
     <IconButton
       className={classes.button}
       onClick={() => {
         deleteRoute({
-          id,
+          routeCompId,
+          routerCompId,
         });
       }}
       aria-label='Delete'>
@@ -25,4 +27,4 @@ const routeListItem = ({
   </div>
 );
 
-export default routeListItem;
+export default RouteListItem;
