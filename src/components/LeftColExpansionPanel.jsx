@@ -74,6 +74,8 @@ const LeftColExpansionPanel = (props) => {
     onExpansionPanelChange,
     moveToBottom,
     moveToTop,
+    addRoute,
+    deleteRoute,
   } = props;
   const {
     title,
@@ -82,9 +84,10 @@ const LeftColExpansionPanel = (props) => {
     color,
     parent,
     selectableParents,
+    selectableRoutes,
     router,
+    routes,
   } = component;
-
   const parentOptions = [
     <option value="null" key="">
       None
@@ -95,6 +98,16 @@ const LeftColExpansionPanel = (props) => {
       </option>
     )),
   ];
+
+  const RouteComponent = router ? (<Routes
+    component={component}
+    classes={classes}
+    selectableRoutes = {selectableRoutes}
+    id = {id}
+    addRoute = {addRoute}
+    routes = {routes}
+    deleteRoute = {deleteRoute}
+  />) : null;
 
   return (
     <div className={classes.root}>
@@ -124,16 +137,17 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor="stateful">
-              Router??
+            <InputLabel className={classes.label} htmlFor="router">
+              Router?
             </InputLabel>
             <Switch
               checked={router}
-              onChange={event => updateComponent({ router: event.target.checked, index, id })
-              }
-              value="stateful"
+              onChange={(event) => {
+                updateComponent({ router: event.target.checked, index, id });
+              }}
+              value="router"
               color="primary"
-              id="stateful"
+              id="router"
             />
           </div>
           <div className={classes.column}>
@@ -173,7 +187,7 @@ const LeftColExpansionPanel = (props) => {
             </Select>
           </div>
           <div className="classes.column">
-            <Routes component={component} classes={classes} />
+            {RouteComponent}
           </div>
         </ExpansionPanelDetails>
         <Divider />
@@ -227,4 +241,7 @@ LeftColExpansionPanel.propTypes = {
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
   moveToTop: PropTypes.func,
+  addRoute: PropTypes.func,
+  routes: PropTypes.object,
+  deleteRoute: PropTypes.func,
 };
