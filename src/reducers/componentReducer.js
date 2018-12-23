@@ -25,6 +25,7 @@ import {
   DELETE_PROP,
   ADD_ROUTE,
   DELETE_ROUTE,
+  SET_VISIBLE,
 } from '../actionTypes';
 
 import {
@@ -49,6 +50,7 @@ import {
   deleteProp,
   addRoute,
   deleteRoute,
+  setVisible,
 } from '../utils/componentReducer.util';
 
 const initialApplicationState = {
@@ -122,6 +124,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addRoute(state, action.payload);
     case DELETE_ROUTE:
       return deleteRoute(state, action.payload);
+    case SET_VISIBLE:
+      return setVisible(state, action.payload);
     default:
       return state;
   }

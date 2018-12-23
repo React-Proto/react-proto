@@ -23,7 +23,8 @@ const initialComponentState = {
     width: 50,
     height: 50,
   },
-  routes: [],
+  route: false,
+  visible: true,
 };
 
 export const addComponent = (state, { title }) => {
@@ -209,8 +210,9 @@ export const addRoute = (state, {
         if (route.id === routeCompId) newRoute.routeCompTitle = route.title;
       });
       comp.routes = [...comp.routes, newRoute];
-      return comp;
+      return { ...comp };
     }
+    if (comp.id === routeCompId) return { ...comp, route: true, visible: false };
     return comp;
   }),
 });
@@ -226,8 +228,9 @@ export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
       });
       routes.splice(indexOfRouteToDelete, 1);
       comp.routes = routes;
-      return comp;
+      return { ...comp };
     }
+    if (comp.id === routeCompId) return { ...comp, route: false, visible: true };
     return comp;
   }),
 });
@@ -382,3 +385,15 @@ export const deleteProp = (state, { index }) => {
   const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
   return updateComponent(state, { id, props: newProps });
 };
+
+export const setVisible = (state, compId) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.parentId === compId) setVisible(state, comp.id);
+    if (comp.id === compId) {
+      comp.visible = !comp.visible;
+      return { ...comp };
+    }
+    return comp;
+  }),
+});

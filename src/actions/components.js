@@ -26,6 +26,7 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_ROUTE,
   DELETE_ROUTE,
+  SET_VISIBLE,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
@@ -231,3 +232,8 @@ export const deleteRoute = compToDelete => (dispatch) => {
     payload: compToDelete.routerCompId,
   });
 };
+
+export const setVisible = compId => ({
+  type: SET_VISIBLE,
+  payload: compId,
+});
