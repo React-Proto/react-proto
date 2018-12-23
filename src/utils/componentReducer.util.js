@@ -212,7 +212,7 @@ export const exportWorkspaceSuccess = ((state, { status, workspaceFilePath }) =>
 export const exportWorkspaceError = ((state, { status, err }) => ({
   ...state,
   errorOpen: status,
-  appDir: err,
+  appDir: err.message,
   loading: false,
 }));
 
