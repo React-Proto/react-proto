@@ -4,23 +4,23 @@ const componentRender = (component) => {
     title,
     props,
     stateful,
-    // router, routes,
+    router, routes,
   } = component;
 
   // temp
-  const router = true;
-  const routes = [
-    {
-      path: '/location',
-      componentName: 'place',
-      name: 'location',
-    },
-    {
-      path: '/otherlocation',
-      componentName: 'otherplace',
-      name: 'otherlocation',
-    },
-  ];
+  // const router = true;
+  // const routes = [
+  //   {
+  //     path: '/location',
+  //     componentName: 'place',
+  //     name: 'location',
+  //   },
+  //   {
+  //     path: '/otherlocation',
+  //     componentName: 'otherplace',
+  //     name: 'otherlocation',
+  //   },
+  // ];
 
   if (stateful || router) {
     return `
@@ -69,9 +69,9 @@ const componentRender = (component) => {
   router
     ? routes
       .map(
-        route => `<Route path=${route.path} component={${
-          route.componentName
-        }}>${route.name}</Route>`,
+        route => `<Route path='${route.path}' component={${
+          route.routeCompTitle
+        }}/>`,
       )
       .join('\n')
     : ''

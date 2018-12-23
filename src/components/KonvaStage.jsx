@@ -81,7 +81,9 @@ class KonvaStage extends Component {
             }}
             draggable={draggable}>
             <Image image={image} />
-            {components.map((comp, i) => <Rectangle
+            {components
+              .filter(comp => comp.visible)
+              .map((comp, i) => <Rectangle
               draggable={comp.draggable}
               selectedShapeName={selectedShapeName}
               key={i}

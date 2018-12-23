@@ -41,7 +41,6 @@ class Routes extends Component {
       deleteRoute,
     } = this.props;
     const { pathName } = this.state;
-    console.log('routes: ', routes);
 
     const handleChange = (event) => {
       event.preventDefault();
@@ -135,7 +134,7 @@ class Routes extends Component {
         </FormControl>
         <div className={classes.column}>
             <InputLabel className={classes.label} htmlFor="parentSelect">
-              Component
+              Route Child
             </InputLabel>
             <Select
               className={classes.light}

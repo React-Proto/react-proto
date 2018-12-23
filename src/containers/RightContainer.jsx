@@ -5,6 +5,8 @@ import {
   handleClose,
   deleteCompProp,
   addCompProp,
+  setVisible,
+  openExpansionPanel,
 } from '../actions/components';
 import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from '../components/RightTabs.jsx';
@@ -15,6 +17,8 @@ const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
   deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
   addProp: prop => dispatch(addCompProp(prop)),
+  setVisible: compId => dispatch(setVisible(compId)),
+  openExpansionPanel: component => dispatch(openExpansionPanel(component)),
 });
 
 const mapStateToProps = store => ({
@@ -33,6 +37,11 @@ class RightContainer extends Component {
     IPC.send('view_app_dir', this.props.appDir);
   }
 
+  handleExpansionPanelChange = (component) => {
+    const { focusComponent } = this.props;
+    this.props.openExpansionPanel(focusComponent.id === component.id ? {} : component);
+  }
+
   render() {
     const {
       components,
@@ -44,6 +53,7 @@ class RightContainer extends Component {
       deleteProp,
       addProp,
       rightColumnOpen,
+      setVisible,
     } = this.props;
 
     return (
@@ -54,6 +64,8 @@ class RightContainer extends Component {
           deleteProp={deleteProp}
           addProp={addProp}
           rightColumnOpen={rightColumnOpen}
+          setVisible={setVisible}
+          onExpansionPanelChange={this.handleExpansionPanelChange}
         />
         <Snackbars
           successOpen={successOpen}
@@ -77,6 +89,7 @@ RightContainer.propTypes = {
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
+  openExpansionPanel: PropTypes.func.isRequired,
 };
 
 
