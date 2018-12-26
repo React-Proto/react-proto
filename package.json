@@ -91,7 +91,7 @@
     "classnames": "^2.2.6",
     "cli-spinner": "^0.2.8",
     "commander": "^2.17.1",
-    "electron": "^2.0.7",
+    "electron": "4.0.0",
     "enzyme": "^3.4.1",
     "konva": "^2.1.7",
     "localforage": "^1.7.2",
@@ -108,7 +108,7 @@
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "unzip": "^0.1.11"
+    "yauzl": "^2.10.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
