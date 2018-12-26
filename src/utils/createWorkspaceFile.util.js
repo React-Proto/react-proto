@@ -71,14 +71,14 @@ const createWorkspaceFile = (workspaceData) => {
         if (workspaceData.imagePath) {
           archive.append(
             fs.createReadStream(workspaceData.imagePath),
-            { name: path.basename(workspaceData.imagePath) },
+            { name: path.basename(workspaceData.imagePath), comment: 'React-Proto image' },
           );
         }
 
         archive
           .append(
             fs.createReadStream(metaJSONFile),
-            { name: path.basename(metaJSONFile) },
+            { name: path.basename(metaJSONFile), comment: 'React-Proto metadata, JSON format' },
           )
           .finalize();
       },
