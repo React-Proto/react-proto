@@ -117,6 +117,7 @@ class RightTabs extends Component {
         {value === 1 && <Props
           rightColumnOpen={rightColumnOpen}
           focusComponent={focusComponent}
+          components = {components}
           deleteProp={deleteProp}
           addProp={addProp}
         />
