@@ -4,11 +4,11 @@ import { platform, homedir } from 'os';
 /**
  * Helper functions for determining the Application Data Path.
  */
-const getForWindows = () => path(homedir(), 'AppData', 'Roaming');
+const getForWindows = () => path.join(homedir(), 'AppData', 'Roaming');
 
-const getForMac = () => path(homedir(), 'Library', 'Application Support');
+const getForMac = () => path.join(homedir(), 'Library', 'Application Support');
 
-const getForLinux = () => path(homedir(), '.config');
+const getForLinux = () => path.join(homedir(), '.config');
 
 const getFallback = () => {
   if (platform().startsWith('win')) {
@@ -42,7 +42,7 @@ const getAppDataPath = (app) => {
   }
 
   const normalizedAppName = appDataPath !== homedir() ? app : `.${app}`;
-  return path(appDataPath, normalizedAppName);
+  return path.join(appDataPath, normalizedAppName);
 };
 
 export default getAppDataPath;
