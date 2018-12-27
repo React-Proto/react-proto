@@ -1,34 +1,92 @@
 const componentRender = (component) => {
   const {
-    stateful,
     children,
     title,
     props,
+    stateful,
+    router, routes,
   } = component;
 
-  if (stateful) {
+  // temp
+  // const router = true;
+  // const routes = [
+  //   {
+  //     path: '/location',
+  //     componentName: 'place',
+  //     name: 'location',
+  //   },
+  //   {
+  //     path: '/otherlocation',
+  //     componentName: 'otherplace',
+  //     name: 'otherlocation',
+  //   },
+  // ];
+
+  if (stateful || router) {
     return `
       import React, { Component } from 'react';
+      ${
+  router
+    ? "import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'"
+    : ''
+}
       import PropTypes from 'prop-types';
-      ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
+      ${
+  stateful
+    ? children
+      .map(child => `import ${child.title} from './${child.title}.jsx'`)
+      .join('\n')
+    : ''
+}
 
       class ${title} extends Component {
-      constructor(props) {
+      ${
+  stateful
+    ? `constructor(props) {
         super(props);
         this.state = {};
-      }
+      }`
+    : ''
+}
+
       render() {
         const { ${props.map(p => `${p.key}`).join(', ')} } = this.props;
+        
         return (
-          <div>
-          ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
-          </div>
-        )
+          ${router ? '<Router><div>' : '<div>'}
+          ${
+  stateful
+    ? children
+      .map(
+        child => `<${child.title} ${child.props
+          .map(prop => `${prop.key}={${prop.value}}`)
+          .join(' ')}/>`,
+      )
+      .join('\n')
+    : ''
+}
+          ${
+  router
+    ? routes
+      .map(
+        route => `<Route path='${route.path}' component={${
+          route.routeCompTitle
+        }}/>`,
+      )
+      .join('\n')
+    : ''
+}
+          ${router ? '</div></Router>' : '</div>'}
+          )
         }
       }
 
       ${title}.propTypes = {
-        ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
+        ${props
+    .map(
+      p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
+    )
+    .join('\n')}
       }
 
       export default ${title};
@@ -38,16 +96,28 @@ const componentRender = (component) => {
   return `
     import React from 'react';
     import PropTypes from 'prop-types';
-    ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
-  
+    ${children
+    .map(child => `import ${child.title} from './${child.title}.jsx'`)
+    .join('\n')}
+
     const ${title} = props => (
       <div>
-        ${children.map(child => `<${child.title} ${child.props.map(prop => `${prop.key}={${prop.value}}`).join(' ')}/>`).join('\n')}
+        ${children
+    .map(
+      child => `<${child.title} ${child.props
+        .map(prop => `${prop.key}={${prop.value}}`)
+        .join(' ')}/>`,
+    )
+    .join('\n')}
       </div>
     );
 
     ${title}.propTypes = {
-      ${props.map(p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`).join('\n')}
+      ${props
+    .map(
+      p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
+    )
+    .join('\n')}
     }
 
     export default ${title};
