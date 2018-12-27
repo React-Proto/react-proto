@@ -145,6 +145,10 @@ class MainContainer extends Component {
     this.setImage();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.imagePath !== prevProps.imagePath) this.setImage();
+  }
+
   handleChange = (event) => {
     this.setState({ repoUrl: event.target.value.trim() });
   }
