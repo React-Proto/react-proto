@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   handleClose,
   deleteCompProp,
+  movePropsToPPFilter,
   addCompProp,
   setVisible,
   openExpansionPanel,
@@ -19,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
   addProp: prop => dispatch(addCompProp(prop)),
   setVisible: compId => dispatch(setVisible(compId)),
   openExpansionPanel: component => dispatch(openExpansionPanel(component)),
+  movePropsToPPFilter: ({ id, propToMove }) => dispatch(movePropsToPPFilter({ id, propToMove })),
 });
 
 const mapStateToProps = store => ({
@@ -50,6 +52,7 @@ class RightContainer extends Component {
       handleNotificationClose,
       appDir,
       focusComponent,
+      movePropsToPPFilter,
       deleteProp,
       addProp,
       rightColumnOpen,
@@ -66,6 +69,7 @@ class RightContainer extends Component {
           rightColumnOpen={rightColumnOpen}
           setVisible={setVisible}
           onExpansionPanelChange={this.handleExpansionPanelChange}
+          movePropsToPPFilter={movePropsToPPFilter}
         />
         <Snackbars
           successOpen={successOpen}

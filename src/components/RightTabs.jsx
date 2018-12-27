@@ -7,6 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Props from './Props.jsx';
 import SortableComponent from './SortableComponent.jsx';
 
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -79,6 +80,7 @@ class RightTabs extends Component {
       rightColumnOpen,
       setVisible,
       onExpansionPanelChange,
+      movePropsToPPFilter,
     } = this.props;
     const { value } = this.state;
 
@@ -120,6 +122,7 @@ class RightTabs extends Component {
           components = {components}
           deleteProp={deleteProp}
           addProp={addProp}
+          movePropsToPPFilter={movePropsToPPFilter}
         />
         }
       </div>

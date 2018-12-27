@@ -18,6 +18,7 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
+  MOVE_PROPS_TO_PP_FILTER,
   OPEN_EXPANSION_PANEL,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
@@ -45,6 +46,7 @@ import {
   moveToBottom,
   moveToTop,
   openExpansionPanel,
+  movePropsToPPFilter,
   changeImagePath,
   addProp,
   deleteProp,
@@ -116,6 +118,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return initialApplicationState;
     case CHANGE_IMAGE_PATH:
       return changeImagePath(state, action.payload);
+    case MOVE_PROPS_TO_PP_FILTER:
+      return movePropsToPPFilter(state, action.payload);
     case ADD_PROP:
       return addProp(state, action.payload);
     case DELETE_PROP:
