@@ -284,10 +284,24 @@ export const updatePosition = (state, { id, x, y }) => {
   };
 };
 
+// subfunction of movePropsToPPFilter
+// is this necessary?
+function componentsToChange(component, propToMove) {
+  // if there is no higher parents or if the prop exists in the array already
+  if (
+    !component.parent
+    || component.props.reduce((a, b) => (b.id === propToMove.id ? b : a), null)
+  ) {
+    return component;
+  }
+  return [component].concat(componentsToChange(component.parent, propToMove));
+}
+
 export const movePropsToPPFilter = (state, { id, propToMove }) => {
   // finds the component and updates the active parent props to contain the activated prop
+  let updatedComponent = {};
   const components = state.components.map((component) => {
-    const updatedComponent = component;
+    updatedComponent = component;
     if (updatedComponent.id === id) {
       const newActiveParentProps = updatedComponent.activeParentProps.filter(
         el => !(el.type === propToMove.type && el.key === propToMove.key),
@@ -301,18 +315,32 @@ export const movePropsToPPFilter = (state, { id, propToMove }) => {
         newActiveParentProps.push(updatedPropToMove);
       }
       updatedComponent.activeParentProps = newActiveParentProps;
+      console.log(updatedComponent);
     }
     return updatedComponent;
   });
 
-  // finds all of the parent props and activates/deactivates them
+  // refreshes focusComponent afterwards so that it can pick up any new prop information to be displayed
+  const focusComponent = components.reduce((a, b) => (b.id === id ? b : a), null);
+
+  // finds all of the parent props and adds the props required, and are not clickable
+  // needs to change the new component to contain the focusComponent
+  const componentsToReplace = componentsToChange(focusComponent.parent, propToMove);
+
+  // loop through components, replaces if the component matches a component in componentsToReplace
+  const newComponents = components.map((component) => {
+    const matchingComponent = componentsToReplace.reduce((a, b) => (b.id === component.id ? b : a), null);
+    return matchingComponent || component;
+  });
 
 
   return {
     ...state,
-    components,
+    components: newComponents,
+    focusComponent,
   };
 };
+
 
 /**
  * Applies the new x and y coordinates, as well as, the new width

@@ -87,7 +87,6 @@ class Props extends Component {
     propValue: '',
     propRequired: false,
     propType: '',
-    parentPropFilter: [],
   };
 
   handleChange = (event) => {
@@ -140,21 +139,16 @@ class Props extends Component {
     const propToMove = filteredParentProps.reduce((a, b) => (b.id === id ? b : a));
     propToMove.id = newId;
     this.props.movePropsToPPFilter({ id: this.props.focusComponent.id, propToMove });
-    // console.log(propToFilter);
-    // parentPropFilter.push(propToFilter);
-    // this.setState({
-    //   parentPropFilter,
-    // });
   };
 
-  filterParentProps(parentProps, filteredParentProps) {
+  filterParentProps(parentProps, activeParentProps) {
     const output = [];
     for (let i = 0; i < parentProps.length; i += 1) {
       let bool = true;
-      for (let j = 0; j < filteredParentProps.length; j += 1) {
+      for (let j = 0; j < activeParentProps.length; j += 1) {
         if (
-          parentProps[i].type === filteredParentProps[j].type
-          && parentProps[i].key === filteredParentProps[j].key
+          parentProps[i].type === activeParentProps[j].type
+          && parentProps[i].key === activeParentProps[j].key
         ) {
           bool = false;
         }
@@ -176,16 +170,15 @@ class Props extends Component {
       focusComponent, classes, deleteProp, rightColumnOpen,
     } = this.props;
 
-    const { parentPropFilter } = this.state;
-
     // these all need to be encapsulated in the state
     const parentProps = this.grabParentProps(focusComponent);
     for (let i = 0; i < parentProps.length; i += 1) {
       parentProps[i].id = i;
     }
 
-    const filteredParentProps = this.filterParentProps(parentProps, parentPropFilter);
-    const displayProps = focusComponent.props !== undefined ? this.props.focusComponent.props.concat(parentPropFilter) : [];
+    const filteredParentProps = this.filterParentProps(parentProps, focusComponent.activeParentProps);
+    const displayProps = focusComponent.props !== undefined ? focusComponent.props.concat(focusComponent.activeParentProps) : [];
+    console.log(displayProps);
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
