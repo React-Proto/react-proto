@@ -26,6 +26,8 @@ import {
   EXPORT_WORKSPACE_ERROR,
   EXPORT_WORKSPACE_SUCCESS,
   IMPORT_WORKSPACE,
+  IMPORT_WORKSPACE_ERROR,
+  IMPORT_WORKSPACE_SUCCESS,
 } from '../actionTypes';
 
 import {
@@ -49,7 +51,8 @@ import {
   deleteProp,
   exportWorkspaceError,
   exportWorkspaceSuccess,
-  importWorkspace,
+  importWorkspaceError,
+  importWorkspaceSuccess,
 } from '../utils/componentReducer.util';
 
 const initialApplicationState = {
@@ -124,7 +127,11 @@ const componentReducer = (state = initialApplicationState, action) => {
     case EXPORT_WORKSPACE_ERROR:
       return exportWorkspaceError(state, action.payload);
     case IMPORT_WORKSPACE:
-      return importWorkspace(state, action.payload);
+      return { ...state, loading: true };
+    case IMPORT_WORKSPACE_SUCCESS:
+      return importWorkspaceSuccess(state, action.payload);
+    case IMPORT_WORKSPACE_ERROR:
+      return importWorkspaceError(state, action.payload);
     default:
       return state;
   }
