@@ -27,6 +27,8 @@ import {
   EXPORT_WORKSPACE_ERROR,
   EXPORT_WORKSPACE_SUCCESS,
   IMPORT_WORKSPACE,
+  IMPORT_WORKSPACE_ERROR,
+  IMPORT_WORKSPACE_SUCCESS,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
@@ -34,6 +36,7 @@ import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
 import createWorkspaceFile from '../utils/createWorkspaceFile.util';
+import readWorkspaceFile from '../utils/readWorkspaceFile.util';
 
 export const loadInitData = () => (dispatch) => {
   loadState()
@@ -151,7 +154,6 @@ export const exportWorkspace = workspaceData => (dispatch) => {
     });
 };
 
-
 /*
  *  importWorkspace: Dispatch action IMPORT_WORKSPACE. This action should
  *                   be synchronous since we are affecting the application
@@ -160,11 +162,25 @@ export const exportWorkspace = workspaceData => (dispatch) => {
 
 // Need to Initialize the state/store with retrievedWorkspaceData
 // Need to CHANGE_IMAGE_PATH
-export const importWorkspace = ({ workspaceFilePath }) => ({
-  type: IMPORT_WORKSPACE,
-  payload: workspaceFilePath,
-});
+export const importWorkspace = ({ workspaceFilePath }) => (dispatch) => {
+  dispatch({
+    type: IMPORT_WORKSPACE,
+  });
 
+  readWorkspaceFile(workspaceFilePath)
+    .then((retrievedWorkspaceData) => {
+      dispatch({
+        type: IMPORT_WORKSPACE_SUCCESS,
+        payload: { status: true, retrievedWorkspaceData },
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: IMPORT_WORKSPACE_ERROR,
+        payload: { status: true, err },
+      });
+    });
+};
 
 export const handleClose = () => ({
   type: HANDLE_CLOSE,
