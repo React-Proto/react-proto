@@ -5,50 +5,110 @@ import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import RouteListItem from './RouteListItem.jsx';
+
 // import { withStyles } from '@material-ui/core/styles';
 
 class Routes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      routeName: '',
+      pathName: '',
+      selectedRouteId: null,
     };
   }
 
-  render() {
-    const { classes, component } = this.props;
+  // method to get a list of components that can be added as routes
+  // getSelectableRoutes() {
+  //   const selectableRoutes = [];
+  //   const routeNames = this.props.routes.map(route => route.name);
+  //   this.props.components.forEach((comp) => {
+  //     if (this.props.childrenIds.includes(comp.id) && !routeNames.includes(comp.id)) selectableRoutes.push(comp.title);
+  //   });
+  //   return selectableRoutes;
+  // };
 
-    const { routeName } = this.state;
+  render() {
+    const {
+      classes,
+      component,
+      selectableRoutes,
+      id,
+      addRoute,
+      routes,
+      deleteRoute,
+    } = this.props;
+    const { pathName } = this.state;
 
     const handleChange = (event) => {
+      event.preventDefault();
       this.setState({
-        [event.target.name]: event.target.value,
+        pathName: event.target.value,
       });
     };
 
-    const handleAddRoute = (event) => {};
+    const routeList = routes.map(route => (
+      <RouteListItem
+        key={route.routeCompId}
+        routeCompId={route.routeCompId}
+        componentTitle={route.routeCompTitle}
+        pathName={route.path}
+        classes={classes}
+        deleteRoute={deleteRoute}
+        routerCompId={id}
+        />
+    ));
+
+    // getting the selectable routes
+    const componentOptions = [
+      <option value="" key="">
+        None
+      </option>,
+      ...selectableRoutes.map(route => (
+        <option value={route.id} key={route.id}>
+          {route.title}
+        </option>
+      )),
+    ];
+
+    // wrapper to check if 'None' componenet is selected
+    const handleAddRoute = () => {
+      if (this.state.selectedRouteId) {
+        // new Route Obj to be sent as payload in when dispatch set route action
+        const newRoutObj = {
+          path: this.state.pathName,
+          routerCompId: id,
+          routeCompId: this.state.selectedRouteId,
+        };
+        addRoute(newRoutObj);
+        this.setState({
+          pathName: '',
+          selectedRouteId: null,
+        });
+      }
+    };
+
+    const handleSetRoute = event => this.setState({ selectedRouteId: event.target.value });
 
     return (
       <div>
         <FormControl fullWidth={true}>
           <Grid container alignItems="baseline" align="stretch">
             <Grid item xs={10}>
+            <InputLabel className={classes.label} htmlFor="stateful">
+              Path: /
+            </InputLabel>
               <TextField
                 id="title-input"
-                label="Add a New Route"
-                placeholder="routerComponent"
+                label="Path Name"
+                placeholder="routeName"
                 margin="normal"
                 autoFocus
                 onChange={handleChange}
-                onKeyPress={(ev) => {
-                  if (ev.key === 'Enter') {
-                    // Do code here
-                    this.handleAddRoute();
-                    ev.preventDefault();
-                  }
-                }}
-                value={routeName}
-                name="routeName"
+                value={pathName}
+                name="pathName"
                 className={classes.light}
                 InputProps={{
                   className: classes.input,
@@ -65,13 +125,31 @@ class Routes extends Component {
                 color="primary"
                 className={classes.button}
                 aria-label="Add"
-                onClick={() => console.log('onClick')}
+                onClick={handleAddRoute}
               >
                 <AddIcon />
               </Button>
             </Grid>
           </Grid>
         </FormControl>
+        <div className={classes.column}>
+            <InputLabel className={classes.label} htmlFor="parentSelect">
+              Route Child
+            </InputLabel>
+            <Select
+              className={classes.light}
+              native
+              id="componentSelect"
+              name="componentName"
+              onChange={handleSetRoute}
+            >
+              {componentOptions}
+            </Select>
+          </div>
+        <div>
+          Routes:
+          {routeList}
+        </div>
       </div>
     );
   }

@@ -7,6 +7,7 @@ import {
   DELETE_CHILD,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
+  SET_SELECTABLE_ROUTES,
   EXPORT_FILES,
   EXPORT_FILES_SUCCESS,
   EXPORT_FILES_ERROR,
@@ -23,6 +24,9 @@ import {
   ADD_PROP,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  ADD_ROUTE,
+  DELETE_ROUTE,
+  SET_VISIBLE,
 } from '../actionTypes/index';
 
 import { loadState } from '../localStorage';
@@ -72,7 +76,8 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
+export const deleteComponent = ({ index, id, parent, routes }) => (dispatch) => {
+  console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
     dispatch(deleteChild({ parent, childId: id, childIndex: index }));
@@ -81,20 +86,30 @@ export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
   dispatch(parentReassignment({ index, id, parent }));
   dispatch({ type: DELETE_COMPONENT, payload: { index, id } });
   dispatch({ type: SET_SELECTABLE_PARENTS });
+  // Delete the Component from its parent's routelist
+  if (parent) dispatch(deleteRoute({ routerCompId: parent.id, routeCompId: id }));
+  // Set it's Route Children to non routes, ieroute stats to false and visibility to true
+  routes.forEach(({ routeCompId }) => {
+    dispatch(deleteRoute({ routerCompId: id, routeCompId }));
+  });
 };
 
 export const updateComponent = ({
-  id, index, parent = null, newParentId = null, color = null, stateful = null,
+  id, index, parent = null, newParentId = null, color = null, stateful = null, router = null,
 }) => (dispatch) => {
   dispatch({
     type: UPDATE_COMPONENT,
     payload: {
-      id, index, newParentId, color, stateful,
+      id, index, newParentId, color, stateful, router,
     },
   });
 
   if (newParentId && newParentId !== 'null') {
     dispatch(addNewChild({ id: newParentId, childId: id, childIndex: index }));
+    dispatch({
+      type: SET_SELECTABLE_ROUTES,
+      payload: newParentId,
+    });
   }
 
   if (parent && parent.id) {
@@ -201,4 +216,31 @@ export const deleteCompProp = ({ id, index }) => ({
 export const addCompProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
+});
+
+export const addRoute = compToAdd => (dispatch) => {
+  dispatch({
+    type: ADD_ROUTE,
+    payload: compToAdd,
+  });
+  dispatch({
+    type: SET_SELECTABLE_ROUTES,
+    payload: compToAdd.routerCompId,
+  });
+};
+
+export const deleteRoute = compToDelete => (dispatch) => {
+  dispatch({
+    type: DELETE_ROUTE,
+    payload: compToDelete,
+  });
+  dispatch({
+    type: SET_SELECTABLE_ROUTES,
+    payload: compToDelete.routerCompId,
+  });
+};
+
+export const setVisible = compId => ({
+  type: SET_VISIBLE,
+  payload: compId,
 });

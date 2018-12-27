@@ -16,17 +16,22 @@ const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
     ({
-      id, index, parent = null, newParentId = null, color = null, stateful = null,
+      id, index, parent = null, newParentId = null, color = null, stateful = null, router = null,
     }) => dispatch(actions.updateComponent({
-      id, index, parent, newParentId, color, stateful,
+      id, index, parent, newParentId, color, stateful, router,
     })),
   deleteComponent: ({
-    index, id, parent,
-  }) => dispatch(actions.deleteComponent({ index, id, parent })),
+    index, id, parent, routes,
+  }) => dispatch(actions.deleteComponent({
+    index, id, parent, routes,
+  })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
   moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
+  setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
+  addRoute: compToAdd => dispatch(actions.addRoute(compToAdd)),
+  deleteRoute: compToDelete => dispatch(actions.deleteRoute(compToDelete)),
 });
 
 const styles = theme => ({
@@ -116,6 +121,9 @@ class LeftContainer extends Component {
       focusComponent,
       totalComponents,
       classes,
+      setSelectableRoutes,
+      addRoute,
+      deleteRoute,
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -131,10 +139,11 @@ class LeftContainer extends Component {
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         moveToTop={moveToTop}
+        setSelectableRoutes={setSelectableRoutes}
+        addRoute={addRoute}
+        deleteRoute={deleteRoute}
       />,
     );
-    console.log('classes', classes);
-
     return (
       <div className='column left'>
         <FormControl
@@ -213,6 +222,7 @@ LeftContainer.propTypes = {
   addComponent: PropTypes.func.isRequired,
   deleteComponent: PropTypes.func.isRequired,
   updateComponent: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
   deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
   moveToTop: PropTypes.func.isRequired,
@@ -220,4 +230,6 @@ LeftContainer.propTypes = {
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   classes: PropTypes.object,
+  addRoute: PropTypes.func.isRequired,
+  deleteRoute: PropTypes.func.isRequired,
 };

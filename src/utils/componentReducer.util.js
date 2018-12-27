@@ -1,16 +1,19 @@
 import setSelectableParents from './setSelectableParents.util';
+import setSelectableRoutes from './setSelectableRoutes.utils';
 import getColor from './colors.util';
 
 const initialComponentState = {
   id: null,
   stateful: false,
   router: false,
+  routes: [],
   title: '',
   parentId: '',
   color: getColor(),
   draggable: true,
   childrenIds: [],
   selectableParents: [],
+  selectableRoutes: [],
   expanded: true,
   props: [],
   nextPropId: 0,
@@ -20,6 +23,8 @@ const initialComponentState = {
     width: 50,
     height: 50,
   },
+  route: false,
+  visible: true,
 };
 
 export const addComponent = (state, { title }) => {
@@ -187,6 +192,49 @@ export const setSelectableP = (state => ({
   components: setSelectableParents(state.components),
 }));
 
+export const setSelectableR = ((state, id) => ({
+  ...state,
+  components: setSelectableRoutes(state.components, id),
+}));
+
+export const addRoute = (state, {
+  path,
+  routerCompId,
+  routeCompId,
+}) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.id === routerCompId) {
+      const newRoute = { path, routeCompId };
+      comp.selectableRoutes.forEach((route) => {
+        if (route.id === routeCompId) newRoute.routeCompTitle = route.title;
+      });
+      comp.routes = [...comp.routes, newRoute];
+      return { ...comp };
+    }
+    if (comp.id === routeCompId) return { ...comp, route: true, visible: false };
+    return comp;
+  }),
+});
+
+export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.id === routerCompId) {
+      const routes = [...comp.routes];
+      let indexOfRouteToDelete;
+      routes.forEach((route, i) => {
+        if (route.routeCompId === routeCompId) indexOfRouteToDelete = i;
+      });
+      routes.splice(indexOfRouteToDelete, 1);
+      comp.routes = routes;
+      return { ...comp };
+    }
+    if (comp.id === routeCompId) return { ...comp, route: false, visible: true };
+    return comp;
+  }),
+});
+
 export const exportFilesSuccess = ((state, { status, dir }) => ({
   ...state,
   successOpen: status,
@@ -337,3 +385,15 @@ export const deleteProp = (state, { index }) => {
   const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
   return updateComponent(state, { id, props: newProps });
 };
+
+export const setVisible = (state, compId) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.parentId === compId) setVisible(state, comp.id);
+    if (comp.id === compId) {
+      comp.visible = !comp.visible;
+      return { ...comp };
+    }
+    return comp;
+  }),
+});

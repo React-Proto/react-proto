@@ -77,6 +77,8 @@ class RightTabs extends Component {
       deleteProp,
       addProp,
       rightColumnOpen,
+      setVisible,
+      onExpansionPanelChange,
     } = this.props;
     const { value } = this.state;
 
@@ -107,7 +109,11 @@ class RightTabs extends Component {
             }
           />
         </Tabs>
-        {value === 0 && <SortableComponent components={components} />}
+        {value === 0 && <SortableComponent
+          components={components}
+          setVisible={setVisible}
+          onExpansionPanelChange={onExpansionPanelChange}
+        />}
         {value === 1 && <Props
           rightColumnOpen={rightColumnOpen}
           focusComponent={focusComponent}
@@ -127,6 +133,8 @@ RightTabs.propTypes = {
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  onExpansionPanelChange: PropTypes.func,
 };
 
 export default withStyles(styles)(RightTabs);

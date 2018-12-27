@@ -7,6 +7,7 @@ import {
   DELETE_CHILD,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
+  SET_SELECTABLE_ROUTES,
   EXPORT_FILES,
   CREATE_APPLICATION,
   EXPORT_FILES_SUCCESS,
@@ -22,6 +23,9 @@ import {
   CHANGE_IMAGE_PATH,
   ADD_PROP,
   DELETE_PROP,
+  ADD_ROUTE,
+  DELETE_ROUTE,
+  SET_VISIBLE,
 } from '../actionTypes';
 
 import {
@@ -32,6 +36,7 @@ import {
   deleteChild,
   reassignParent,
   setSelectableP,
+  setSelectableR,
   exportFilesSuccess,
   exportFilesError,
   handleClose,
@@ -43,6 +48,9 @@ import {
   changeImagePath,
   addProp,
   deleteProp,
+  addRoute,
+  deleteRoute,
+  setVisible,
 } from '../utils/componentReducer.util';
 
 const initialApplicationState = {
@@ -82,6 +90,8 @@ const componentReducer = (state = initialApplicationState, action) => {
       return reassignParent(state, action.payload);
     case SET_SELECTABLE_PARENTS:
       return setSelectableP(state);
+    case SET_SELECTABLE_ROUTES:
+      return setSelectableR(state, action.payload);
     case CREATE_APPLICATION:
     case EXPORT_FILES:
       return { ...state, loading: true };
@@ -110,6 +120,12 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case ADD_ROUTE:
+      return addRoute(state, action.payload);
+    case DELETE_ROUTE:
+      return deleteRoute(state, action.payload);
+    case SET_VISIBLE:
+      return setVisible(state, action.payload);
     default:
       return state;
   }
