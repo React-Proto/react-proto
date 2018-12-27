@@ -3479,6 +3479,11 @@ esutils@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
 
+events-intercept@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/events-intercept/-/events-intercept-2.0.0.tgz#adbf38681c5a4b2011c41ee41f61a34cba448897"
+  integrity sha1-rb84aBxaSyARxB7kH2GjTLpEiJc=
+
 events@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/events/-/events-1.1.1.tgz#9ebdb7635ad099c70dcc4c2a1f5004288e8bd924"
@@ -9658,6 +9663,21 @@ yargs@~3.10.0:
     decamelize "^1.0.0"
     window-size "0.1.0"
 
+yauzl-clone@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/yauzl-clone/-/yauzl-clone-1.0.4.tgz#8bc6d293b17cc98802bbbed2e289d18e7697c96c"
+  integrity sha1-i8bSk7F8yYgCu77S4onRjnaXyWw=
+  dependencies:
+    events-intercept "^2.0.0"
+
+yauzl-promise@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/yauzl-promise/-/yauzl-promise-2.1.3.tgz#17467845db89fc6592ca987ca2ecfee8c381ae3d"
+  integrity sha1-F0Z4RduJ/GWSyph8ouz+6MOBrj0=
+  dependencies:
+    yauzl "^2.9.1"
+    yauzl-clone "^1.0.4"
+
 yauzl@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-2.4.1.tgz#9528f442dab1b2284e58b4379bb194e22e0c4005"
@@ -9665,7 +9685,7 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
-yauzl@^2.10.0:
+yauzl@^2.9.1:
   version "2.10.0"
   resolved "https://registry.yarnpkg.com/yauzl/-/yauzl-2.10.0.tgz#c7eb17c93e112cb1086fa6d8e51fb0667b79a5f9"
   integrity sha1-x+sXyT4RLLEIb6bY5R+wZnt5pfk=
