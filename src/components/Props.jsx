@@ -131,13 +131,9 @@ class Props extends Component {
     return [];
   };
 
-  moveProp = ({ id }, filteredParentProps, newId) => {
-    console.log('id: ', id);
-    const { parentPropFilter } = this.state;
-    console.log('filteredParentProps: ', filteredParentProps);
-    console.log('ppF', parentPropFilter);
+  moveProp = ({ id }, filteredParentProps) => {
+    console.log('moveprop parent activeparentprops: ', JSON.stringify(this.props.components.reduce((a, b) => (b.id === this.props.focusComponent.parentId ? b.activeParentProps : a), {})));
     const propToMove = filteredParentProps.reduce((a, b) => (b.id === id ? b : a));
-    propToMove.id = newId;
     this.props.movePropsToPPFilter({ id: this.props.focusComponent.id, propToMove });
   };
 
@@ -159,6 +155,7 @@ class Props extends Component {
         output.push(newParentProps);
       }
     }
+    console.log('filterParentProps output: ', output);
     return output;
   }
 
@@ -311,7 +308,7 @@ class Props extends Component {
                     className={classes.chip}
                     elevation={6}
                     color={required ? 'secondary' : 'primary'}
-                    onClick={() => this.moveProp({ id }, filteredParentProps, displayProps.length)}
+                    onClick={() => this.moveProp({ id }, filteredParentProps)}
                   />
                 ),
               )}
