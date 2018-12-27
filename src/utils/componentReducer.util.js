@@ -317,8 +317,6 @@ export const movePropsToPPFilter = (state, { id, propToMove }) => {
 
   const components = state.components.map((component) => {
     updatedComponent = component;
-    // console.log('ucid', updatedComponent.key);
-    // console.log('activeparentprops', updatedComponent.activeParentProps);
     if (updatedComponent.id === id) {
       const newActiveParentProps = updatedComponent.activeParentProps.filter(
         el => !(el.type === propToMove.type && el.key === propToMove.key),
@@ -328,19 +326,17 @@ export const movePropsToPPFilter = (state, { id, propToMove }) => {
         === updatedComponent.activeParentProps.length
       ) {
         newActiveParentProps.push(updatedPropToMove);
-        // console.log('ucid', updatedComponent.key);
-        // console.log('activeparentprops', updatedComponent.activeParentProps);
       }
       updatedComponent.activeParentProps = newActiveParentProps;
     }
     return updatedComponent;
   });
 
-  console.log('after first map function');
-  console.log('component state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  console.log('parent state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-  console.log('updated component activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  console.log('parent activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
+  // console.log('after first map function');
+  // console.log('component state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
+  // console.log('parent state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
+  // console.log('updated component activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
+  // console.log('parent activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
 
   // refreshes focusComponent afterwards so that it can pick up any new prop information to be displayed
   const focusComponent = components.reduce(
@@ -349,7 +345,6 @@ export const movePropsToPPFilter = (state, { id, propToMove }) => {
   );
 
   // finds all of the parent props and adds the props required, and are not clickable
-  // needs to change the new component to contain the focusComponent
   // loop through components, replaces if the component matches a component in componentsToReplace
   const fcParent = components.reduce(
     (a, b) => (b.id === focusComponent.parentId ? b : a),
@@ -357,13 +352,6 @@ export const movePropsToPPFilter = (state, { id, propToMove }) => {
   );
   const componentIds = componentsToChange(fcParent, updatedPropToMove, components);
 
-  console.log('after componentToChange function');
-  console.log('component state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  console.log('parent state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-  console.log('updated component activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  console.log('parent activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-
-  console.log('componentid: ', componentIds);
   const newComponents = components.map((element) => {
     console.log('index of: ', JSON.stringify(element.id), ' is ', JSON.stringify(componentIds.indexOf(element.id)), '. already active components: ', JSON.stringify(element.activeParentProps));
     if (componentIds.indexOf(element.id) >= 0) {

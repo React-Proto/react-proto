@@ -132,7 +132,7 @@ class Props extends Component {
   };
 
   moveProp = ({ id }, filteredParentProps) => {
-    console.log('moveprop parent activeparentprops: ', JSON.stringify(this.props.components.reduce((a, b) => (b.id === this.props.focusComponent.parentId ? b.activeParentProps : a), {})));
+    // console.log('moveprop parent activeparentprops: ', JSON.stringify(this.props.components.reduce((a, b) => (b.id === this.props.focusComponent.parentId ? b.activeParentProps : a), {})));
     const propToMove = filteredParentProps.reduce((a, b) => (b.id === id ? b : a));
     this.props.movePropsToPPFilter({ id: this.props.focusComponent.id, propToMove });
   };
@@ -155,7 +155,6 @@ class Props extends Component {
         output.push(newParentProps);
       }
     }
-    console.log('filterParentProps output: ', output);
     return output;
   }
 
@@ -176,6 +175,8 @@ class Props extends Component {
     const filteredParentProps = this.filterParentProps(parentProps, focusComponent.activeParentProps);
     const displayProps = focusComponent.props !== undefined ? focusComponent.props.concat(focusComponent.activeParentProps) : [];
     console.log(displayProps);
+    console.log(focusComponent.props);
+    console.log(focusComponent.activeParentProps);
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
