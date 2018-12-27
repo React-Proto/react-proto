@@ -1,5 +1,4 @@
 import setSelectableParents from './setSelectableParents.util';
-import readWorkspaceFile from './readWorkspaceFile.util';
 import getColor from './colors.util';
 
 const initialComponentState = {
@@ -200,14 +199,20 @@ export const exportFilesError = ((state, { status, err }) => ({
   loading: false,
 }));
 
-
+/**
+ * @function
+ * @name exportWorkspaceSuccess
+ * @param {object}  state - The current state of the application
+ * @param {object}  data -
+ * @param {boolean} data.status - Used for posting messages to Snackbar component
+ * @param {string} data.workspaceFilePath - The path where Workspace was successfully exported to
+ */
 export const exportWorkspaceSuccess = ((state, { status, workspaceFilePath }) => ({
   ...state,
   successOpen: status,
   appDir: workspaceFilePath,
   loading: false,
 }));
-
 
 export const exportWorkspaceError = ((state, { status, err }) => ({
   ...state,
@@ -216,23 +221,21 @@ export const exportWorkspaceError = ((state, { status, err }) => ({
   loading: false,
 }));
 
-export const importWorkspace = (state, workspaceFilePath) => {
-  try {
-    const retrievedWorkspaceData = readWorkspaceFile(workspaceFilePath);
-    return ({
-      ...state,
-      ...retrievedWorkspaceData,
-      loading: false,
-    });
-  } catch (err) {
-    return ({
-      ...state,
-      errorOpen: true,
-      appDir: err.message,
-      loading: false,
-    });
-  }
-};
+export const importWorkspaceSuccess = ((state, { status, retrievedWorkspaceData }) => ({
+  ...state,
+  ...retrievedWorkspaceData,
+  successOpen: status,
+  errorOpen: false,
+  appDir: 'Workspace Successfully opened.',
+  loading: false,
+}));
+
+export const importWorkspaceError = ((state, { status, err }) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err.message,
+  loading: false,
+}));
 
 export const handleClose = ((state, status) => ({
   ...state,
