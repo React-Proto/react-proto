@@ -58,12 +58,14 @@ import {
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
+  nextPropId: 0,
   imagePath: '',
   successOpen: false,
   errorOpen: false,
   focusComponent: {},
   components: [],
   compProps: [],
+  // compProps - {id , key, value, required, type, displayedAt, origin}
   appDir: '',
   loading: false,
 };

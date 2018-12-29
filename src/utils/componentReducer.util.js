@@ -461,21 +461,29 @@ export const openExpansionPanel = (state, { component }) => ({
   focusComponent: component,
 });
 
+// done
 export const addProp = (state, {
-  key, value = null, required, type,
+  key, value = null, required, type, origin,
 }) => {
-  const { props, nextPropId, id } = state.focusComponent;
+  const { compProps, nextPropId } = state;
   const newProp = {
-    id: nextPropId.toString(),
+    id: nextPropId,
     key,
     value: value || key,
     required,
     type,
+    origin,
+    availableAt: [],
   };
-  const newProps = [...props, newProp];
-  return updateComponent(state, { id, props: newProps });
+  compProps.push(newProp);
+  return ({
+    ...state,
+    compProps,
+    nextPropId: nextPropId + 1,
+  });
 };
 
+// need fix
 export const deleteProp = (state, { index }) => {
   const { props, id } = state.focusComponent;
   const newProps = [...props.slice(0, index), ...props.slice(index + 1)];

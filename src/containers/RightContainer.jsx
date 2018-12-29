@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   handleClose,
-  deleteCompProp,
   movePropsToPPFilter,
-  addCompProp,
   setVisible,
   openExpansionPanel,
 } from '../actions/components';
@@ -16,11 +14,8 @@ const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop)),
   setVisible: compId => dispatch(setVisible(compId)),
   openExpansionPanel: component => dispatch(openExpansionPanel(component)),
-  movePropsToPPFilter: ({ id, propToMove }) => dispatch(movePropsToPPFilter({ id, propToMove })),
 });
 
 const mapStateToProps = store => ({
@@ -52,9 +47,6 @@ class RightContainer extends Component {
       handleNotificationClose,
       appDir,
       focusComponent,
-      movePropsToPPFilter,
-      deleteProp,
-      addProp,
       rightColumnOpen,
       setVisible,
     } = this.props;
@@ -64,12 +56,9 @@ class RightContainer extends Component {
         <RightTabs
           components={components}
           focusComponent={focusComponent}
-          deleteProp={deleteProp}
-          addProp={addProp}
           rightColumnOpen={rightColumnOpen}
           setVisible={setVisible}
           onExpansionPanelChange={this.handleExpansionPanelChange}
-          movePropsToPPFilter={movePropsToPPFilter}
         />
         <Snackbars
           successOpen={successOpen}

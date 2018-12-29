@@ -77,7 +77,9 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent, routes }) => (dispatch) => {
+export const deleteComponent = ({
+  index, id, parent, routes,
+}) => (dispatch) => {
   console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
@@ -215,12 +217,12 @@ export const changeImagePath = path => ({
   payload: path,
 });
 
-export const deleteCompProp = ({ id, index }) => ({
+export const deleteProp = ({ id, index }) => ({
   type: DELETE_PROP,
   payload: { id, index },
 });
 
-export const addCompProp = prop => ({
+export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
 });

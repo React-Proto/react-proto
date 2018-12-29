@@ -75,12 +75,9 @@ class RightTabs extends Component {
       classes,
       components,
       focusComponent,
-      deleteProp,
-      addProp,
       rightColumnOpen,
       setVisible,
       onExpansionPanelChange,
-      movePropsToPPFilter,
     } = this.props;
     const { value } = this.state;
 
@@ -120,9 +117,6 @@ class RightTabs extends Component {
           rightColumnOpen={rightColumnOpen}
           focusComponent={focusComponent}
           components = {components}
-          deleteProp={deleteProp}
-          addProp={addProp}
-          movePropsToPPFilter={movePropsToPPFilter}
         />
         }
       </div>

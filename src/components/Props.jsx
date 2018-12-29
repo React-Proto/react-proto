@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import FormControl from '@material-ui/core/FormControl';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
-import Switch from '@material-ui/core/Switch';
-import InputLabel from '@material-ui/core/InputLabel';
+import {
+  withStyles, Avatar, FormControl, Grid, TextField,
+  Button, Select, Chip, Switch, InputLabel, Typography,
+} from '@material-ui/core';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
-import { Typography } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import {
+  deleteProp, addProp,
+} from '../actions/components';
+
+const mapDispatchToProps = dispatch => ({
+  deleteProp: ({ id, index }) => dispatch(deleteProp({ id, index })),
+  addProp: prop => dispatch(addProp(prop)),
+});
+
 
 const styles = theme => ({
   root: {
@@ -106,11 +110,13 @@ class Props extends Component {
     const {
       propKey, propValue, propRequired, propType,
     } = this.state;
+    const { focusComponent } = this.props;
     this.props.addProp({
       key: propKey,
       value: propValue,
       required: propRequired,
       type: propType,
+      origin: focusComponent.id,
     });
     this.setState({
       propKey: '',
@@ -120,63 +126,16 @@ class Props extends Component {
     });
   };
 
-  grabParentProps = (child) => {
-    if (child.parentId) {
-      const parent = this.props.components.reduce(
-        (a, b) => (b.id === child.parentId ? b : a),
-        {},
-      );
-      return parent.props.concat(this.grabParentProps(parent));
-    }
-    return [];
-  };
-
-  moveProp = ({ id }, filteredParentProps) => {
-    // console.log('moveprop parent activeparentprops: ', JSON.stringify(this.props.components.reduce((a, b) => (b.id === this.props.focusComponent.parentId ? b.activeParentProps : a), {})));
-    const propToMove = filteredParentProps.reduce((a, b) => (b.id === id ? b : a));
-    this.props.movePropsToPPFilter({ id: this.props.focusComponent.id, propToMove });
-  };
-
-  filterParentProps(parentProps, activeParentProps) {
-    const output = [];
-    for (let i = 0; i < parentProps.length; i += 1) {
-      let bool = true;
-      for (let j = 0; j < activeParentProps.length; j += 1) {
-        if (
-          parentProps[i].type === activeParentProps[j].type
-          && parentProps[i].key === activeParentProps[j].key
-        ) {
-          bool = false;
-        }
-      }
-      if (bool) {
-        const newParentProps = parentProps[i];
-        newParentProps.id = i;
-        output.push(newParentProps);
-      }
-    }
-    return output;
-  }
-
-  componentDidUpdate() {
-  }
 
   render() {
     const {
       focusComponent, classes, deleteProp, rightColumnOpen,
     } = this.props;
 
-    // these all need to be encapsulated in the state
-    const parentProps = this.grabParentProps(focusComponent);
-    for (let i = 0; i < parentProps.length; i += 1) {
-      parentProps[i].id = i;
-    }
-
-    const filteredParentProps = this.filterParentProps(parentProps, focusComponent.activeParentProps);
-    const displayProps = focusComponent.props !== undefined ? focusComponent.props.concat(focusComponent.activeParentProps) : [];
-    console.log(displayProps);
-    console.log(focusComponent.props);
-    console.log(focusComponent.activeParentProps);
+    // filters array for anything not containing focusComponentId
+    const displayProps = [{
+      id: '1', key: 'butt', value: 'butt', origin: '1', required: false,
+    }];
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
@@ -292,8 +251,8 @@ class Props extends Component {
                 />
               ))}
             </div>
-            <Typography>Parent Props</Typography>
-            <div className="chips">
+            <Typography className={classes.label}>Parent Props</Typography>
+            {/* <div className="chips">
               {filteredParentProps.map(
                 ({
                   id, type, key, value, required,
@@ -313,7 +272,7 @@ class Props extends Component {
                   />
                 ),
               )}
-            </div>
+            </div> */}
           </div>
         )}
       </div>
@@ -329,4 +288,4 @@ Props.propTypes = {
   rightColumnOpen: PropTypes.bool.isRequired,
 };
 
-export default withStyles(styles)(Props);
+export default compose(withStyles(styles), connect(null, mapDispatchToProps))(Props);
