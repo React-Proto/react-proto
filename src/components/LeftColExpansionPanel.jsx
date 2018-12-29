@@ -217,6 +217,7 @@ const LeftColExpansionPanel = (props) => {
                 index,
                 id,
                 parent,
+                routes,
               });
             }}
             aria-label="Delete"

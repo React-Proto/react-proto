@@ -77,7 +77,8 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
+export const deleteComponent = ({ index, id, parent, routes }) => (dispatch) => {
+  console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
     dispatch(deleteChild({ parent, childId: id, childIndex: index }));
@@ -86,6 +87,12 @@ export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
   dispatch(parentReassignment({ index, id, parent }));
   dispatch({ type: DELETE_COMPONENT, payload: { index, id } });
   dispatch({ type: SET_SELECTABLE_PARENTS });
+  // Delete the Component from its parent's routelist
+  if (parent) dispatch(deleteRoute({ routerCompId: parent.id, routeCompId: id }));
+  // Set it's Route Children to non routes, ieroute stats to false and visibility to true
+  routes.forEach(({ routeCompId }) => {
+    dispatch(deleteRoute({ routerCompId: id, routeCompId }));
+  });
 };
 
 export const updateComponent = ({
