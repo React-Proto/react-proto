@@ -244,3 +244,5 @@ export const setVisible = compId => ({
   type: SET_VISIBLE,
   payload: compId,
 });
+
+export const setSelectableParents = () => ({ type: SET_SELECTABLE_PARENTS });
