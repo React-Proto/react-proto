@@ -63,6 +63,7 @@ const initialApplicationState = {
   errorOpen: false,
   focusComponent: {},
   components: [],
+  compProps: [],
   appDir: '',
   loading: false,
 };
