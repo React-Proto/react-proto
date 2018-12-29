@@ -18,7 +18,7 @@ const createWorkspaceFile = (workspaceData) => {
     // Serialize workspaceData Object to JSON
 
     // where to pipe to
-    const transformStream = JSONStream.stringifyObject('{', ',', '}');
+    const transformStream = JSONStream.stringifyObject('{\n', '\n,\n', '\n}\n');
     const outputStream = fs.createWriteStream(metaJSONFile);
     transformStream.pipe(outputStream);
 
