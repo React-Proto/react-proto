@@ -15,7 +15,9 @@ const initialComponentState = {
   selectableParents: [],
   selectableRoutes: [],
   expanded: true,
+  // deprecated
   props: [],
+  // deprecated
   activeParentProps: [],
   nextPropId: 0,
   position: {
@@ -474,6 +476,7 @@ export const addProp = (state, {
     type,
     origin,
     availableAt: [],
+    displayedAt: [],
   };
   compProps.push(newProp);
   return ({

@@ -16,6 +16,7 @@ const mapDispatchToProps = dispatch => ({
   addProp: prop => dispatch(addProp(prop)),
 });
 
+const mapStateToProps = state => ({ compProps: state.workspace.compProps });
 
 const styles = theme => ({
   root: {
@@ -131,11 +132,10 @@ class Props extends Component {
     const {
       focusComponent, classes, deleteProp, rightColumnOpen,
     } = this.props;
+    const { compProps } = this.props;
+
 
     // filters array for anything not containing focusComponentId
-    const displayProps = [{
-      id: '1', key: 'butt', value: 'butt', origin: '1', required: false,
-    }];
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
@@ -230,49 +230,61 @@ class Props extends Component {
               </Grid>
             </form>
             <div className="chips">
-              {displayProps.map(({
-                id, type, key, value, required,
-              }, index) => (
+            {compProps
+              .filter(el => el.origin === focusComponent.id || el.availableAt.indexOf(focusComponent.id) >= 0 || el.displayedAt.indexOf(focusComponent.id) >= 0)
+              .map((el) => {
+                const {
+                  id, key, value, required, type,
+                } = el;
+                return (
                 <Chip
-                  key={id}
-                  avatar={
-                    <Avatar className={classes.avatar}>
-                      {availablePropTypes[type]}
-                    </Avatar>
-                  }
-                  label={`${key}: ${value}`}
-                  onDelete={() => deleteProp({ id, index })}
-                  className={classes.chip}
-                  elevation={6}
-                  color={required ? 'secondary' : 'primary'}
-                  deleteIcon={
-                    <RemoveCircleOutlineIcon className={classes.icon} />
-                  }
+                key={id}
+                avatar={
+                  <Avatar className = {classes.avatar}>
+                    {availablePropTypes[type]}
+                  </Avatar>
+                }
+                label={`${key}: ${value}`}
+                onDelete={() => { console.log('hi everyone'); }}
+                className={classes.chip}
+                elevation={6}
+                disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
+                color={required ? 'secondary' : 'primary'}
+                deleteIcon={
+                  <RemoveCircleOutlineIcon className={classes.icon}/>
+                }
                 />
-              ))}
+                );
+              })}
             </div>
             <Typography className={classes.label}>Parent Props</Typography>
-            {/* <div className="chips">
-              {filteredParentProps.map(
-                ({
-                  id, type, key, value, required,
-                }, index) => (
-                  <Chip
-                    key={id}
-                    avatar={
-                      <Avatar className={classes.avatar}>
-                        {availablePropTypes[type]}
-                      </Avatar>
-                    }
-                    label={`${key}: ${value}`}
-                    className={classes.chip}
-                    elevation={6}
-                    color={required ? 'secondary' : 'primary'}
-                    onClick={() => this.moveProp({ id }, filteredParentProps)}
-                  />
-                ),
-              )}
-            </div> */}
+            {/* {compProps
+              .filter()
+              .map((el) => {
+                const {
+                  id, key, value, required, type,
+                } = el;
+                return (
+                <Chip
+                key={id}
+                avatar={
+                  <Avatar className = {classes.avatar}>
+                    {availablePropTypes[type]}
+                  </Avatar>
+                }
+                label={`${key}: ${value}`}
+                onDelete={() => { console.log('hi everyone'); }}
+                className={classes.chip}
+                elevation={6}
+                disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
+                color={required ? 'secondary' : 'primary'}
+                deleteIcon={
+                  <RemoveCircleOutlineIcon className={classes.icon}/>
+                }
+                />
+                );
+              })} */}
+
           </div>
         )}
       </div>
@@ -288,4 +300,4 @@ Props.propTypes = {
   rightColumnOpen: PropTypes.bool.isRequired,
 };
 
-export default compose(withStyles(styles), connect(null, mapDispatchToProps))(Props);
+export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(Props);

@@ -65,7 +65,7 @@ const initialApplicationState = {
   focusComponent: {},
   components: [],
   compProps: [],
-  // compProps - {id , key, value, required, type, displayedAt, origin}
+  // compProps - {id , key, value, required, type, displayedAt, origin, availableAt}
   appDir: '',
   loading: false,
 };
