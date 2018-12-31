@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
-import Routes from './Routes.jsx';
+import RoutesContainer from '../components/RoutesContainer.jsx';
 
 const styles = theme => ({
   root: {
@@ -63,7 +63,7 @@ const styles = theme => ({
   },
 });
 
-const LeftColExpansionPanel = (props) => {
+const LeftComponentContainer = (props) => {
   const {
     index,
     classes,
@@ -74,9 +74,6 @@ const LeftColExpansionPanel = (props) => {
     onExpansionPanelChange,
     moveToBottom,
     moveToTop,
-    addRoute,
-    deleteRoute,
-    setSelectableParents,
   } = props;
   const {
     title,
@@ -100,14 +97,11 @@ const LeftColExpansionPanel = (props) => {
     )),
   ];
 
-  const RouteComponent = router ? (<Routes
+  const RouteComponent = router ? (<RoutesContainer
     component={component}
     classes={classes}
     selectableRoutes = {selectableRoutes}
     id = {id}
-    addRoute = {addRoute}
-    routes = {routes}
-    deleteRoute = {deleteRoute}
   />) : null;
 
   return (
@@ -231,9 +225,9 @@ const LeftColExpansionPanel = (props) => {
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
+export default withStyles(styles)(LeftComponentContainer);
 
-LeftColExpansionPanel.propTypes = {
+LeftComponentContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
@@ -243,7 +237,5 @@ LeftColExpansionPanel.propTypes = {
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
   moveToTop: PropTypes.func,
-  addRoute: PropTypes.func,
   routes: PropTypes.object,
-  deleteRoute: PropTypes.func,
 };

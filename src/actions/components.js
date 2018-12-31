@@ -76,7 +76,9 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent, routes }) => (dispatch) => {
+export const deleteComponent = ({
+  index, id, parent, routes,
+}) => (dispatch) => {
   console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
@@ -218,27 +220,15 @@ export const addCompProp = prop => ({
   payload: { ...prop },
 });
 
-export const addRoute = compToAdd => (dispatch) => {
-  dispatch({
-    type: ADD_ROUTE,
-    payload: compToAdd,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToAdd.routerCompId,
-  });
-};
+export const addRoute = compToAdd => ({
+  type: ADD_ROUTE,
+  payload: compToAdd,
+});
 
-export const deleteRoute = compToDelete => (dispatch) => {
-  dispatch({
-    type: DELETE_ROUTE,
-    payload: compToDelete,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToDelete.routerCompId,
-  });
-};
+export const deleteRoute = compToDelete => ({
+  type: DELETE_ROUTE,
+  payload: compToDelete,
+});
 
 export const setVisible = compId => ({
   type: SET_VISIBLE,
@@ -246,3 +236,8 @@ export const setVisible = compId => ({
 });
 
 export const setSelectableParents = () => ({ type: SET_SELECTABLE_PARENTS });
+
+export const setSelectableRoutes = routerCompId => ({
+  type: SET_SELECTABLE_ROUTES,
+  payload: routerCompId,
+});
