@@ -423,6 +423,19 @@ export const addPropToDisplayed = (state, { propId, compId }) => {
   });
 };
 
+const getAllChildren = (componentToChange, components) => {
+  if (componentToChange.childrenIds.length < 1) {
+    return componentToChange.id;
+  }
+  const output = [];
+  // crazy inefficient: should refactor if possible
+  for (let i = 0; i < componentToChange.childrenIds.length; i += 1) {
+    const childComp = components.reduce((a, b) => (b.id === componentToChange.childrenIds[i] ? b : a), {});
+    output.concat(getAllChildren(childComp, components));
+  }
+  return output;
+};
+
 export const removePropFromDisplayed = (state, { propId, compId }) => {
   const { compProps } = state;
   const newCompProps = compProps.map((el) => {
@@ -432,13 +445,12 @@ export const removePropFromDisplayed = (state, { propId, compId }) => {
     return el;
   });
 
-  // recursively go down and clean up the tree
-
   return ({
     ...state,
     compProps: newCompProps,
   });
 };
+
 
 export const setVisible = (state, compId) => ({
   ...state,
