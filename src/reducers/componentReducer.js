@@ -23,6 +23,8 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
+  ADD_PROP_TO_DISPLAYED,
+  REMOVE_PROP_FROM_DISPLAYED,
   DELETE_PROP,
   ADD_ROUTE,
   DELETE_ROUTE,
@@ -49,6 +51,8 @@ import {
   movePropsToPPFilter,
   changeImagePath,
   addProp,
+  addPropToDisplayed,
+  removePropFromDisplayed,
   deleteProp,
   addRoute,
   deleteRoute,
@@ -127,6 +131,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case ADD_PROP_TO_DISPLAYED:
+      return addPropToDisplayed(state, action.payload);
+    case REMOVE_PROP_FROM_DISPLAYED:
+      return removePropFromDisplayed(state, action.payload);
     case ADD_ROUTE:
       return addRoute(state, action.payload);
     case DELETE_ROUTE:

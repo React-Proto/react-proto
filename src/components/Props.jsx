@@ -1,20 +1,34 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  withStyles, Avatar, FormControl, Grid, TextField,
-  Button, Select, Chip, Switch, InputLabel, Typography,
+  withStyles,
+  Avatar,
+  FormControl,
+  Grid,
+  TextField,
+  Button,
+  Select,
+  Chip,
+  Switch,
+  InputLabel,
+  Typography,
 } from '@material-ui/core';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-  deleteProp, addProp,
+  deleteProp, addProp, addPropToDisplayed, removePropFromDisplayed,
 } from '../actions/components';
 
 const mapDispatchToProps = dispatch => ({
-  deleteProp: ({ id, index }) => dispatch(deleteProp({ id, index })),
+  deleteProp: id => dispatch(deleteProp(id)),
   addProp: prop => dispatch(addProp(prop)),
-  addPropToSeen: prop => dispatch(addPropToSeen(prop, id)),
+  addPropToDisplayed: (propId, compId) => {
+    dispatch(addPropToDisplayed(propId, compId));
+  },
+  removePropFromDisplayed: (propId, compId) => {
+    dispatch(removePropFromDisplayed(propId, compId));
+  },
 });
 
 const mapStateToProps = state => ({
@@ -137,34 +151,53 @@ class Props extends Component {
     if (parentId === '') return [];
     output.push(comp.reduce((a, b) => (b.id === parentId ? b : a), { id: '' }));
     while (output[output.length - 1].parentId !== '') {
-      output.push(comp.reduce((a, b) => (b.id === output[output.length - 1].parentId ? b : a), { id: '' }));
+      output.push(
+        comp.reduce(
+          (a, b) => (b.id === output[output.length - 1].parentId ? b : a),
+          { id: '' },
+        ),
+      );
     }
     output = output.map(el => el.id);
     return output;
   }
 
-  parentPropHandler(event) {
+  parentPropHandler(id, compId) {
+    const propId = id.id;
+    console.log('parent prop handler');
     // adds to seen at in props object in store
-    const { id } = event;
-    return console.log(id);
-    // addPropToSeen({ id }, focusComponent.id);
+    this.props.addPropToDisplayed(propId, compId);
   }
 
-  deleteHandler() {
+  deleteHandler(id, compId) {
     // deletes prop from store if this is origin
     // otherwise removes it from the seenAt array
+    console.log('id: ', id, 'compId: ', compId);
+    const { compProps, deleteProp, removePropFromDisplayed } = this.props;
+    const propId = id.id;
+    // if it is from origin then do deleteProp
+    if (compProps.reduce((a, b) => (b.origin === compId ? b : a), null)) return deleteProp(propId, compId);
+    return removePropFromDisplayed(propId, compId);
 
+    // const pos = this.props.compProps.reduce((a, b) => (b.id === compId ? b : a), {});
+    // if (this.props.compProps[pos].displayedAt.indexOf(compId) >= 0) return this.props.removePropFromDisplayed(propId, compId);
+    // return this.props.deleteProp(propId);
   }
 
   render() {
     const {
-      focusComponent, classes, deleteProp, rightColumnOpen, compProps, components,
+      focusComponent,
+      classes,
+      deleteProp,
+      rightColumnOpen,
+      compProps,
+      components,
     } = this.props;
 
     let displayParentProps;
     if (Object.keys(focusComponent).length > 0) {
       console.log('focusComponent: ', focusComponent.id);
-      displayParentProps = this.getDisplayParentProps(components, focusComponent.parentId);
+      // displayParentProps = this.getDisplayParentProps(components, focusComponent.parentId);
     }
 
     return (
@@ -260,58 +293,73 @@ class Props extends Component {
               </Grid>
             </form>
             <div className="chips">
-            {compProps
-              .filter(el => el.origin === focusComponent.id || el.availableAt.indexOf(focusComponent.id) >= 0 || el.displayedAt.indexOf(focusComponent.id) >= 0)
-              .map((el) => {
-                const {
-                  id, key, value, required, type,
-                } = el;
-                return (
-                <Chip
-                key={id}
-                avatar={
-                  <Avatar className = {classes.avatar}>
-                    {availablePropTypes[type]}
-                  </Avatar>
-                }
-                label={`${key}: ${value}`}
-                onDelete={this.deleteHandler}
-                className={classes.chip}
-                elevation={6}
-                disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
-                color={required ? 'secondary' : 'primary'}
-                deleteIcon={
-                  <RemoveCircleOutlineIcon className={classes.icon}/>
-                }
-                />
-                );
-              })}
+              {compProps
+                .filter(
+                  el => el.origin === focusComponent.id
+                    || el.availableAt.indexOf(focusComponent.id) >= 0
+                    || el.displayedAt.indexOf(focusComponent.id) >= 0,
+                )
+                .map((el) => {
+                  const {
+                    id, key, value, required, type,
+                  } = el;
+                  return (
+                    <Chip
+                      key={id}
+                      avatar={
+                        <Avatar className={classes.avatar}>
+                          {availablePropTypes[type]}
+                        </Avatar>
+                      }
+                      label={`${key}: ${value}`}
+                      onDelete={() => this.deleteHandler({ id }, focusComponent.id)
+                      }
+                      className={classes.chip}
+                      elevation={6}
+                      disabled={
+                        el.origin !== focusComponent.id
+                        || el.availableAt.indexOf(focusComponent.id) < 0
+                      }
+                      color={required ? 'secondary' : 'primary'}
+                      deleteIcon={
+                        <RemoveCircleOutlineIcon className={classes.icon} />
+                      }
+                    />
+                  );
+                })}
             </div>
             <Typography className={classes.label}>Parent Props</Typography>
             {compProps
-              .filter(el => displayParentProps.indexOf(el.origin) >= 0)
+              // display if the parents contain it and the prop doesnt contain the current id
+              // .filter(el => displayParentProps.indexOf(el.origin) >= 0 && el.displayedAt.indexOf(focusComponent.id) < 0)
+              .filter(el => (focusComponent.parentId === el.origin || el.displayedAt.indexOf(focusComponent.parentId) >= 0) && el.displayedAt.indexOf(focusComponent.id) < 0)
               .map((el) => {
                 const {
                   id, key, value, required, type,
                 } = el;
                 return (
-                <Chip
-                key={id}
-                avatar={
-                  <Avatar className = {classes.avatar}>
-                    {availablePropTypes[type]}
-                  </Avatar>
-                }
-                label={`${key}: ${value}`}
-                onClick = {this.parentPropHandler}
-                className={classes.chip}
-                elevation={6}
-                disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
-                color={required ? 'secondary' : 'primary'}
-                deleteIcon={
-                  <RemoveCircleOutlineIcon className={classes.icon}/>
-                }
-                />
+                  <Chip
+                    key={id}
+                    avatar={
+                      <Avatar className={classes.avatar}>
+                        {availablePropTypes[type]}
+                      </Avatar>
+                    }
+                    label={`${key}: ${value}`}
+                    onClick={() => {
+                      this.parentPropHandler({ id }, focusComponent.id);
+                    }}
+                    className={classes.chip}
+                    elevation={6}
+                    disabled={
+                      el.origin !== focusComponent.id
+                      || el.availableAt.indexOf(focusComponent.id) < 0
+                    }
+                    color={required ? 'secondary' : 'primary'}
+                    deleteIcon={
+                      <RemoveCircleOutlineIcon className={classes.icon} />
+                    }
+                  />
                 );
               })}
           </div>
@@ -329,4 +377,10 @@ Props.propTypes = {
   rightColumnOpen: PropTypes.bool.isRequired,
 };
 
-export default compose(withStyles(styles), connect(mapStateToProps, mapDispatchToProps))(Props);
+export default compose(
+  withStyles(styles),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(Props);

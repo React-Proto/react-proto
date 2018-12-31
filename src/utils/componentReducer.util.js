@@ -286,97 +286,6 @@ export const updatePosition = (state, { id, x, y }) => {
   };
 };
 
-// subfunction of movePropsToPPFilter
-// is this necessary?
-const componentsToChange = (component, propToMove, components) => {
-  console.log('in components to change');
-  const newComponent = component;
-  const fcParent = components.reduce(
-    (a, b) => (b.id === newComponent.parentId ? b : a),
-    null,
-  );
-  console.log(newComponent);
-  console.log('is there parent?', fcParent);
-  if (fcParent) {
-    const componentParentHasProp = fcParent.props.reduce(
-      (a, b) => (b.type === propToMove.type && b.key === propToMove.key ? b : a),
-      null,
-    );
-    console.log('does parent have prop: ', componentParentHasProp);
-    if (componentParentHasProp) return [newComponent.id];
-
-    return [newComponent.id].concat(componentsToChange(fcParent, propToMove, components));
-  }
-  return [];
-};
-
-export const movePropsToPPFilter = (state, { id, propToMove }) => {
-  console.log('fucntion start parent activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-  // finds the component and updates the active parent props to contain the activated prop
-  let updatedComponent = {};
-  const updatedPropToMove = propToMove;
-  updatedPropToMove.id = Math.floor(Math.random(10000)) + 10000;
-
-  const components = state.components.map((component) => {
-    updatedComponent = component;
-    if (updatedComponent.id === id) {
-      const newActiveParentProps = updatedComponent.activeParentProps.filter(
-        el => !(el.type === propToMove.type && el.key === propToMove.key),
-      );
-      if (
-        newActiveParentProps.length
-        === updatedComponent.activeParentProps.length
-      ) {
-        newActiveParentProps.push(updatedPropToMove);
-      }
-      updatedComponent.activeParentProps = newActiveParentProps;
-    }
-    return updatedComponent;
-  });
-
-  // console.log('after first map function');
-  // console.log('component state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  // console.log('parent state activeparentprops: ', JSON.stringify(state.components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-  // console.log('updated component activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.id ? b.activeParentProps : a), {})));
-  // console.log('parent activeparentprops: ', JSON.stringify(components.reduce((a, b) => (b.id === state.focusComponent.parentId ? b.activeParentProps : a), {})));
-
-  // refreshes focusComponent afterwards so that it can pick up any new prop information to be displayed
-  const focusComponent = components.reduce(
-    (a, b) => (b.id === id ? b : a),
-    null,
-  );
-
-  // finds all of the parent props and adds the props required, and are not clickable
-  // loop through components, replaces if the component matches a component in componentsToReplace
-  const fcParent = components.reduce(
-    (a, b) => (b.id === focusComponent.parentId ? b : a),
-    [],
-  );
-  const componentIds = componentsToChange(fcParent, updatedPropToMove, components);
-
-  const newComponents = components.map((element) => {
-    console.log('index of: ', JSON.stringify(element.id), ' is ', JSON.stringify(componentIds.indexOf(element.id)), '. already active components: ', JSON.stringify(element.activeParentProps));
-    if (componentIds.indexOf(element.id) >= 0) {
-      const newElement = element;
-      newElement.activeParentProps.push(updatedPropToMove);
-      console.log(newElement.activeParentProps);
-      return newElement;
-    }
-    console.log('active ParentProps: ', element.activeParentProps);
-    return element;
-  });
-
-  console.log(JSON.stringify(newComponents));
-
-  console.log('end of function');
-
-  return {
-    ...state,
-    components: newComponents,
-    focusComponent,
-  };
-};
-
 /**
  * Applies the new x and y coordinates, as well as, the new width
  * and height the of components to the component with the provided id.
@@ -487,10 +396,48 @@ export const addProp = (state, {
 };
 
 // need fix
-export const deleteProp = (state, { index }) => {
-  const { props, id } = state.focusComponent;
-  const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
-  return updateComponent(state, { id, props: newProps });
+export const deleteProp = (state, { propId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.filter(el => el.id !== propId);
+  // go down recursively and clean up tree
+
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
+};
+
+export const addPropToDisplayed = (state, { propId, compId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.map((el) => {
+    if (el.id === propId) {
+      el.displayedAt.push(compId);
+    }
+    return el;
+  });
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
+};
+
+export const removePropFromDisplayed = (state, { propId, compId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.map((el) => {
+    if (el.id === propId) {
+      el.displayedAt.splice(el.displayedAt.indexOf(compId));
+    }
+    return el;
+  });
+
+  // recursively go down and clean up the tree
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
 };
 
 export const setVisible = (state, compId) => ({

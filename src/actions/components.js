@@ -23,6 +23,8 @@ import {
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
+  ADD_PROP_TO_DISPLAYED,
+  REMOVE_PROP_FROM_DISPLAYED,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_ROUTE,
@@ -217,14 +219,24 @@ export const changeImagePath = path => ({
   payload: path,
 });
 
-export const deleteProp = ({ id, index }) => ({
+export const deleteProp = propId => ({
   type: DELETE_PROP,
-  payload: { id, index },
+  payload: { propId },
 });
 
 export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
+});
+
+export const addPropToDisplayed = (propId, compId) => ({
+  type: ADD_PROP_TO_DISPLAYED,
+  payload: { propId, compId },
+});
+
+export const removePropFromDisplayed = (propId, compId) => ({
+  type: REMOVE_PROP_FROM_DISPLAYED,
+  payload: { propId, compId },
 });
 
 export const addRoute = compToAdd => (dispatch) => {
