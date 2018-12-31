@@ -14,9 +14,13 @@ import {
 const mapDispatchToProps = dispatch => ({
   deleteProp: ({ id, index }) => dispatch(deleteProp({ id, index })),
   addProp: prop => dispatch(addProp(prop)),
+  addPropToSeen: prop => dispatch(addPropToSeen(prop, id)),
 });
 
-const mapStateToProps = state => ({ compProps: state.workspace.compProps });
+const mapStateToProps = state => ({
+  compProps: state.workspace.compProps,
+  components: state.workspace.components,
+});
 
 const styles = theme => ({
   root: {
@@ -127,15 +131,41 @@ class Props extends Component {
     });
   };
 
+  getDisplayParentProps(comp, parentId) {
+    // gets all of the parents from the components object and places into array
+    let output = [];
+    if (parentId === '') return [];
+    output.push(comp.reduce((a, b) => (b.id === parentId ? b : a), { id: '' }));
+    while (output[output.length - 1].parentId !== '') {
+      output.push(comp.reduce((a, b) => (b.id === output[output.length - 1].parentId ? b : a), { id: '' }));
+    }
+    output = output.map(el => el.id);
+    return output;
+  }
+
+  parentPropHandler(event) {
+    // adds to seen at in props object in store
+    const { id } = event;
+    return console.log(id);
+    // addPropToSeen({ id }, focusComponent.id);
+  }
+
+  deleteHandler() {
+    // deletes prop from store if this is origin
+    // otherwise removes it from the seenAt array
+
+  }
 
   render() {
     const {
-      focusComponent, classes, deleteProp, rightColumnOpen,
+      focusComponent, classes, deleteProp, rightColumnOpen, compProps, components,
     } = this.props;
-    const { compProps } = this.props;
 
-
-    // filters array for anything not containing focusComponentId
+    let displayParentProps;
+    if (Object.keys(focusComponent).length > 0) {
+      console.log('focusComponent: ', focusComponent.id);
+      displayParentProps = this.getDisplayParentProps(components, focusComponent.parentId);
+    }
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
@@ -245,7 +275,7 @@ class Props extends Component {
                   </Avatar>
                 }
                 label={`${key}: ${value}`}
-                onDelete={() => { console.log('hi everyone'); }}
+                onDelete={this.deleteHandler}
                 className={classes.chip}
                 elevation={6}
                 disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
@@ -258,8 +288,8 @@ class Props extends Component {
               })}
             </div>
             <Typography className={classes.label}>Parent Props</Typography>
-            {/* {compProps
-              .filter()
+            {compProps
+              .filter(el => displayParentProps.indexOf(el.origin) >= 0)
               .map((el) => {
                 const {
                   id, key, value, required, type,
@@ -273,7 +303,7 @@ class Props extends Component {
                   </Avatar>
                 }
                 label={`${key}: ${value}`}
-                onDelete={() => { console.log('hi everyone'); }}
+                onClick = {this.parentPropHandler}
                 className={classes.chip}
                 elevation={6}
                 disabled={el.origin !== focusComponent.id || el.availableAt.indexOf(focusComponent.id) < 0}
@@ -283,8 +313,7 @@ class Props extends Component {
                 }
                 />
                 );
-              })} */}
-
+              })}
           </div>
         )}
       </div>
