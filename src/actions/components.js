@@ -19,9 +19,12 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
+  MOVE_PROPS_TO_PP_FILTER,
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
+  ADD_PROP_TO_DISPLAYED,
+  REMOVE_PROP_FROM_DISPLAYED,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_ROUTE,
@@ -76,7 +79,9 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent, routes }) => (dispatch) => {
+export const deleteComponent = ({
+  index, id, parent, routes,
+}) => (dispatch) => {
   console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
@@ -194,6 +199,12 @@ export const moveToTop = componentId => ({
   payload: componentId,
 });
 
+export const movePropsToPPFilter = ({ id, propToMove }) => (
+  {
+    type: MOVE_PROPS_TO_PP_FILTER,
+    payload: { id, propToMove },
+  });
+
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
   payload: { component },
@@ -208,14 +219,24 @@ export const changeImagePath = path => ({
   payload: path,
 });
 
-export const deleteCompProp = ({ id, index }) => ({
+export const deleteProp = propId => ({
   type: DELETE_PROP,
-  payload: { id, index },
+  payload: { propId },
 });
 
-export const addCompProp = prop => ({
+export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
+});
+
+export const addPropToDisplayed = (propId, compId) => ({
+  type: ADD_PROP_TO_DISPLAYED,
+  payload: { propId, compId },
+});
+
+export const removePropFromDisplayed = (propId, compId) => ({
+  type: REMOVE_PROP_FROM_DISPLAYED,
+  payload: { propId, compId },
 });
 
 export const addRoute = compToAdd => (dispatch) => {
