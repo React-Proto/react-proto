@@ -47,7 +47,6 @@ import {
   moveToBottom,
   moveToTop,
   openExpansionPanel,
-  movePropsToPPFilter,
   changeImagePath,
   addProp,
   addPropToDisplayed,

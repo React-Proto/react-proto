@@ -15,10 +15,6 @@ const initialComponentState = {
   selectableParents: [],
   selectableRoutes: [],
   expanded: true,
-  // deprecated
-  props: [],
-  // deprecated
-  activeParentProps: [],
   nextPropId: 0,
   position: {
     x: 110,
@@ -419,19 +415,6 @@ export const addPropToDisplayed = (state, { propId, compId }) => {
     ...state,
     compProps: newCompProps,
   });
-};
-
-const getAllChildren = (componentToChange, components) => {
-  if (componentToChange.childrenIds.length < 1) {
-    return componentToChange.id;
-  }
-  const output = [];
-  // crazy inefficient: should refactor if possible
-  for (let i = 0; i < componentToChange.childrenIds.length; i += 1) {
-    const childComp = components.reduce((a, b) => (b.id === componentToChange.childrenIds[i] ? b : a), {});
-    output.concat(getAllChildren(childComp, components));
-  }
-  return output;
 };
 
 export const removePropFromDisplayed = (state, { propId, compId }) => {
