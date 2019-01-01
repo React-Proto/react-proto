@@ -79,6 +79,7 @@ class RightTabs extends Component {
       rightColumnOpen,
       setVisible,
       onExpansionPanelChange,
+      setSelectableParents,
     } = this.props;
     const { value } = this.state;
 
@@ -112,6 +113,7 @@ class RightTabs extends Component {
         {value === 0 && <SortableComponent
           components={components}
           setVisible={setVisible}
+          setSelectableParents={setSelectableParents}
           onExpansionPanelChange={onExpansionPanelChange}
         />}
         {value === 1 && <Props
@@ -135,6 +137,7 @@ RightTabs.propTypes = {
   rightColumnOpen: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   onExpansionPanelChange: PropTypes.func,
+  setSelectableParents: PropTypes.func,
 };
 
 export default withStyles(styles)(RightTabs);

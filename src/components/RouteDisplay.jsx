@@ -1,8 +1,9 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
 
-const RouteListItem = ({
+const RouteDisplay = ({
   componentTitle,
   pathName,
   routeCompId,
@@ -27,4 +28,13 @@ const RouteListItem = ({
   </div>
 );
 
-export default RouteListItem;
+export default RouteDisplay;
+
+RouteDisplay.propTypes = {
+  deleteRoute: PropTypes.func.isRequired,
+  routerCompId: PropTypes.string.isRequired,
+  componentTitle: PropTypes.string.isRequired,
+  pathName: PropTypes.string.isRequired,
+  routeCompId: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+};
