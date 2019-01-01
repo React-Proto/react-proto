@@ -6,6 +6,7 @@ const getSelectableRoutes = (components, childrenIds, routes) => {
       const routeChoice = {};
       routeChoice.id = comp.id;
       routeChoice.title = comp.title;
+      routeChoice.color = comp.color;
       selectableRoutes.push(routeChoice);
     }
   });

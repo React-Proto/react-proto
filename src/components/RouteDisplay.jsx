@@ -2,6 +2,7 @@ import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import PropTypes from 'prop-types';
+import Grid from '@material-ui/core/Grid';
 
 const RouteDisplay = ({
   componentTitle,
@@ -10,10 +11,21 @@ const RouteDisplay = ({
   deleteRoute,
   classes,
   routerCompId,
+  color,
 }) => (
-  <div className="routeListItem">
-    Path: / {pathName}
-    Component: {componentTitle}
+  <Grid container alignItems="baseline" align="stretch">
+  {console.log('color: ', color)}
+    <Grid item xs={10}
+    style={{
+      color,
+    }}
+    >
+   
+      Path: / {pathName}
+      <br/>
+      Component: {componentTitle}
+    </Grid>
+    <Grid item xs={2}>
     <IconButton
       className={classes.button}
       onClick={() => {
@@ -23,9 +35,13 @@ const RouteDisplay = ({
         });
       }}
       aria-label='Delete'>
-      <DeleteIcon className={classes.light} />
+      <DeleteIcon
+      style={{
+        color,
+      }} />
     </IconButton>
-  </div>
+    </Grid>
+  </Grid>
 );
 
 export default RouteDisplay;

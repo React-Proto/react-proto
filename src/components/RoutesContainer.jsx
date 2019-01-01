@@ -87,20 +87,25 @@ class RoutesContainer extends Component {
         classes={classes}
         deleteRoute={handleDeleteRoute}
         routerCompId={component.id}
+        color={route.color}
         />
     ));
     return (
       <div>
         <FormControl fullWidth={true}>
           <Grid container alignItems="baseline" align="stretch">
+            
             <Grid item xs={10}>
             <InputLabel className={classes.label} htmlFor="stateful">
               Path: /
             </InputLabel>
+            </Grid>
+            <br></br>
+            <Grid item xs={10}>
               <TextField
                 id="title-input"
-                label="Path Name"
-                placeholder="routeName"
+                // label="Path Name"
+                placeholder="RouteName"
                 margin="normal"
                 autoFocus
                 onChange={handleChange}
@@ -115,6 +120,7 @@ class RoutesContainer extends Component {
                 }}
               />
             </Grid>
+            
             <Grid item xs={2}>
               <Button
                 variant="fab"
@@ -127,6 +133,7 @@ class RoutesContainer extends Component {
                 <AddIcon />
               </Button>
             </Grid>
+
           </Grid>
         </FormControl>
         <div className={classes.column}>
@@ -143,8 +150,10 @@ class RoutesContainer extends Component {
               {componentOptions}
             </Select>
           </div>
-        <div>
+        <br/>
+        <div className={classes.light}>
           Routes:
+          <br/>
           {routeList}
         </div>
       </div>
