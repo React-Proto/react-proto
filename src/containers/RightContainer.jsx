@@ -7,6 +7,7 @@ import {
   addCompProp,
   setVisible,
   openExpansionPanel,
+  setSelectableParents,
 } from '../actions/components';
 import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from '../components/RightTabs.jsx';
@@ -19,6 +20,7 @@ const mapDispatchToProps = dispatch => ({
   addProp: prop => dispatch(addCompProp(prop)),
   setVisible: compId => dispatch(setVisible(compId)),
   openExpansionPanel: component => dispatch(openExpansionPanel(component)),
+  setSelectableParents: () => dispatch(setSelectableParents()),
 });
 
 const mapStateToProps = store => ({
@@ -54,6 +56,7 @@ class RightContainer extends Component {
       addProp,
       rightColumnOpen,
       setVisible,
+      setSelectableParents,
     } = this.props;
 
     return (
@@ -66,6 +69,7 @@ class RightContainer extends Component {
           rightColumnOpen={rightColumnOpen}
           setVisible={setVisible}
           onExpansionPanelChange={this.handleExpansionPanelChange}
+          setSelectableParents={setSelectableParents}
         />
         <Snackbars
           successOpen={successOpen}
