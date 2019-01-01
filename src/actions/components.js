@@ -19,7 +19,6 @@ import {
   TOGGLE_DRAGGING,
   MOVE_TO_BOTTOM,
   MOVE_TO_TOP,
-  MOVE_PROPS_TO_PP_FILTER,
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
@@ -198,12 +197,6 @@ export const moveToTop = componentId => ({
   type: MOVE_TO_TOP,
   payload: componentId,
 });
-
-export const movePropsToPPFilter = ({ id, propToMove }) => (
-  {
-    type: MOVE_PROPS_TO_PP_FILTER,
-    payload: { id, propToMove },
-  });
 
 export const openExpansionPanel = component => ({
   type: OPEN_EXPANSION_PANEL,
