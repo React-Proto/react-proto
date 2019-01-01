@@ -239,29 +239,24 @@ export const removePropFromDisplayed = (propId, compId) => ({
   payload: { propId, compId },
 });
 
-export const addRoute = compToAdd => (dispatch) => {
-  dispatch({
-    type: ADD_ROUTE,
-    payload: compToAdd,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToAdd.routerCompId,
-  });
-};
+export const addRoute = compToAdd => ({
+  type: ADD_ROUTE,
+  payload: compToAdd,
+});
 
-export const deleteRoute = compToDelete => (dispatch) => {
-  dispatch({
-    type: DELETE_ROUTE,
-    payload: compToDelete,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToDelete.routerCompId,
-  });
-};
+export const deleteRoute = compToDelete => ({
+  type: DELETE_ROUTE,
+  payload: compToDelete,
+});
 
 export const setVisible = compId => ({
   type: SET_VISIBLE,
   payload: compId,
+});
+
+export const setSelectableParents = () => ({ type: SET_SELECTABLE_PARENTS });
+
+export const setSelectableRoutes = routerCompId => ({
+  type: SET_SELECTABLE_ROUTES,
+  payload: routerCompId,
 });

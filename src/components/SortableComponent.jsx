@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import 'react-sortable-tree/style.css';
 import IconButton from '@material-ui/core/IconButton';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 const SortableComponent = (props) => {
@@ -11,6 +12,7 @@ const SortableComponent = (props) => {
     components,
     setVisible,
     onExpansionPanelChange,
+    setSelectableParents,
   } = props;
 
   const rootComponents = components.filter(
@@ -19,6 +21,7 @@ const SortableComponent = (props) => {
 
   const toggleViewBtn = (rowInfo) => {
     setVisible(rowInfo.node.id);
+    setSelectableParents();
   };
 
   const nodeClicked = (rowInfo) => {
@@ -32,7 +35,6 @@ const SortableComponent = (props) => {
          className='row_color'
          onClick={() => nodeClicked(rowInfo)}
          style={{
-           verticalAlign: 'middle',
            color: rowInfo.node.color,
          }}
      >
@@ -41,14 +43,19 @@ const SortableComponent = (props) => {
     };
     if (rowInfo.node.route) {
       rowProps.buttons.push(
-        <VisibilityIcon key='1'
+        rowInfo.node.visible ? (<VisibilityIcon key='1'
             style={{
-              verticalAlign: 'middle',
               color: rowInfo.node.color,
             }}
             onClick={() => toggleViewBtn(rowInfo)}
         >
-        </VisibilityIcon>,
+        </VisibilityIcon>) : (<VisibilityOff key='1'
+            style={{
+              color: rowInfo.node.color,
+            }}
+            onClick={() => toggleViewBtn(rowInfo)}
+        >
+        </VisibilityOff>),
       );
     }
     return rowProps;

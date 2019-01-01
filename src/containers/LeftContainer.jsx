@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
+import LeftComponentContainer from './LeftComponentContainer.jsx';
 import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
 
@@ -29,9 +29,6 @@ const mapDispatchToProps = dispatch => ({
   moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
-  setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
-  addRoute: compToAdd => dispatch(actions.addRoute(compToAdd)),
-  deleteRoute: compToDelete => dispatch(actions.deleteRoute(compToDelete)),
 });
 
 const styles = theme => ({
@@ -121,14 +118,11 @@ class LeftContainer extends Component {
       focusComponent,
       totalComponents,
       classes,
-      setSelectableRoutes,
-      addRoute,
-      deleteRoute,
     } = this.props;
     const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components.map(
-      (component, i) => <LeftColExpansionPanel
+      (component, i) => <LeftComponentContainer
         key={component.id}
         index={i}
         id={component.id}
@@ -139,9 +133,6 @@ class LeftContainer extends Component {
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         moveToTop={moveToTop}
-        setSelectableRoutes={setSelectableRoutes}
-        addRoute={addRoute}
-        deleteRoute={deleteRoute}
       />,
     );
     return (
@@ -222,7 +213,6 @@ LeftContainer.propTypes = {
   addComponent: PropTypes.func.isRequired,
   deleteComponent: PropTypes.func.isRequired,
   updateComponent: PropTypes.func.isRequired,
-  setSelectableRoutes: PropTypes.func.isRequired,
   deleteAllData: PropTypes.func.isRequired,
   moveToBottom: PropTypes.func.isRequired,
   moveToTop: PropTypes.func.isRequired,
@@ -230,6 +220,4 @@ LeftContainer.propTypes = {
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   classes: PropTypes.object,
-  addRoute: PropTypes.func.isRequired,
-  deleteRoute: PropTypes.func.isRequired,
 };

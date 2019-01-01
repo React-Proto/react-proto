@@ -218,9 +218,7 @@ export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
       comp.routes = [...comp.routes, newRoute];
       return { ...comp };
     }
-    if (comp.id === routeCompId) {
-      return { ...comp, route: true, visible: false };
-    }
+    if (comp.id === routeCompId) return { ...comp, route: true };
     return comp;
   }),
 });
