@@ -17,6 +17,7 @@ const mapDispatchToProps = dispatch => ({
   addRoute: compToAdd => dispatch(actions.addRoute(compToAdd)),
   deleteRoute: compToDelete => dispatch(actions.deleteRoute(compToDelete)),
   setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
+  setVisible: compId => dispatch(actions.setVisible(compId)),
 });
 
 class RoutesContainer extends Component {
@@ -85,7 +86,7 @@ class RoutesContainer extends Component {
         componentTitle={route.routeCompTitle}
         pathName={route.path}
         classes={classes}
-        deleteRoute={handleDeleteRoute}
+        handleDeleteRoute={handleDeleteRoute}
         routerCompId={component.id}
         color={route.color}
         />
@@ -172,4 +173,5 @@ RoutesContainer.propTypes = {
   addRoute: PropTypes.func.isRequired,
   deleteRoute: PropTypes.func.isRequired,
   setSelectableRoutes: PropTypes.func.isRequired,
+  setVisible: PropTypes.func.isRequired,
 };

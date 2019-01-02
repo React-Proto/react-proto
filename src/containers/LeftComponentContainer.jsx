@@ -74,6 +74,8 @@ const LeftComponentContainer = (props) => {
     onExpansionPanelChange,
     moveToBottom,
     moveToTop,
+    setVisible,
+    setSelectableRoutes,
   } = props;
   const {
     title,
@@ -85,6 +87,7 @@ const LeftComponentContainer = (props) => {
     selectableRoutes,
     router,
     routes,
+    visible,
   } = component;
   const parentOptions = [
     <option value="null" key="">
@@ -96,6 +99,17 @@ const LeftComponentContainer = (props) => {
       </option>
     )),
   ];
+
+  const handleDeleteComp = (event) => {
+    if (!visible) setVisible(id);
+    deleteComponent({
+      index,
+      id,
+      parent,
+      routes,
+    });
+    setSelectableRoutes(parent.id);
+  };
 
   const RouteComponent = router ? (<RoutesContainer
     component={component}
@@ -207,14 +221,7 @@ const LeftComponentContainer = (props) => {
           </Tooltip>
           <IconButton
             className={classes.button}
-            onClick={() => {
-              deleteComponent({
-                index,
-                id,
-                parent,
-                routes,
-              });
-            }}
+            onClick={handleDeleteComp}
             aria-label="Delete"
           >
             <DeleteIcon className={classes.light} />
@@ -238,4 +245,6 @@ LeftComponentContainer.propTypes = {
   moveToBottom: PropTypes.func,
   moveToTop: PropTypes.func,
   routes: PropTypes.object,
+  setVisible: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
 };

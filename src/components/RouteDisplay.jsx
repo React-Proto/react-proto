@@ -8,7 +8,7 @@ const RouteDisplay = ({
   componentTitle,
   pathName,
   routeCompId,
-  deleteRoute,
+  handleDeleteRoute,
   classes,
   routerCompId,
   color,
@@ -29,9 +29,9 @@ const RouteDisplay = ({
     <IconButton
       className={classes.button}
       onClick={() => {
-        deleteRoute({
+        handleDeleteRoute({
           routeCompId,
-          routerCompId,
+          routerCompId, 
         });
       }}
       aria-label='Delete'>
@@ -47,10 +47,11 @@ const RouteDisplay = ({
 export default RouteDisplay;
 
 RouteDisplay.propTypes = {
-  deleteRoute: PropTypes.func.isRequired,
+  handleDeleteRoute: PropTypes.func.isRequired,
   routerCompId: PropTypes.string.isRequired,
   componentTitle: PropTypes.string.isRequired,
   pathName: PropTypes.string.isRequired,
   routeCompId: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
+  color: PropTypes.string.isRequired,
 };
