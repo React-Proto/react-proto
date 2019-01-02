@@ -11,16 +11,9 @@ const RouteDisplay = ({
   handleDeleteRoute,
   classes,
   routerCompId,
-  color,
 }) => (
   <Grid container alignItems="baseline" align="stretch">
-  {console.log('color: ', color)}
-    <Grid item xs={10}
-    style={{
-      color,
-    }}
-    >
-   
+    <Grid item xs={10} className={classes.light} >
       Path: / {pathName}
       <br/>
       Component: {componentTitle}
@@ -31,14 +24,11 @@ const RouteDisplay = ({
       onClick={() => {
         handleDeleteRoute({
           routeCompId,
-          routerCompId, 
+          routerCompId,
         });
       }}
       aria-label='Delete'>
-      <DeleteIcon
-      style={{
-        color,
-      }} />
+      <DeleteIcon />
     </IconButton>
     </Grid>
   </Grid>
@@ -53,5 +43,4 @@ RouteDisplay.propTypes = {
   pathName: PropTypes.string.isRequired,
   routeCompId: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  color: PropTypes.string.isRequired,
 };

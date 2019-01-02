@@ -205,11 +205,12 @@ export const addRoute = (state, {
   ...state,
   components: state.components.map((comp) => {
     if (comp.id === routerCompId) {
+      // crete new route object
       const newRoute = { path, routeCompId };
+      // build the new Route Object from the selectable Routes info
       comp.selectableRoutes.forEach((route) => {
         if (route.id === routeCompId) {
           newRoute.routeCompTitle = route.title;
-          newRoute.color = route.color;
         }
       });
       comp.routes = [...comp.routes, newRoute];

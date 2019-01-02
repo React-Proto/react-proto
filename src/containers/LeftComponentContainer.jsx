@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
-import RoutesContainer from '../components/RoutesContainer.jsx';
+import RoutesContainer from './RoutesContainer.jsx';
 
 const styles = theme => ({
   root: {
@@ -111,6 +111,10 @@ const LeftComponentContainer = (props) => {
     setSelectableRoutes(parent.id);
   };
 
+  const handleUpdateColor = (event) => {
+    updateComponent({ color: event.target.value, index, id });
+  };
+
   const RouteComponent = router ? (<RoutesContainer
     component={component}
     classes={classes}
@@ -168,8 +172,7 @@ const LeftComponentContainer = (props) => {
               id="boxColor"
               disableUnderline={true}
               value={color}
-              onChange={event => updateComponent({ color: event.target.value, index, id })
-              }
+              onChange={handleUpdateColor}
             />
           </div>
           <div className={classes.column}>

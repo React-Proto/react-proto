@@ -20,6 +20,10 @@ const mapDispatchToProps = dispatch => ({
   setVisible: compId => dispatch(actions.setVisible(compId)),
 });
 
+const mapStateToProps = ({ workspace: { components } }) => ({
+  components,
+});
+
 class RoutesContainer extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +37,7 @@ class RoutesContainer extends Component {
     const {
       classes,
       component,
+      components,
     } = this.props;
     const { pathName } = this.state;
 
@@ -88,7 +93,6 @@ class RoutesContainer extends Component {
         classes={classes}
         handleDeleteRoute={handleDeleteRoute}
         routerCompId={component.id}
-        color={route.color}
         />
     ));
     return (
@@ -152,7 +156,7 @@ class RoutesContainer extends Component {
             </Select>
           </div>
         <br/>
-        <div className={classes.light}>
+        <div className={classes.label}>
           Routes:
           <br/>
           {routeList}
@@ -167,7 +171,7 @@ RoutesContainer.propTypes = {
   component: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(RoutesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutesContainer);
 
 RoutesContainer.propTypes = {
   addRoute: PropTypes.func.isRequired,
