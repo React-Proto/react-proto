@@ -137,7 +137,6 @@ class LeftContainer extends Component {
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         moveToTop={moveToTop}
-        classes={classes}
         setVisible={setVisible}
         setSelectableRoutes={setSelectableRoutes}
       />,

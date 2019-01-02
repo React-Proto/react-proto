@@ -61,6 +61,13 @@ const styles = theme => ({
   group: {
     margin: `${theme.spacing.unit}px 0`,
   },
+  button: {
+    color: '#fff',
+
+    '&:disabled': {
+      color: 'grey',
+    },
+  },
 });
 
 const LeftComponentContainer = (props) => {
