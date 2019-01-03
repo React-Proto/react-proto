@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   handleClose,
-  deleteCompProp,
-  addCompProp,
   setVisible,
   openExpansionPanel,
   setSelectableParents,
@@ -16,8 +14,6 @@ const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop)),
   setVisible: compId => dispatch(setVisible(compId)),
   openExpansionPanel: component => dispatch(openExpansionPanel(component)),
   setSelectableParents: () => dispatch(setSelectableParents()),
@@ -52,8 +48,6 @@ class RightContainer extends Component {
       handleNotificationClose,
       appDir,
       focusComponent,
-      deleteProp,
-      addProp,
       rightColumnOpen,
       setVisible,
       setSelectableParents,
@@ -64,8 +58,6 @@ class RightContainer extends Component {
         <RightTabs
           components={components}
           focusComponent={focusComponent}
-          deleteProp={deleteProp}
-          addProp={addProp}
           rightColumnOpen={rightColumnOpen}
           setVisible={setVisible}
           onExpansionPanelChange={this.handleExpansionPanelChange}
