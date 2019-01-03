@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import RouteDisplay from './RouteDisplay.jsx';
+import RouteDisplay from '../components/RouteDisplay.jsx';
 import * as actions from '../actions/components';
 
 // import { withStyles } from '@material-ui/core/styles';
