@@ -130,8 +130,6 @@ RightTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   components: PropTypes.array.isRequired,
   focusComponent: PropTypes.object.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   onExpansionPanelChange: PropTypes.func,

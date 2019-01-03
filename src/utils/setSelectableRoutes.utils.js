@@ -1,7 +1,15 @@
 const getSelectableRoutes = (components, childrenIds, routes) => {
-  const currentrouteIds = routes.map(route => route.routeCompId);
-  return components
-    .filter(comp => childrenIds.includes(comp.id) && !currentrouteIds.includes(comp.id));
+  const selectableRoutes = [];
+  const routeIds = routes.map(route => route.routeCompId);
+  components.forEach((comp) => {
+    if (childrenIds.includes(comp.id) && !routeIds.includes(comp.id)) {
+      const routeChoice = {};
+      routeChoice.id = comp.id;
+      routeChoice.title = comp.title;
+      selectableRoutes.push(routeChoice);
+    }
+  });
+  return selectableRoutes;
 };
 
 const setSelectableRoutes = (components, id) => components.map((comp) => {

@@ -82,8 +82,6 @@ RightContainer.propTypes = {
   errorOpen: PropTypes.bool.isRequired,
   focusComponent: PropTypes.object.isRequired,
   handleNotificationClose: PropTypes.func.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
 };
