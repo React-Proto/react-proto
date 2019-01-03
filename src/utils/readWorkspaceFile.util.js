@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import yauzl from 'yauzl-promise';
 import getAppDataPath from './getAppDataPath.util';
+import convertIdsToObjs from './convertIdsToObjs.util';
 
 /**
  *  Summary: opens a rproto file and de-serializes the stored metadata into a workspaceData Object.
@@ -45,9 +46,16 @@ const readWorkspaceFile = async (workspaceFilePath) => {
   // De-serialize workspaceData Object from JSON formatted string
   const data = fs.readFileSync(path.join(appDataPath, metaJSONFile), 'utf8');
   workspaceData = JSON.parse(data);
+
+  // Adjust workspaceData Object for Application Use
   if (workspaceData.imagePath) {
     // Adjust imagePath to where it will be extracted
     workspaceData.imagePath = path.join(appDataPath, workspaceData.imagePath);
+  }
+  workspaceData = { ...workspaceData, components: convertIdsToObjs(workspaceData.components) };
+  if (workspaceData.focusComponent) {
+    workspaceData.focusComponent = workspaceData
+      .components.find(component => component.id === workspaceData.focusComponent.id);
   }
   return workspaceData;
 };
