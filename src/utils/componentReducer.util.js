@@ -1,6 +1,7 @@
 import setSelectableParents from './setSelectableParents.util';
 import setSelectableRoutes from './setSelectableRoutes.utils';
 import getColor from './colors.util';
+import convertIdsToObjs from './convertIdsToObjs.util';
 
 const initialComponentState = {
   id: null,
@@ -25,6 +26,8 @@ const initialComponentState = {
   },
   route: false,
   visible: true,
+  children: [],
+  parent: {},
 };
 
 export const addComponent = (state, { title }) => {
@@ -60,7 +63,7 @@ export const updateComponent = ((state, {
   id, newParentId = null, color = null, stateful = null, props = null, router = null,
 }) => {
   let component;
-  const components = state.components.map((comp) => {
+  const components = convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === id) {
       component = { ...comp };
       if (newParentId === 'null') {
@@ -78,7 +81,7 @@ export const updateComponent = ((state, {
       return component;
     }
     return comp;
-  });
+  }));
 
   return {
     ...state,
@@ -90,10 +93,10 @@ export const updateComponent = ((state, {
 // Delete component with the index for now, but will be adjusted to use id
 export const deleteComponent = (state, { index, id }) => {
   const { focusComponent } = state;
-  const components = [
+  const components = convertIdsToObjs([
     ...state.components.slice(0, index),
     ...state.components.slice(index + 1),
-  ];
+  ]);
 
   const totalComponents = state.totalComponents - 1;
 
@@ -106,13 +109,13 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const addChild = ((state, { id, childId }) => {
-  const components = state.components.map((component) => {
+  const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === id) {
       const { childrenIds } = component;
       return { ...component, childrenIds: [...childrenIds, childId] };
     }
     return component;
-  });
+  }));
 
   return {
     ...state,
@@ -121,14 +124,14 @@ export const addChild = ((state, { id, childId }) => {
 });
 
 export const deleteChild = ((state, { parent, childId }) => {
-  const components = state.components.map((component) => {
+  const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === parent.id) {
       // Find child with matching id and remove from children
       const childrenIds = component.childrenIds.filter(id => id !== childId);
       return { ...component, childrenIds };
     }
     return component;
-  });
+  }));
 
   return {
     ...state,
@@ -168,7 +171,7 @@ export const changeImagePath = (state, imagePath) => ({
 export const reassignParent = ((state, { index, parent = {} }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
-  const components = state.components.map((comp) => {
+  const components = convertIdsToObjs(state.components.map((comp) => {
     // Give each child their previous parent's parent
     if (childrenIds.includes(comp.id)) {
       return { ...comp, parentId: parent.id || '' };
@@ -179,7 +182,7 @@ export const reassignParent = ((state, { index, parent = {} }) => {
       return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
     }
     return comp;
-  });
+  }));
 
   return {
     ...state,
