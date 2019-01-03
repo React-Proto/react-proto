@@ -14,22 +14,50 @@ const createWorkspaceFile = (workspaceData) => {
     // Create name for JSON meta file
     const metaJSONFile = workspaceData.workspaceFilePath.replace(/.rproto$/i, '.json');
 
+    // Filter Object ref properties to remove serialization issues
+    const { focusComponent, components } = workspaceData;
+    let slimComponents = [];
+    let slimFocusComponent = {};
+    if (focusComponent) {
+      slimFocusComponent = { ...focusComponent, parent: {}, children: [] };
+    }
+    if (components) {
+      slimComponents = components.map(component => (
+        { ...component, parent: {}, children: [] }
+      ));
+    }
+    const slimWorkspaceData = {
+      ...workspaceData,
+      components: slimComponents,
+      focusComponent: slimFocusComponent,
+    };
+
     // Create a meta file representing our state
     // Serialize workspaceData Object to JSON
 
     // where to pipe to
-    const transformStream = JSONStream.stringifyObject('{\n', '\n,\n', '\n}\n');
+    const transformStream = JSONStream.stringifyObject('{\n', ',\n', '\n}\n');
     const outputStream = fs.createWriteStream(metaJSONFile);
     transformStream.pipe(outputStream);
 
     // start writing to the pipe
-    const workspaceDataKeys = Object.keys(workspaceData);
+    const workspaceDataKeys = Object.keys(slimWorkspaceData);
     for (let i = 0; i < workspaceDataKeys.length; i += 1) {
-      // Filtering out properties
-      // console.log(workspaceDataKeys[i]);
-      // console.log(workspaceData[workspaceDataKeys[i]]);
-      if (workspaceDataKeys[i] === 'imagePath') transformStream.write([workspaceDataKeys[i], path.basename(workspaceData[workspaceDataKeys[i]])]);
-      else if (workspaceDataKeys[i] !== 'workspaceFilePath') transformStream.write([workspaceDataKeys[i], workspaceData[workspaceDataKeys[i]]]);
+      if (workspaceDataKeys[i] === 'imagePath') {
+        transformStream.write(
+          [
+            workspaceDataKeys[i],
+            path.basename(slimWorkspaceData[workspaceDataKeys[i]]),
+          ],
+        );
+      } else if (workspaceDataKeys[i] !== 'workspaceFilePath') {
+        transformStream.write(
+          [
+            workspaceDataKeys[i],
+            slimWorkspaceData[workspaceDataKeys[i]],
+          ],
+        );
+      }
     }
 
     // close the pipe
@@ -38,7 +66,7 @@ const createWorkspaceFile = (workspaceData) => {
     // Zip the image & meta file together
     // Create a file to stream archive data to
     outputStream.on('finish', () => {
-      const rprotoOutput = fs.createWriteStream(workspaceData.workspaceFilePath);
+      const rprotoOutput = fs.createWriteStream(slimWorkspaceData.workspaceFilePath);
       const archive = archiver(
         'zip',
         {
@@ -53,7 +81,7 @@ const createWorkspaceFile = (workspaceData) => {
         // Clean-up by deleting .json file
         fs.unlink(metaJSONFile, (unlinkErr) => {
           if (unlinkErr) reject(unlinkErr);
-          resolve(workspaceData.workspaceFilePath);
+          resolve(slimWorkspaceData.workspaceFilePath);
         });
       });
 
@@ -73,10 +101,10 @@ const createWorkspaceFile = (workspaceData) => {
 
       // Append finalize the archive
       // we are done appending files but streams have to finish yet
-      if (workspaceData.imagePath) {
+      if (slimWorkspaceData.imagePath) {
         archive.append(
-          fs.createReadStream(workspaceData.imagePath),
-          { name: path.basename(workspaceData.imagePath), comment: 'React-Proto image' },
+          fs.createReadStream(slimWorkspaceData.imagePath),
+          { name: path.basename(slimWorkspaceData.imagePath), comment: 'React-Proto image' },
         );
       }
 
