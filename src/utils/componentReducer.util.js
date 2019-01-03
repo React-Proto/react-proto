@@ -389,12 +389,9 @@ export const addProp = (state, {
   });
 };
 
-// need fix
 export const deleteProp = (state, { propId }) => {
   const { compProps } = state;
   const newCompProps = compProps.filter(el => el.id !== propId);
-  // go down recursively and clean up tree
-
 
   return ({
     ...state,
