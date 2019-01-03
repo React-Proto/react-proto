@@ -29,6 +29,8 @@ const mapDispatchToProps = dispatch => ({
   moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
+  setVisible: compId => dispatch(actions.setVisible(compId)),
+  setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
 });
 
 const styles = theme => ({
@@ -118,6 +120,8 @@ class LeftContainer extends Component {
       focusComponent,
       totalComponents,
       classes,
+      setVisible,
+      setSelectableRoutes,
     } = this.props;
     const { componentName, modal } = this.state;
 
@@ -133,6 +137,8 @@ class LeftContainer extends Component {
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         moveToTop={moveToTop}
+        setVisible={setVisible}
+        setSelectableRoutes={setSelectableRoutes}
       />,
     );
     return (
@@ -220,4 +226,6 @@ LeftContainer.propTypes = {
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   classes: PropTypes.object,
+  setVisible: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
 };

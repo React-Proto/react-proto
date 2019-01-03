@@ -81,7 +81,6 @@ export const addComponent = ({ title }) => (dispatch) => {
 export const deleteComponent = ({
   index, id, parent, routes,
 }) => (dispatch) => {
-  console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
     dispatch(deleteChild({ parent, childId: id, childIndex: index }));

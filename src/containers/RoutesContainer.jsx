@@ -17,6 +17,11 @@ const mapDispatchToProps = dispatch => ({
   addRoute: compToAdd => dispatch(actions.addRoute(compToAdd)),
   deleteRoute: compToDelete => dispatch(actions.deleteRoute(compToDelete)),
   setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
+  setVisible: compId => dispatch(actions.setVisible(compId)),
+});
+
+const mapStateToProps = ({ workspace: { components } }) => ({
+  components,
 });
 
 class RoutesContainer extends Component {
@@ -32,6 +37,7 @@ class RoutesContainer extends Component {
     const {
       classes,
       component,
+      components,
     } = this.props;
     const { pathName } = this.state;
 
@@ -85,7 +91,7 @@ class RoutesContainer extends Component {
         componentTitle={route.routeCompTitle}
         pathName={route.path}
         classes={classes}
-        deleteRoute={handleDeleteRoute}
+        handleDeleteRoute={handleDeleteRoute}
         routerCompId={component.id}
         />
     ));
@@ -93,14 +99,18 @@ class RoutesContainer extends Component {
       <div>
         <FormControl fullWidth={true}>
           <Grid container alignItems="baseline" align="stretch">
+            
             <Grid item xs={10}>
             <InputLabel className={classes.label} htmlFor="stateful">
               Path: /
             </InputLabel>
+            </Grid>
+            <br></br>
+            <Grid item xs={10}>
               <TextField
                 id="title-input"
-                label="Path Name"
-                placeholder="routeName"
+                // label="Path Name"
+                placeholder="RouteName"
                 margin="normal"
                 autoFocus
                 onChange={handleChange}
@@ -115,6 +125,7 @@ class RoutesContainer extends Component {
                 }}
               />
             </Grid>
+            
             <Grid item xs={2}>
               <Button
                 variant="fab"
@@ -127,6 +138,7 @@ class RoutesContainer extends Component {
                 <AddIcon />
               </Button>
             </Grid>
+
           </Grid>
         </FormControl>
         <div className={classes.column}>
@@ -143,8 +155,10 @@ class RoutesContainer extends Component {
               {componentOptions}
             </Select>
           </div>
-        <div>
+        <br/>
+        <div className={classes.label}>
           Routes:
+          <br/>
           {routeList}
         </div>
       </div>
@@ -157,10 +171,11 @@ RoutesContainer.propTypes = {
   component: PropTypes.object,
 };
 
-export default connect(null, mapDispatchToProps)(RoutesContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RoutesContainer);
 
 RoutesContainer.propTypes = {
   addRoute: PropTypes.func.isRequired,
   deleteRoute: PropTypes.func.isRequired,
   setSelectableRoutes: PropTypes.func.isRequired,
+  setVisible: PropTypes.func.isRequired,
 };

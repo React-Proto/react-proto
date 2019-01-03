@@ -207,9 +207,13 @@ export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
   ...state,
   components: state.components.map((comp) => {
     if (comp.id === routerCompId) {
+      // crete new route object
       const newRoute = { path, routeCompId };
+      // build the new Route Object from the selectable Routes info
       comp.selectableRoutes.forEach((route) => {
-        if (route.id === routeCompId) newRoute.routeCompTitle = route.title;
+        if (route.id === routeCompId) {
+          newRoute.routeCompTitle = route.title;
+        }
       });
       comp.routes = [...comp.routes, newRoute];
       return { ...comp };
@@ -233,6 +237,7 @@ export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
       return { ...comp };
     }
     if (comp.id === routeCompId) {
+      if (!comp.visible) setVisible(state, comp.id);
       return { ...comp, route: false, visible: true };
     }
     return comp;
