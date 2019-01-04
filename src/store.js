@@ -9,9 +9,10 @@ import { saveState } from './localStorage';
 let composer;
 
 const stateSanitizer = (state) => {
-  const { components, focusComponent } = state;
+  const { components, focusComponent } = state.workspace;
   let slimComponents = [];
   let slimFocusComponent = {};
+  let slimWorkspace = {};
 
   if (focusComponent) {
     slimFocusComponent = { ...focusComponent, parent: '<<OBJ_REF>>', children: '<<OBJ_REF>>' };
@@ -22,7 +23,14 @@ const stateSanitizer = (state) => {
       { ...component, parent: '<<OBJ_REF>>', children: '<<OBJ_REF>>' }
     ));
   }
-  return { ...state, components: slimComponents, focusComponent: slimFocusComponent };
+
+  slimWorkspace = {
+    ...state.workspace,
+    components: slimComponents,
+    focusComponent: slimFocusComponent,
+  };
+
+  return { ...state, workspace: slimWorkspace };
 };
 
 
