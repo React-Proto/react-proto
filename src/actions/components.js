@@ -22,6 +22,8 @@ import {
   OPEN_EXPANSION_PANEL,
   DELETE_PROP,
   ADD_PROP,
+  ADD_PROP_TO_DISPLAYED,
+  REMOVE_PROP_FROM_DISPLAYED,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   EXPORT_WORKSPACE,
@@ -84,21 +86,14 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteRoute = compToDelete => (dispatch) => {
-  dispatch({
-    type: DELETE_ROUTE,
-    payload: compToDelete,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToDelete.routerCompId,
-  });
-};
+export const deleteRoute = compToDelete => ({
+  type: DELETE_ROUTE,
+  payload: compToDelete,
+});
 
 export const deleteComponent = ({
   index, id, parent, routes,
 }) => (dispatch) => {
-  // console.log('routes: ', routes);
   // Delete Component  from its parent if it has a parent.
   if (parent && parent.id) {
     dispatch(deleteChild({ parent, childId: id, childIndex: index }));
@@ -283,28 +278,39 @@ export const changeImagePath = path => ({
   payload: path,
 });
 
-export const deleteCompProp = ({ id, index }) => ({
+export const deleteProp = propId => ({
   type: DELETE_PROP,
-  payload: { id, index },
+  payload: { propId },
 });
 
-export const addCompProp = prop => ({
+export const addProp = prop => ({
   type: ADD_PROP,
   payload: { ...prop },
 });
 
-export const addRoute = compToAdd => (dispatch) => {
-  dispatch({
-    type: ADD_ROUTE,
-    payload: compToAdd,
-  });
-  dispatch({
-    type: SET_SELECTABLE_ROUTES,
-    payload: compToAdd.routerCompId,
-  });
-};
+export const addPropToDisplayed = (propId, compId) => ({
+  type: ADD_PROP_TO_DISPLAYED,
+  payload: { propId, compId },
+});
+
+export const removePropFromDisplayed = (propId, compId) => ({
+  type: REMOVE_PROP_FROM_DISPLAYED,
+  payload: { propId, compId },
+});
+
+export const addRoute = compToAdd => ({
+  type: ADD_ROUTE,
+  payload: compToAdd,
+});
 
 export const setVisible = compId => ({
   type: SET_VISIBLE,
   payload: compId,
+});
+
+export const setSelectableParents = () => ({ type: SET_SELECTABLE_PARENTS });
+
+export const setSelectableRoutes = routerCompId => ({
+  type: SET_SELECTABLE_ROUTES,
+  payload: routerCompId,
 });

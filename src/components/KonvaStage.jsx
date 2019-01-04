@@ -50,7 +50,6 @@ class KonvaStage extends Component {
 
   //   // const componentX = (mainWindowWidth / 2) - groupX;
   //   // const componentY = (mainWindowHeight / 2) - groupY;
-  //   // console.log(componentX, componentY);
   // }
 
   componentDidMount() {

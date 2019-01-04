@@ -17,7 +17,7 @@ import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
-import Routes from './Routes.jsx';
+import RoutesContainer from './RoutesContainer.jsx';
 
 const styles = theme => ({
   root: {
@@ -61,9 +61,16 @@ const styles = theme => ({
   group: {
     margin: `${theme.spacing.unit}px 0`,
   },
+  button: {
+    color: '#fff',
+
+    '&:disabled': {
+      color: 'grey',
+    },
+  },
 });
 
-const LeftColExpansionPanel = (props) => {
+const LeftComponentContainer = (props) => {
   const {
     index,
     classes,
@@ -74,8 +81,8 @@ const LeftColExpansionPanel = (props) => {
     onExpansionPanelChange,
     moveToBottom,
     moveToTop,
-    addRoute,
-    deleteRoute,
+    setVisible,
+    setSelectableRoutes,
   } = props;
   const {
     title,
@@ -87,6 +94,7 @@ const LeftColExpansionPanel = (props) => {
     selectableRoutes,
     router,
     routes,
+    visible,
   } = component;
   const parentOptions = [
     <option value="null" key="">
@@ -99,14 +107,26 @@ const LeftColExpansionPanel = (props) => {
     )),
   ];
 
-  const RouteComponent = router ? (<Routes
+  const handleDeleteComp = (event) => {
+    if (!visible) setVisible(id);
+    deleteComponent({
+      index,
+      id,
+      parent,
+      routes,
+    });
+    setSelectableRoutes(parent.id);
+  };
+
+  const handleUpdateColor = (event) => {
+    updateComponent({ color: event.target.value, index, id });
+  };
+
+  const RouteComponent = router ? (<RoutesContainer
     component={component}
     classes={classes}
     selectableRoutes = {selectableRoutes}
     id = {id}
-    addRoute = {addRoute}
-    routes = {routes}
-    deleteRoute = {deleteRoute}
   />) : null;
 
   return (
@@ -159,8 +179,7 @@ const LeftColExpansionPanel = (props) => {
               id="boxColor"
               disableUnderline={true}
               value={color}
-              onChange={event => updateComponent({ color: event.target.value, index, id })
-              }
+              onChange={handleUpdateColor}
             />
           </div>
           <div className={classes.column}>
@@ -212,14 +231,7 @@ const LeftColExpansionPanel = (props) => {
           </Tooltip>
           <IconButton
             className={classes.button}
-            onClick={() => {
-              deleteComponent({
-                index,
-                id,
-                parent,
-                routes,
-              });
-            }}
+            onClick={handleDeleteComp}
             aria-label="Delete"
           >
             <DeleteIcon className={classes.light} />
@@ -230,9 +242,9 @@ const LeftColExpansionPanel = (props) => {
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
+export default withStyles(styles)(LeftComponentContainer);
 
-LeftColExpansionPanel.propTypes = {
+LeftComponentContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
@@ -242,7 +254,7 @@ LeftColExpansionPanel.propTypes = {
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
   moveToTop: PropTypes.func,
-  addRoute: PropTypes.func,
   routes: PropTypes.object,
-  deleteRoute: PropTypes.func,
+  setVisible: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
 };

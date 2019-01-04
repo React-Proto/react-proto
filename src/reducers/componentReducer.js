@@ -22,6 +22,8 @@ import {
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
   ADD_PROP,
+  ADD_PROP_TO_DISPLAYED,
+  REMOVE_PROP_FROM_DISPLAYED,
   DELETE_PROP,
   EXPORT_WORKSPACE,
   EXPORT_WORKSPACE_ERROR,
@@ -53,6 +55,8 @@ import {
   openExpansionPanel,
   changeImagePath,
   addProp,
+  addPropToDisplayed,
+  removePropFromDisplayed,
   deleteProp,
   exportWorkspaceError,
   exportWorkspaceSuccess,
@@ -66,11 +70,14 @@ import {
 const initialApplicationState = {
   totalComponents: 0,
   nextId: 1,
+  nextPropId: 0,
   imagePath: '',
   successOpen: false,
   errorOpen: false,
   focusComponent: {},
   components: [],
+  compProps: [],
+  // compProps - {id , key, value, required, type, displayedAt, origin, availableAt}
   appDir: '',
   loading: false,
 };
@@ -142,6 +149,10 @@ const componentReducer = (state = initialApplicationState, action) => {
       return importWorkspaceSuccess(state, action.payload);
     case IMPORT_WORKSPACE_ERROR:
       return importWorkspaceError(state, action.payload);
+    case ADD_PROP_TO_DISPLAYED:
+      return addPropToDisplayed(state, action.payload);
+    case REMOVE_PROP_FROM_DISPLAYED:
+      return removePropFromDisplayed(state, action.payload);
     case ADD_ROUTE:
       return addRoute(state, action.payload);
     case DELETE_ROUTE:

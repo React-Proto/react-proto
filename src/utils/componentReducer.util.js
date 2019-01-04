@@ -16,7 +16,6 @@ const initialComponentState = {
   selectableParents: [],
   selectableRoutes: [],
   expanded: true,
-  props: [],
   nextPropId: 0,
   position: {
     x: 110,
@@ -32,8 +31,7 @@ const initialComponentState = {
 
 export const addComponent = (state, { title }) => {
   const strippedTitle = title
-    .replace(/[a-z]+/gi,
-      word => word[0].toUpperCase() + word.slice(1))
+    .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');
   const newComponent = {
     ...initialComponentState,
@@ -42,10 +40,7 @@ export const addComponent = (state, { title }) => {
     color: getColor(),
   };
 
-  const components = [
-    ...state.components,
-    newComponent,
-  ];
+  const components = [...state.components, newComponent];
 
   const totalComponents = state.totalComponents + 1;
   const nextId = state.nextId + 1;
@@ -59,9 +54,17 @@ export const addComponent = (state, { title }) => {
   };
 };
 
-export const updateComponent = ((state, {
-  id, newParentId = null, color = null, stateful = null, props = null, router = null,
-}) => {
+export const updateComponent = (
+  state,
+  {
+    id,
+    newParentId = null,
+    color = null,
+    stateful = null,
+    props = null,
+    router = null,
+  },
+) => {
   let component;
   const components = convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === id) {
@@ -88,7 +91,7 @@ export const updateComponent = ((state, {
     components,
     focusComponent: component,
   };
-});
+};
 
 // Delete component with the index for now, but will be adjusted to use id
 export const deleteComponent = (state, { index, id }) => {
@@ -108,7 +111,7 @@ export const deleteComponent = (state, { index, id }) => {
   };
 };
 
-export const addChild = ((state, { id, childId }) => {
+export const addChild = (state, { id, childId }) => {
   const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === id) {
       const { childrenIds } = component;
@@ -121,9 +124,9 @@ export const addChild = ((state, { id, childId }) => {
     ...state,
     components,
   };
-});
+};
 
-export const deleteChild = ((state, { parent, childId }) => {
+export const deleteChild = (state, { parent, childId }) => {
   const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === parent.id) {
       // Find child with matching id and remove from children
@@ -137,7 +140,7 @@ export const deleteChild = ((state, { parent, childId }) => {
     ...state,
     components,
   };
-});
+};
 
 /**
  * Moves component to the end of the components effectively giving it the highest z-index
@@ -168,7 +171,7 @@ export const changeImagePath = (state, imagePath) => ({
   imagePath,
 });
 
-export const reassignParent = ((state, { index, parent = {} }) => {
+export const reassignParent = (state, { index, parent = {} }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
   const components = convertIdsToObjs(state.components.map((comp) => {
@@ -179,7 +182,10 @@ export const reassignParent = ((state, { index, parent = {} }) => {
     // Give the parent all children of it's to be deleted child
     if (parent.id === comp.id) {
       const prevChildrenIds = comp.childrenIds;
-      return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
+      return {
+        ...comp,
+        childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))],
+      };
     }
     return comp;
   }));
@@ -188,34 +194,44 @@ export const reassignParent = ((state, { index, parent = {} }) => {
     ...state,
     components,
   };
-});
+};
 
-export const setSelectableP = (state => ({
+export const setSelectableP = state => ({
   ...state,
   components: setSelectableParents(state.components),
-}));
+});
 
-export const setSelectableR = ((state, id) => ({
+export const setSelectableR = (state, id) => ({
   ...state,
   components: setSelectableRoutes(state.components, id),
-}));
+});
 
-export const addRoute = (state, {
-  path,
-  routerCompId,
-  routeCompId,
-}) => ({
+export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
   ...state,
   components: state.components.map((comp) => {
     if (comp.id === routerCompId) {
+      // crete new route object
       const newRoute = { path, routeCompId };
+      // build the new Route Object from the selectable Routes info
       comp.selectableRoutes.forEach((route) => {
-        if (route.id === routeCompId) newRoute.routeCompTitle = route.title;
+        if (route.id === routeCompId) {
+          newRoute.routeCompTitle = route.title;
+        }
       });
-      comp.routes = [...comp.routes, newRoute];
-      return { ...comp };
+      return { ...comp, routes: [...comp.routes, newRoute] };
     }
-    if (comp.id === routeCompId) return { ...comp, route: true, visible: false };
+    if (comp.id === routeCompId) return { ...comp, route: true };
+    return comp;
+  }),
+});
+
+export const setVisible = (state, compId) => ({
+  ...state,
+  components: state.components.map((comp) => {
+    if (comp.parentId === compId) setVisible(state, comp.id);
+    if (comp.id === compId) {
+      return { ...comp, visible: !comp.visible };
+    }
     return comp;
   }),
 });
@@ -230,27 +246,29 @@ export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
         if (route.routeCompId === routeCompId) indexOfRouteToDelete = i;
       });
       routes.splice(indexOfRouteToDelete, 1);
-      comp.routes = routes;
-      return { ...comp };
+      return { ...comp, routes };
     }
-    if (comp.id === routeCompId) return { ...comp, route: false, visible: true };
+    if (comp.id === routeCompId) {
+      if (!comp.visible) setVisible(state, comp.id);
+      return { ...comp, route: false, visible: true };
+    }
     return comp;
   }),
 });
 
-export const exportFilesSuccess = ((state, { status, dir }) => ({
+export const exportFilesSuccess = (state, { status, dir }) => ({
   ...state,
   successOpen: status,
   appDir: dir,
   loading: false,
-}));
+});
 
-export const exportFilesError = ((state, { status, err }) => ({
+export const exportFilesError = (state, { status, err }) => ({
   ...state,
   errorOpen: status,
   appDir: err,
   loading: false,
-}));
+});
 
 /**
  * @function
@@ -290,11 +308,11 @@ export const importWorkspaceError = ((state, { status, err }) => ({
   loading: false,
 }));
 
-export const handleClose = ((state, status) => ({
+export const handleClose = (state, status) => ({
   ...state,
   errorOpen: status,
   successOpen: status,
-}));
+});
 
 export const updatePosition = (state, { id, x, y }) => {
   const components = state.components.map((component) => {
@@ -403,38 +421,65 @@ export const openExpansionPanel = (state, { component }) => ({
   focusComponent: component,
 });
 
+// done
 export const addProp = (state, {
-  key,
-  value = null,
-  required,
-  type,
+  key, value = null, required, type, origin,
 }) => {
-  const { props, nextPropId, id } = state.focusComponent;
+  const { compProps, nextPropId } = state;
   const newProp = {
-    id: nextPropId.toString(),
+    id: nextPropId,
     key,
     value: value || key,
     required,
     type,
+    origin,
+    availableAt: [],
+    displayedAt: [],
   };
-  const newProps = [...props, newProp];
-  return updateComponent(state, { id, props: newProps });
+  compProps.push(newProp);
+  return ({
+    ...state,
+    compProps,
+    nextPropId: nextPropId + 1,
+  });
 };
 
-export const deleteProp = (state, { index }) => {
-  const { props, id } = state.focusComponent;
-  const newProps = [...props.slice(0, index), ...props.slice(index + 1)];
-  return updateComponent(state, { id, props: newProps });
+export const deleteProp = (state, { propId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.filter(el => el.id !== propId);
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
 };
 
-export const setVisible = (state, compId) => ({
-  ...state,
-  components: state.components.map((comp) => {
-    if (comp.parentId === compId) setVisible(state, comp.id);
-    if (comp.id === compId) {
-      comp.visible = !comp.visible;
-      return { ...comp };
+export const addPropToDisplayed = (state, { propId, compId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.map((el) => {
+    if (el.id === propId) {
+      el.displayedAt.push(compId);
     }
-    return comp;
-  }),
-});
+    return el;
+  });
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
+};
+
+export const removePropFromDisplayed = (state, { propId, compId }) => {
+  const { compProps } = state;
+  const newCompProps = compProps.map((el) => {
+    if (el.id === propId) {
+      el.displayedAt.splice(el.displayedAt.indexOf(compId));
+    }
+    return el;
+  });
+
+  return ({
+    ...state,
+    compProps: newCompProps,
+  });
+};

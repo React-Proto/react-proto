@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   handleClose,
-  deleteCompProp,
-  addCompProp,
   setVisible,
   openExpansionPanel,
+  setSelectableParents,
 } from '../actions/components';
 import Snackbars from '../components/Snackbars.jsx';
 import RightTabs from '../components/RightTabs.jsx';
@@ -15,10 +14,9 @@ const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleNotificationClose: () => dispatch(handleClose()),
-  deleteProp: ({ id, index }) => dispatch(deleteCompProp({ id, index })),
-  addProp: prop => dispatch(addCompProp(prop)),
   setVisible: compId => dispatch(setVisible(compId)),
   openExpansionPanel: component => dispatch(openExpansionPanel(component)),
+  setSelectableParents: () => dispatch(setSelectableParents()),
 });
 
 const mapStateToProps = store => ({
@@ -50,10 +48,9 @@ class RightContainer extends Component {
       handleNotificationClose,
       appDir,
       focusComponent,
-      deleteProp,
-      addProp,
       rightColumnOpen,
       setVisible,
+      setSelectableParents,
     } = this.props;
 
     return (
@@ -61,11 +58,10 @@ class RightContainer extends Component {
         <RightTabs
           components={components}
           focusComponent={focusComponent}
-          deleteProp={deleteProp}
-          addProp={addProp}
           rightColumnOpen={rightColumnOpen}
           setVisible={setVisible}
           onExpansionPanelChange={this.handleExpansionPanelChange}
+          setSelectableParents={setSelectableParents}
         />
         <Snackbars
           successOpen={successOpen}
@@ -86,8 +82,6 @@ RightContainer.propTypes = {
   errorOpen: PropTypes.bool.isRequired,
   focusComponent: PropTypes.object.isRequired,
   handleNotificationClose: PropTypes.func.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired,
   openExpansionPanel: PropTypes.func.isRequired,
 };
