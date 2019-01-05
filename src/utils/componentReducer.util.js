@@ -2,7 +2,7 @@ import setSelectableParents from './setSelectableParents.util';
 import setSelectableRoutes from './setSelectableRoutes.utils';
 import getColor from './colors.util';
 
-const initialComponentState = {
+export const initialComponentState = {
   id: null,
   stateful: false,
   router: false,
@@ -26,7 +26,7 @@ const initialComponentState = {
   visible: true,
 };
 
-export const addComponent = (state, { title }) => {
+export const addComponent = (state, title) => {
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
     .replace(/[-_\s0-9\W]+/gi, '');

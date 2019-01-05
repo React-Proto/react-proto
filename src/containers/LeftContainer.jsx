@@ -13,7 +13,7 @@ import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
 
 const mapDispatchToProps = dispatch => ({
-  addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
+  addComponent: title => dispatch(actions.addComponent(title)),
   updateComponent:
     ({
       id, index, parent = null, newParentId = null, color = null, stateful = null, router = null,
@@ -91,7 +91,7 @@ class LeftContainer extends Component {
   }
 
   handleAddComponent = () => {
-    this.props.addComponent({ title: this.state.componentName });
+    this.props.addComponent(this.state.componentName);
     this.setState({
       componentName: '',
     });

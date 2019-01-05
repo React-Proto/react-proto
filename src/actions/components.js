@@ -73,8 +73,8 @@ export const parentReassignment = (({ index, id, parent }) => ({
   },
 }));
 
-export const addComponent = ({ title }) => (dispatch) => {
-  dispatch({ type: ADD_COMPONENT, payload: { title } });
+export const addComponent = title => (dispatch) => {
+  dispatch({ type: ADD_COMPONENT, payload: title });
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
