@@ -198,17 +198,17 @@ export const reassignParent = (state, { index, parent = {} }) => {
 
 export const setSelectableP = state => ({
   ...state,
-  components: setSelectableParents(state.components),
+  components: convertIdsToObjs(setSelectableParents(state.components)),
 });
 
 export const setSelectableR = (state, id) => ({
   ...state,
-  components: setSelectableRoutes(state.components, id),
+  components: convertIdsToObjs(setSelectableRoutes(state.components, id)),
 });
 
 export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
   ...state,
-  components: state.components.map((comp) => {
+  components: convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === routerCompId) {
       // crete new route object
       const newRoute = { path, routeCompId };
@@ -222,23 +222,24 @@ export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
     }
     if (comp.id === routeCompId) return { ...comp, route: true };
     return comp;
-  }),
+  })),
 });
 
 export const setVisible = (state, compId) => ({
   ...state,
-  components: state.components.map((comp) => {
+  components: convertIdsToObjs(state.components.map((comp) => {
     if (comp.parentId === compId) setVisible(state, comp.id);
     if (comp.id === compId) {
-      return { ...comp, visible: !comp.visible };
+      comp.visible = !comp.visible;
+      return { ...comp };
     }
     return comp;
-  }),
+  })),
 });
 
 export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
   ...state,
-  components: state.components.map((comp) => {
+  components: convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === routerCompId) {
       const routes = [...comp.routes];
       let indexOfRouteToDelete;
@@ -253,7 +254,7 @@ export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
       return { ...comp, route: false, visible: true };
     }
     return comp;
-  }),
+  })),
 });
 
 export const exportFilesSuccess = (state, { status, dir }) => ({
