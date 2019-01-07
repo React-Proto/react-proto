@@ -25,6 +25,12 @@ import {
   ADD_PROP_TO_DISPLAYED,
   REMOVE_PROP_FROM_DISPLAYED,
   DELETE_PROP,
+  EXPORT_WORKSPACE,
+  EXPORT_WORKSPACE_ERROR,
+  EXPORT_WORKSPACE_SUCCESS,
+  IMPORT_WORKSPACE,
+  IMPORT_WORKSPACE_ERROR,
+  IMPORT_WORKSPACE_SUCCESS,
   ADD_ROUTE,
   DELETE_ROUTE,
   SET_VISIBLE,
@@ -52,6 +58,10 @@ import {
   addPropToDisplayed,
   removePropFromDisplayed,
   deleteProp,
+  exportWorkspaceError,
+  exportWorkspaceSuccess,
+  importWorkspaceError,
+  importWorkspaceSuccess,
   addRoute,
   deleteRoute,
   setVisible,
@@ -127,6 +137,18 @@ const componentReducer = (state = initialApplicationState, action) => {
       return addProp(state, action.payload);
     case DELETE_PROP:
       return deleteProp(state, action.payload);
+    case EXPORT_WORKSPACE:
+      return { ...state, loading: true };
+    case EXPORT_WORKSPACE_SUCCESS:
+      return exportWorkspaceSuccess(state, action.payload);
+    case EXPORT_WORKSPACE_ERROR:
+      return exportWorkspaceError(state, action.payload);
+    case IMPORT_WORKSPACE:
+      return { ...state, loading: true };
+    case IMPORT_WORKSPACE_SUCCESS:
+      return importWorkspaceSuccess(state, action.payload);
+    case IMPORT_WORKSPACE_ERROR:
+      return importWorkspaceError(state, action.payload);
     case ADD_PROP_TO_DISPLAYED:
       return addPropToDisplayed(state, action.payload);
     case REMOVE_PROP_FROM_DISPLAYED:

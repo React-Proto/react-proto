@@ -1,6 +1,7 @@
 import setSelectableParents from './setSelectableParents.util';
 import setSelectableRoutes from './setSelectableRoutes.utils';
 import getColor from './colors.util';
+import convertIdsToObjs from './convertIdsToObjs.util';
 
 const initialComponentState = {
   id: null,
@@ -24,6 +25,8 @@ const initialComponentState = {
   },
   route: false,
   visible: true,
+  children: [],
+  parent: {},
 };
 
 export const addComponent = (state, { title }) => {
@@ -63,7 +66,7 @@ export const updateComponent = (
   },
 ) => {
   let component;
-  const components = state.components.map((comp) => {
+  const components = convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === id) {
       component = { ...comp };
       if (newParentId === 'null') {
@@ -81,7 +84,7 @@ export const updateComponent = (
       return component;
     }
     return comp;
-  });
+  }));
 
   return {
     ...state,
@@ -93,10 +96,10 @@ export const updateComponent = (
 // Delete component with the index for now, but will be adjusted to use id
 export const deleteComponent = (state, { index, id }) => {
   const { focusComponent } = state;
-  const components = [
+  const components = convertIdsToObjs([
     ...state.components.slice(0, index),
     ...state.components.slice(index + 1),
-  ];
+  ]);
 
   const totalComponents = state.totalComponents - 1;
 
@@ -109,13 +112,13 @@ export const deleteComponent = (state, { index, id }) => {
 };
 
 export const addChild = (state, { id, childId }) => {
-  const components = state.components.map((component) => {
+  const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === id) {
       const { childrenIds } = component;
       return { ...component, childrenIds: [...childrenIds, childId] };
     }
     return component;
-  });
+  }));
 
   return {
     ...state,
@@ -124,14 +127,14 @@ export const addChild = (state, { id, childId }) => {
 };
 
 export const deleteChild = (state, { parent, childId }) => {
-  const components = state.components.map((component) => {
+  const components = convertIdsToObjs(state.components.map((component) => {
     if (component.id === parent.id) {
       // Find child with matching id and remove from children
       const childrenIds = component.childrenIds.filter(id => id !== childId);
       return { ...component, childrenIds };
     }
     return component;
-  });
+  }));
 
   return {
     ...state,
@@ -171,7 +174,7 @@ export const changeImagePath = (state, imagePath) => ({
 export const reassignParent = (state, { index, parent = {} }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
-  const components = state.components.map((comp) => {
+  const components = convertIdsToObjs(state.components.map((comp) => {
     // Give each child their previous parent's parent
     if (childrenIds.includes(comp.id)) {
       return { ...comp, parentId: parent.id || '' };
@@ -185,7 +188,7 @@ export const reassignParent = (state, { index, parent = {} }) => {
       };
     }
     return comp;
-  });
+  }));
 
   return {
     ...state,
@@ -195,17 +198,17 @@ export const reassignParent = (state, { index, parent = {} }) => {
 
 export const setSelectableP = state => ({
   ...state,
-  components: setSelectableParents(state.components),
+  components: convertIdsToObjs(setSelectableParents(state.components)),
 });
 
 export const setSelectableR = (state, id) => ({
   ...state,
-  components: setSelectableRoutes(state.components, id),
+  components: convertIdsToObjs(setSelectableRoutes(state.components, id)),
 });
 
 export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
   ...state,
-  components: state.components.map((comp) => {
+  components: convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === routerCompId) {
       // crete new route object
       const newRoute = { path, routeCompId };
@@ -215,17 +218,28 @@ export const addRoute = (state, { path, routerCompId, routeCompId }) => ({
           newRoute.routeCompTitle = route.title;
         }
       });
-      comp.routes = [...comp.routes, newRoute];
-      return { ...comp };
+      return { ...comp, routes: [...comp.routes, newRoute] };
     }
     if (comp.id === routeCompId) return { ...comp, route: true };
     return comp;
-  }),
+  })),
+});
+
+export const setVisible = (state, compId) => ({
+  ...state,
+  components: convertIdsToObjs(state.components.map((comp) => {
+    if (comp.parentId === compId) setVisible(state, comp.id);
+    if (comp.id === compId) {
+      comp.visible = !comp.visible;
+      return { ...comp };
+    }
+    return comp;
+  })),
 });
 
 export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
   ...state,
-  components: state.components.map((comp) => {
+  components: convertIdsToObjs(state.components.map((comp) => {
     if (comp.id === routerCompId) {
       const routes = [...comp.routes];
       let indexOfRouteToDelete;
@@ -233,15 +247,14 @@ export const deleteRoute = (state, { routerCompId, routeCompId }) => ({
         if (route.routeCompId === routeCompId) indexOfRouteToDelete = i;
       });
       routes.splice(indexOfRouteToDelete, 1);
-      comp.routes = routes;
-      return { ...comp };
+      return { ...comp, routes };
     }
     if (comp.id === routeCompId) {
       if (!comp.visible) setVisible(state, comp.id);
       return { ...comp, route: false, visible: true };
     }
     return comp;
-  }),
+  })),
 });
 
 export const exportFilesSuccess = (state, { status, dir }) => ({
@@ -257,6 +270,44 @@ export const exportFilesError = (state, { status, err }) => ({
   appDir: err,
   loading: false,
 });
+
+/**
+ * @function
+ * @name exportWorkspaceSuccess
+ * @param {object}  state - The current state of the application
+ * @param {object}  data -
+ * @param {boolean} data.status - Used for posting messages to Snackbar component
+ * @param {string} data.workspaceFilePath - The path where Workspace was successfully exported to
+ */
+export const exportWorkspaceSuccess = ((state, { status, workspaceFilePath }) => ({
+  ...state,
+  successOpen: status,
+  appDir: workspaceFilePath,
+  loading: false,
+}));
+
+export const exportWorkspaceError = ((state, { status, err }) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err.message,
+  loading: false,
+}));
+
+export const importWorkspaceSuccess = ((state, { status, retrievedWorkspaceData }) => ({
+  ...state,
+  ...retrievedWorkspaceData,
+  successOpen: status,
+  errorOpen: false,
+  appDir: 'Workspace Successfully opened.',
+  loading: false,
+}));
+
+export const importWorkspaceError = ((state, { status, err }) => ({
+  ...state,
+  errorOpen: status,
+  appDir: err.message,
+  loading: false,
+}));
 
 export const handleClose = (state, status) => ({
   ...state,
@@ -433,16 +484,3 @@ export const removePropFromDisplayed = (state, { propId, compId }) => {
     compProps: newCompProps,
   });
 };
-
-
-export const setVisible = (state, compId) => ({
-  ...state,
-  components: state.components.map((comp) => {
-    if (comp.parentId === compId) setVisible(state, comp.id);
-    if (comp.id === compId) {
-      comp.visible = !comp.visible;
-      return { ...comp };
-    }
-    return comp;
-  }),
-});

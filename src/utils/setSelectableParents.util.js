@@ -10,6 +10,15 @@ const getAllChildren = (components, childrenIds, unSelectable = []) => {
   return unSelectable;
 };
 
+/**
+ * Summary - Utility function for returning an array of components that were available to be
+ * selected as a component's parent. Instead of returning the entire component object we are
+ * now only returning the id and title for efficiency.
+ * @param {string} id - Component id of component that has current focus
+ * @param {array} childrenIds
+ * @param {array} components
+ * @return {Object}
+ */
 const getSelectableParents = ({ id, childrenIds, components }) => {
   const unSelectableParents = getAllChildren(components, childrenIds, [id]);
   return components

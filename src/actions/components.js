@@ -26,6 +26,12 @@ import {
   REMOVE_PROP_FROM_DISPLAYED,
   DELETE_ALL_DATA,
   CHANGE_IMAGE_PATH,
+  EXPORT_WORKSPACE,
+  EXPORT_WORKSPACE_ERROR,
+  EXPORT_WORKSPACE_SUCCESS,
+  IMPORT_WORKSPACE,
+  IMPORT_WORKSPACE_ERROR,
+  IMPORT_WORKSPACE_SUCCESS,
   ADD_ROUTE,
   DELETE_ROUTE,
   SET_VISIBLE,
@@ -35,6 +41,8 @@ import { loadState } from '../localStorage';
 
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+import createWorkspaceFile from '../utils/createWorkspaceFile.util';
+import readWorkspaceFile from '../utils/readWorkspaceFile.util';
 
 export const loadInitData = () => (dispatch) => {
   loadState()
@@ -77,6 +85,11 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: ADD_COMPONENT, payload: { title } });
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
+
+export const deleteRoute = compToDelete => ({
+  type: DELETE_ROUTE,
+  payload: compToDelete,
+});
 
 export const deleteComponent = ({
   index, id, parent, routes,
@@ -136,6 +149,60 @@ export const exportFiles = ({ components, path }) => (dispatch) => {
       type: EXPORT_FILES_ERROR,
       payload: { status: true, err },
     }));
+};
+
+/*
+ *  exportWorkspace: Dispatch action EXPORT_WORKSPACE then dispatch
+ *                   EXPORT_WORKSPACE_SUCCESS or EXPORT_WORKSPACE_ERROR
+ *                   based on outcome of exporting the current state into
+ *                   a zip file.
+ */
+export const exportWorkspace = workspaceData => (dispatch) => {
+  dispatch({
+    type: EXPORT_WORKSPACE,
+  });
+
+  createWorkspaceFile(workspaceData)
+    .then((workspaceFilePath) => {
+      dispatch({
+        type: EXPORT_WORKSPACE_SUCCESS,
+        payload: { status: true, workspaceFilePath },
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: EXPORT_WORKSPACE_ERROR,
+        payload: { status: true, err },
+      });
+    });
+};
+
+/*
+ *  importWorkspace: Dispatch action IMPORT_WORKSPACE. This action should
+ *                   be synchronous since we are affecting the application
+ *                   store(s)/state(s).
+ */
+
+// Need to Initialize the state/store with retrievedWorkspaceData
+// Need to CHANGE_IMAGE_PATH
+export const importWorkspace = ({ workspaceFilePath }) => (dispatch) => {
+  dispatch({
+    type: IMPORT_WORKSPACE,
+  });
+
+  readWorkspaceFile(workspaceFilePath)
+    .then((retrievedWorkspaceData) => {
+      dispatch({
+        type: IMPORT_WORKSPACE_SUCCESS,
+        payload: { status: true, retrievedWorkspaceData },
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: IMPORT_WORKSPACE_ERROR,
+        payload: { status: true, err },
+      });
+    });
 };
 
 export const handleClose = () => ({
@@ -234,11 +301,6 @@ export const removePropFromDisplayed = (propId, compId) => ({
 export const addRoute = compToAdd => ({
   type: ADD_ROUTE,
   payload: compToAdd,
-});
-
-export const deleteRoute = compToDelete => ({
-  type: DELETE_ROUTE,
-  payload: compToDelete,
 });
 
 export const setVisible = compId => ({
