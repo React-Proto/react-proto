@@ -47,7 +47,8 @@ const mapDispatchToProps = dispatch => ({
   changeImagePath: path => dispatch(changeImagePath(path)),
   exportWorkspace: ({
     workspaceFilePath, totalComponents, nextId,
-    imagePath, focusComponent, components,
+    imagePath, focusComponent, components, nextPropId,
+    compProps,
   }) => dispatch(
     exportWorkspace({
       workspaceFilePath,
@@ -56,6 +57,8 @@ const mapDispatchToProps = dispatch => ({
       imagePath,
       focusComponent,
       components,
+      nextPropId,
+      compProps,
     }),
   ),
   importWorkspace: ({ workspaceFilePath }) => dispatch(importWorkspace({ workspaceFilePath })),
@@ -67,6 +70,8 @@ const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent,
   nextId: store.workspace.nextId,
   components: store.workspace.components,
+  compProps: store.workspace.compProps,
+  nextPropId: store.workspace.nextPropId,
 });
 
 class MainContainer extends Component {
@@ -115,7 +120,8 @@ class MainContainer extends Component {
     IPC.on('new-workspace', (event, workspaceFilePath) => {
       const {
         totalComponents, nextId, imagePath,
-        focusComponent, components,
+        focusComponent, components, nextPropId,
+        compProps,
       } = this.props;
       // Trigger exportWorkspace handler via this.props
       this.props.exportWorkspace({
@@ -125,6 +131,8 @@ class MainContainer extends Component {
         imagePath,
         focusComponent,
         components,
+        nextPropId,
+        compProps,
       });
     });
   }
@@ -355,6 +363,8 @@ MainContainer.propTypes = {
   importWorkspace: PropTypes.func.isRequired,
   exportWorkspace: PropTypes.func.isRequired,
   nextId: PropTypes.number.isRequired,
+  nextPropId: PropTypes.number.isRequired,
+  compProps: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
