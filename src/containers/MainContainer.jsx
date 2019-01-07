@@ -154,7 +154,13 @@ class MainContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.imagePath !== prevProps.imagePath) this.setImage();
+    if (this.props.imagePath !== prevProps.imagePath) {
+      if (this.props.imagePath === '') {
+        this.deleteImage();
+      } else {
+        this.setImage();
+      }
+    }
   }
 
   handleChange = (event) => {
