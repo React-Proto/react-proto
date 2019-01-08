@@ -18,19 +18,27 @@ const createFiles = (data) => {
   const promises = [];
   components.forEach((component) => {
     const newPromise = new Promise((resolve, reject) => {
-      fs.writeFile(`${dir}/${component.title}.jsx`,
-        componentRender(component, compProps),
-        // , {
-        //   singleQuote: true,
-        //   trailingComma: 'es5',
-        //   bracketSpacing: true,
-        //   jsxBracketSameLine: true,
-        //   parser: 'babylon',
-        // }),
+      fs.writeFile(
+        `${dir}/${component.title}.jsx`,
+        format(
+          componentRender(component, compProps),
+          {
+            singleQuote: true,
+            trailingComma: 'es5',
+            bracketSpacing: true,
+            jsxBracketSameLine: true,
+            parser: 'babylon',
+            printWidth: 80,
+            tabWidth: 2,
+            useTabs: false,
+            arrowParens: 'always',
+          },
+        ),
         (err) => {
           if (err) return reject(err.message);
           return resolve(path);
-        });
+        },
+      );
     });
 
     promises.push(newPromise);
