@@ -1,26 +1,15 @@
-const componentRender = (component) => {
+const componentRender = (component, compProps) => {
   const {
     children,
     title,
-    props,
     stateful,
     router, routes,
   } = component;
 
-  // temp
-  // const router = true;
-  // const routes = [
-  //   {
-  //     path: '/location',
-  //     componentName: 'place',
-  //     name: 'location',
-  //   },
-  //   {
-  //     path: '/otherlocation',
-  //     componentName: 'otherplace',
-  //     name: 'otherlocation',
-  //   },
-  // ];
+  console.log(compProps);
+  const thisState = compProps.filter(el => el.origin === component.id);
+  const thisProps = compProps.filter(el => el.displayedAt.includes(component.id));
+
 
   if (stateful || router) {
     return `
@@ -44,21 +33,27 @@ const componentRender = (component) => {
   stateful
     ? `constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {${thisState.map(state => `this.${state.key}: ${state.value}, \n`)}};
       }`
     : ''
 }
 
       render() {
-        const { ${props.map(p => `${p.key}`).join(', ')} } = this.props;
-        
+        const {
+          ${thisProps.map(prop => `${prop.key} \n`)}
+        } = this.props;
+        const {
+          ${thisState.map(prop => `${prop.key}\n`)}
+        } = this.state;
+
         return (
           ${router ? '<Router><div>' : '<div>'}
           ${
   stateful
     ? children
       .map(
-        child => `<${child.title} ${child.props
+        child => `<${child.title} ${compProps
+          .filter(prop => prop.displayedAt.includes(child.id))
           .map(prop => `${prop.key}={${prop.value}}`)
           .join(' ')}/>`,
       )
@@ -82,7 +77,7 @@ const componentRender = (component) => {
       }
 
       ${title}.propTypes = {
-        ${props
+        ${thisProps
     .map(
       p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
     )
@@ -101,19 +96,26 @@ const componentRender = (component) => {
     .join('\n')}
 
     const ${title} = props => (
-      <div>
+      ${thisProps.length > 0
+    ? `const {
+          ${thisProps.map(prop => `${prop.key} \n`)}
+        } = this.props;` : ''
+}
+      return <div>
         ${children
     .map(
-      child => `<${child.title} ${child.props
+      child => `<${child.title} ${compProps
+        .filter(prop => prop.displayedAt.includes(child.id))
         .map(prop => `${prop.key}={${prop.value}}`)
         .join(' ')}/>`,
     )
-    .join('\n')}
+    .join('\n')
+}
       </div>
     );
 
     ${title}.propTypes = {
-      ${props
+      ${thisProps
     .map(
       p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
     )

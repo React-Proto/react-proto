@@ -33,17 +33,7 @@ const mapDispatchToProps = dispatch => ({
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
-  createApp: ({
-    path, components,
-    genOption, repoUrl,
-  }) => dispatch(
-    createApplication({
-      path,
-      components,
-      genOption,
-      repoUrl,
-    }),
-  ),
+  createApplication: data => dispatch(createApplication(data)),
   changeImagePath: path => dispatch(changeImagePath(path)),
   exportWorkspace: ({
     workspaceFilePath, totalComponents, nextId,
@@ -103,10 +93,10 @@ class MainContainer extends Component {
     });
 
     IPC.on('app_dir_selected', (event, path) => {
-      const { components } = this.props;
+      const { components, compProps } = this.props;
       const { genOption, repoUrl } = this.state;
-      this.props.createApp({
-        path, components, genOption, repoUrl,
+      this.props.createApplication({
+        path, components, compProps, genOption, repoUrl,
       });
     });
 
@@ -356,12 +346,13 @@ class MainContainer extends Component {
 
 MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
+  compProps: PropTypes.array.isRequired,
   handleTransformation: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   openPanel: PropTypes.func.isRequired,
   collapseColumn: PropTypes.func.isRequired,
-  createApp: PropTypes.func.isRequired,
+  createApplication: PropTypes.func.isRequired,
   changeImagePath: PropTypes.func.isRequired,
   imagePath: PropTypes.string.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
@@ -370,7 +361,6 @@ MainContainer.propTypes = {
   exportWorkspace: PropTypes.func.isRequired,
   nextId: PropTypes.number.isRequired,
   nextPropId: PropTypes.number.isRequired,
-  compProps: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
