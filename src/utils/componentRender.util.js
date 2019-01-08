@@ -24,7 +24,7 @@ const componentRender = (component, compProps) => {
     : ''
 }
 
-  class ${title} extends Component {d
+  class ${title} extends Component {
       ${
   stateful
     ? `constructor(props) {
