@@ -135,12 +135,12 @@ export const updateComponent = ({
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const exportFiles = ({ components, path }) => (dispatch) => {
+export const exportFiles = data => (dispatch) => {
   dispatch({
     type: EXPORT_FILES,
   });
 
-  createFiles(components, path)
+  createFiles(data)
     .then(dir => dispatch({
       type: EXPORT_FILES_SUCCESS,
       payload: { status: true, dir: dir[0] },
@@ -225,10 +225,10 @@ export const handleTransform = (id, {
 // ];
 
 export const createApplication = ({
-  path, components = [], genOption, appName = 'proto_app', repoUrl,
+  path, components = [], genOption, appName = 'proto_app', repoUrl, compProps,
 }) => (dispatch) => {
   if (genOption === 0) {
-    dispatch(exportFiles({ path, components }));
+    dispatch(exportFiles({ path, components, compProps }));
   } else if (genOption) {
     dispatch({
       type: CREATE_APPLICATION,
