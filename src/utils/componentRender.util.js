@@ -6,7 +6,6 @@ const componentRender = (component, compProps) => {
     router, routes,
   } = component;
 
-  console.log(compProps);
   const thisState = compProps.filter(el => el.origin === component.id);
   const thisProps = compProps.filter(el => el.displayedAt.includes(component.id));
 
@@ -16,48 +15,46 @@ const componentRender = (component, compProps) => {
       import React, { Component } from 'react';
       ${
   router
-    ? "import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'"
+    ? "import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';"
     : ''
 }
       import PropTypes from 'prop-types';
-      ${
-  stateful
-    ? children
-      .map(child => `import ${child.title} from './${child.title}.jsx'`)
-      .join('\n')
-    : ''
-}
+
+      ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
 
       class ${title} extends Component {
       ${
   stateful
-    ? `constructor(props) {
-        super(props);
-        this.state = {${thisState.map(state => `this.${state.key}: ${state.value}, \n`)}};
-      }`
+    ? `  constructor(props) {
+           super(props);
+           this.state = {
+             /* define your state here */
+             ${thisState.map(state => ` ${state.key}: null`)}
+           }; 
+         }`
     : ''
 }
 
-      render() {
-        const {
-          ${thisProps.map(prop => `${prop.key} \n`)}
-        } = this.props;
-        const {
-          ${thisState.map(prop => `${prop.key}\n`)}
-        } = this.state;
+        render() {
+          const {
+            /* deconstruct this.props here */
+            ${thisProps.map(prop => ` ${prop.key}`).join(',\n')}
+          } = this.props;
 
-        return (
-          ${router ? '<Router><div>' : '<div>'}
-          ${
+          const {
+            /* deconstruct this.state here */
+            ${thisState.map(prop => ` ${prop.key}`).join(',\n')}
+          } = this.state;
+
+          return (
+            ${router ? '<Router><div>' : '<div>'}
+            ${
   stateful
     ? children
-      .map(
-        child => `<${child.title} ${compProps
-          .filter(prop => prop.displayedAt.includes(child.id))
-          .map(prop => `${prop.key}={${prop.value}}`)
-          .join(' ')}/>`,
-      )
-      .join('\n')
+      .map(child => `  <${child.title} ${compProps
+        .filter(prop => prop.displayedAt.includes(child.id))
+        .map(prop => `${prop.key}={${prop.key}}`)
+        .join(' ')}/>`)
     : ''
 }
           ${
@@ -68,11 +65,10 @@ const componentRender = (component, compProps) => {
           route.routeCompTitle
         }}/>`,
       )
-      .join('\n')
     : ''
 }
-          ${router ? '</div></Router>' : '</div>'}
-          )
+            ${router ? '</div></Router>' : '</div>'}
+          );
         }
       }
 
@@ -82,7 +78,7 @@ const componentRender = (component, compProps) => {
       p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
     )
     .join('\n')}
-      }
+      };
 
       export default ${title};
     `;
@@ -95,35 +91,31 @@ const componentRender = (component, compProps) => {
     .map(child => `import ${child.title} from './${child.title}.jsx'`)
     .join('\n')}
 
-    const ${title} = props => (
+    const ${title} = props => {
       ${thisProps.length > 0
     ? `const {
-          ${thisProps.map(prop => `${prop.key} \n`)}
-        } = this.props;` : ''
+         /* deconstruct props here */
+         ${thisProps.map(prop => ` ${prop.key}`)}
+        } = props;` : ''
 }
-      return <div>
+      return (
+        <div>
         ${children
-    .map(
-      child => `<${child.title} ${compProps
-        .filter(prop => prop.displayedAt.includes(child.id))
-        .map(prop => `${prop.key}={${prop.value}}`)
-        .join(' ')}/>`,
-    )
-    .join('\n')
-}
-      </div>
-    );
+    .map(child => `  <${child.title} ${compProps
+      .filter(prop => prop.displayedAt.includes(child.id))
+      .map(prop => `${prop.key}={${prop.key}}`)
+      .join(' ')}/>`)
+    .join('\n')}
+        </div>
+      );
+    };
 
     ${title}.propTypes = {
       ${thisProps
-    .map(
-      p => `${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''},`,
-    )
-    .join('\n')}
-    }
+    .map(p => `  ${p.key}: PropTypes.${p.type}${p.required ? '.isRequired' : ''}`)
+    .join(',\n\t')}};
 
-    export default ${title};
-  `;
+    export default ${title}; \n`;
 };
 
 export default componentRender;
