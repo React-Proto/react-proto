@@ -164,7 +164,7 @@ class Props extends Component {
 
   parentPropHandler(id, compId) {
     const propId = id.id;
-    console.log('parent prop handler');
+    // console.log('parent prop handler');
     // adds to seen at in props object in store
     this.props.addPropToDisplayed(propId, compId);
   }
@@ -172,33 +172,23 @@ class Props extends Component {
   deleteHandler(id, compId) {
     // deletes prop from store if this is origin
     // otherwise removes it from the seenAt array
-    console.log('id: ', id, 'compId: ', compId);
-    const { compProps, deleteProp, removePropFromDisplayed } = this.props;
+    // console.log('id: ', id, 'compId: ', compId);
+    const { compProps } = this.props;
     const propId = id.id;
     // if it is from origin then do deleteProp
-    if (compProps.reduce((a, b) => (b.origin === compId ? b : a), null)) return deleteProp(propId, compId);
-    return removePropFromDisplayed(propId, compId);
-
-    // const pos = this.props.compProps.reduce((a, b) => (b.id === compId ? b : a), {});
-    // if (this.props.compProps[pos].displayedAt.indexOf(compId) >= 0) return this.props.removePropFromDisplayed(propId, compId);
-    // return this.props.deleteProp(propId);
+    if (compProps.reduce((a, b) => (b.origin === compId ? b : a), null)) {
+      return this.props.deleteProp(propId, compId);
+    }
+    return this.props.removePropFromDisplayed(propId, compId);
   }
 
   render() {
     const {
       focusComponent,
       classes,
-      deleteProp,
       rightColumnOpen,
       compProps,
-      components,
     } = this.props;
-
-    let displayParentProps;
-    if (Object.keys(focusComponent).length > 0) {
-      console.log('focusComponent: ', focusComponent.id);
-      // displayParentProps = this.getDisplayParentProps(components, focusComponent.parentId);
-    }
 
     return (
       <div style={{ display: rightColumnOpen ? 'inline' : 'none' }}>
@@ -331,8 +321,9 @@ class Props extends Component {
             <Typography className={classes.label}>Parent Props</Typography>
             {compProps
               // display if the parents contain it and the prop doesnt contain the current id
-              // .filter(el => displayParentProps.indexOf(el.origin) >= 0 && el.displayedAt.indexOf(focusComponent.id) < 0)
-              .filter(el => (focusComponent.parentId === el.origin || el.displayedAt.indexOf(focusComponent.parentId) >= 0) && el.displayedAt.indexOf(focusComponent.id) < 0)
+              .filter(el => (focusComponent.parentId === el.origin
+                || el.displayedAt.indexOf(focusComponent.parentId) >= 0)
+                && el.displayedAt.indexOf(focusComponent.id) < 0)
               .map((el) => {
                 const {
                   id, key, value, required, type,
@@ -375,6 +366,9 @@ Props.propTypes = {
   deleteProp: PropTypes.func.isRequired,
   addProp: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
+  compProps: PropTypes.array.isRequired,
+  addPropToDisplayed: PropTypes.func.isRequired,
+  removePropFromDisplayed: PropTypes.func.isRequired,
 };
 
 export default compose(

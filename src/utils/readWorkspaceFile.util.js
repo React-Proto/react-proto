@@ -45,7 +45,12 @@ const readWorkspaceFile = async (workspaceFilePath) => {
 
   // De-serialize workspaceData Object from JSON formatted string
   const data = fs.readFileSync(path.join(appDataPath, metaJSONFile), 'utf8');
-  workspaceData = JSON.parse(data);
+  try {
+    workspaceData = JSON.parse(data);
+  } catch (parseError) {
+    console.error(data);
+    throw new Error(`Unable to parse Workspace meta data. ${parseError}`);
+  }
 
   // Adjust workspaceData Object for Application Use
   if (workspaceData.imagePath) {
