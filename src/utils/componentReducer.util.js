@@ -16,7 +16,6 @@ const initialComponentState = {
   selectableParents: [],
   selectableRoutes: [],
   expanded: true,
-  nextPropId: 0,
   position: {
     x: 110,
     y: 120,
