@@ -1,14 +1,10 @@
 const componentRender = (component, compProps) => {
   const {
-    children,
-    title,
-    stateful,
-    router, routes,
+    children, title, stateful, router, routes,
   } = component;
 
   const thisState = compProps.filter(el => el.origin === component.id);
   const thisProps = compProps.filter(el => el.displayedAt.includes(component.id));
-
 
   if (stateful || router) {
     return `
@@ -22,9 +18,10 @@ const componentRender = (component, compProps) => {
 
       ${children.map(child => `import ${child.title} from './${child.title}.jsx'`).join('\n')}
 
-      class ${title} extends Component {
+  class ${title} extends Component {
       ${
   stateful
+
     ? `  constructor(props) {
            super(props);
            this.state = {
@@ -40,6 +37,7 @@ const componentRender = (component, compProps) => {
             /* deconstruct this.props here */
             ${thisProps.map(prop => ` ${prop.key}`).join(',\n')}
           } = this.props;
+
 
           const {
             /* deconstruct this.state here */
