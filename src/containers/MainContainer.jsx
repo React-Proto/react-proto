@@ -61,10 +61,7 @@ const mapStateToProps = store => ({
   nextId: store.workspace.nextId,
   components: store.workspace.components,
   compProps: store.workspace.compProps,
-<<<<<<< HEAD
-=======
   nextPropId: store.workspace.nextPropId,
->>>>>>> 36b53d0f3ac3919a6270dd3d0075e5c5687debec
 });
 
 class MainContainer extends Component {
@@ -364,7 +361,6 @@ MainContainer.propTypes = {
   exportWorkspace: PropTypes.func.isRequired,
   nextId: PropTypes.number.isRequired,
   nextPropId: PropTypes.number.isRequired,
-  compProps: PropTypes.array.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
