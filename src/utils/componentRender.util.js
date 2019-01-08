@@ -1,15 +1,11 @@
 const componentRender = (component, compProps) => {
   const {
-    children,
-    title,
-    stateful,
-    router, routes,
+    children, title, stateful, router, routes,
   } = component;
 
   console.log(compProps);
   const thisState = compProps.filter(el => el.origin === component.id);
   const thisProps = compProps.filter(el => el.displayedAt.includes(component.id));
-
 
   if (stateful || router) {
     return `
@@ -28,23 +24,21 @@ const componentRender = (component, compProps) => {
     : ''
 }
 
-      class ${title} extends Component {
+  class ${title} extends Component {
       ${
   stateful
     ? `constructor(props) {
         super(props);
-        this.state = {${thisState.map(state => `this.${state.key}: ${state.value}, \n`)}};
+        this.state = {${thisState.map(
+    state => `${state.key}: ${state.value} `,
+  )}};
       }`
     : ''
 }
 
       render() {
-        const {
-          ${thisProps.map(prop => `${prop.key} \n`)}
-        } = this.props;
-        const {
-          ${thisState.map(prop => `${prop.key}\n`)}
-        } = this.state;
+        const {${thisProps.map(prop => `${prop.key}`)}} = this.props;
+        const {${thisState.map(prop => `${prop.key}`)}} = this.state;
 
         return (
           ${router ? '<Router><div>' : '<div>'}
@@ -54,7 +48,7 @@ const componentRender = (component, compProps) => {
       .map(
         child => `<${child.title} ${compProps
           .filter(prop => prop.displayedAt.includes(child.id))
-          .map(prop => `${prop.key}={${prop.value}}`)
+          .map(prop => `${prop.key}={${prop.key}}`)
           .join(' ')}/>`,
       )
       .join('\n')
@@ -96,10 +90,12 @@ const componentRender = (component, compProps) => {
     .join('\n')}
 
     const ${title} = props => (
-      ${thisProps.length > 0
+      ${
+  thisProps.length > 0
     ? `const {
           ${thisProps.map(prop => `${prop.key} \n`)}
-        } = this.props;` : ''
+        } = this.props;`
+    : ''
 }
       return <div>
         ${children
@@ -109,8 +105,7 @@ const componentRender = (component, compProps) => {
         .map(prop => `${prop.key}={${prop.value}}`)
         .join(' ')}/>`,
     )
-    .join('\n')
-}
+    .join('\n')}
       </div>
     );
 
