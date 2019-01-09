@@ -354,6 +354,8 @@ export const handleTransform = (state, {
 }) => {
   const components = state.components.map((component) => {
     if (component.id === id) {
+      console.log('old coords', Math.floor(component.position.x), Math.floor(component.position.y), Math.floor(component.position.width), Math.floor(component.position.height));
+      console.log('x,y,width,height for transform', Math.floor(x), Math.floor(y), Math.floor(width), Math.floor(height));
       return {
         ...component,
         position: {
