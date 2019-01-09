@@ -3,8 +3,7 @@ import {
   ADD_COMPONENT,
   UPDATE_COMPONENT,
   DELETE_COMPONENT,
-  ADD_NEW_CHILD,
-  DELETE_CHILD,
+  UPDATE_CHILDREN,
   REASSIGN_PARENT,
   SET_SELECTABLE_PARENTS,
   EXPORT_FILES,
@@ -40,30 +39,21 @@ export const loadInitData = () => (dispatch) => {
     }));
 };
 
-export const addNewChild = (({
-  id, childIndex, childId,
+export const updateChildren = (({
+  parentIds, childIndex, childId,
 }) => ({
-  type: ADD_NEW_CHILD,
+  type: UPDATE_CHILDREN,
   payload: {
-    id, childIndex, childId,
+    parentIds, childIndex, childId,
   },
 }));
 
-export const deleteChild = (({
-  parent, childIndex, childId,
-}) => ({
-  type: DELETE_CHILD,
-  payload: {
-    parent, childIndex, childId,
-  },
-}));
-
-export const parentReassignment = (({ index, id, parent }) => ({
+export const parentReassignment = (({ index, id, parentIds }) => ({
   type: REASSIGN_PARENT,
   payload: {
     index,
     id,
-    parent,
+    parentIds,
   },
 }));
 
@@ -72,19 +62,20 @@ export const addComponent = ({ title }) => (dispatch) => {
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
-export const deleteComponent = ({ index, id, parent }) => (dispatch) => {
-  // Delete Component  from its parent if it has a parent.
-  if (parent && parent.id) {
-    dispatch(deleteChild({ parent, childId: id, childIndex: index }));
+export const deleteComponent = ({ index, id, parentIds = [] }) => (dispatch) => {
+  if (parentIds.length) {
+    // Delete Component  from its parent if it has a parent.
+    dispatch(updateChildren({ parentIds, childId: id, childIndex: index }));
   }
   // Reassign Component's children to its parent if it has one or make them orphans
-  dispatch(parentReassignment({ index, id, parent }));
+  dispatch(parentReassignment({ index, id, parentIds }));
+
   dispatch({ type: DELETE_COMPONENT, payload: { index, id } });
   dispatch({ type: SET_SELECTABLE_PARENTS });
 };
 
 export const updateComponent = ({
-  id, index, parent = null, newParentId = null, color = null, stateful = null,
+  id, index, newParentId = null, color = null, stateful = null,
 }) => (dispatch) => {
   dispatch({
     type: UPDATE_COMPONENT,
@@ -93,12 +84,8 @@ export const updateComponent = ({
     },
   });
 
-  if (newParentId && newParentId !== 'null') {
-    dispatch(addNewChild({ id: newParentId, childId: id, childIndex: index }));
-  }
-
-  if (parent && parent.id) {
-    dispatch(deleteChild({ parent, index, childId: id }));
+  if (newParentId) {
+    dispatch(updateChildren({ parentIds: [newParentId], childId: id, childIndex: index }));
   }
 
   dispatch({ type: SET_SELECTABLE_PARENTS });
