@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.jsx';
+import LeftComponentContainer from './LeftComponentContainer.jsx';
 import createModal from '../utils/createModal.util';
 import * as actions from '../actions/components';
 
@@ -16,17 +16,21 @@ const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
     ({
-      id, index, parent = null, newParentId = null, color = null, stateful = null,
+      id, index, parent = null, newParentId = null, color = null, stateful = null, router = null,
     }) => dispatch(actions.updateComponent({
-      id, index, parent, newParentId, color, stateful,
+      id, index, parent, newParentId, color, stateful, router,
     })),
   deleteComponent: ({
-    index, id, parent,
-  }) => dispatch(actions.deleteComponent({ index, id, parent })),
+    index, id, parent, routes,
+  }) => dispatch(actions.deleteComponent({
+    index, id, parent, routes,
+  })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
   moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
+  setVisible: compId => dispatch(actions.setVisible(compId)),
+  setSelectableRoutes: componentId => dispatch(actions.setSelectableRoutes(componentId)),
 });
 
 const styles = theme => ({
@@ -116,11 +120,13 @@ class LeftContainer extends Component {
       focusComponent,
       totalComponents,
       classes,
+      setVisible,
+      setSelectableRoutes,
     } = this.props;
     const { componentName, modal } = this.state;
 
     const componentsExpansionPanel = components.map(
-      (component, i) => <LeftColExpansionPanel
+      (component, i) => <LeftComponentContainer
         key={component.id}
         index={i}
         id={component.id}
@@ -131,14 +137,16 @@ class LeftContainer extends Component {
         onExpansionPanelChange={this.handleExpansionPanelChange}
         moveToBottom={moveToBottom}
         moveToTop={moveToTop}
+        setVisible={setVisible}
+        setSelectableRoutes={setSelectableRoutes}
       />,
     );
-    // className={classes.root}
-
     return (
       <div className='column left'>
         <FormControl
           fullWidth={true}
+
+          // what is this??
           formlabellasses={{
             root: classes.cssLabel,
           }}
@@ -218,4 +226,6 @@ LeftContainer.propTypes = {
   openExpansionPanel: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   classes: PropTypes.object,
+  setVisible: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
 };

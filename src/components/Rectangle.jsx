@@ -7,8 +7,8 @@ class Rectangle extends Component {
     const transformation = {
       x: target.x(),
       y: target.y(),
-      width: target.width() * target.scaleX(),
-      height: target.height() * target.scaleY(),
+      width: target.width(),
+      height: target.height(),
     };
 
     this.props.handleTransform(componentId, transformation);

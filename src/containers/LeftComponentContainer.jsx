@@ -17,6 +17,7 @@ import Select from '@material-ui/core/Select';
 import Tooltip from '@material-ui/core/Tooltip';
 import InputLabel from '@material-ui/core/InputLabel';
 import Divider from '@material-ui/core/Divider';
+import RoutesContainer from './RoutesContainer.jsx';
 
 const styles = theme => ({
   root: {
@@ -60,9 +61,16 @@ const styles = theme => ({
   group: {
     margin: `${theme.spacing.unit}px 0`,
   },
+  button: {
+    color: '#fff',
+
+    '&:disabled': {
+      color: 'grey',
+    },
+  },
 });
 
-const LeftColExpansionPanel = (props) => {
+const LeftComponentContainer = (props) => {
   const {
     index,
     classes,
@@ -73,6 +81,8 @@ const LeftColExpansionPanel = (props) => {
     onExpansionPanelChange,
     moveToBottom,
     moveToTop,
+    setVisible,
+    setSelectableRoutes,
   } = props;
   const {
     title,
@@ -81,21 +91,43 @@ const LeftColExpansionPanel = (props) => {
     color,
     parent,
     selectableParents,
+    selectableRoutes,
+    router,
+    routes,
+    visible,
   } = component;
-
   const parentOptions = [
-    <option value='null' key=''>
+    <option value="null" key="">
       None
     </option>,
-    ...selectableParents.map(
-      selectableParent => <option
-        value={selectableParent.id}
-        key={selectableParent.id}
-      >
+    ...selectableParents.map(selectableParent => (
+      <option value={selectableParent.id} key={selectableParent.id}>
         {selectableParent.title}
-      </option>,
-    ),
+      </option>
+    )),
   ];
+
+  const handleDeleteComp = (event) => {
+    if (!visible) setVisible(id);
+    deleteComponent({
+      index,
+      id,
+      parent,
+      routes,
+    });
+    setSelectableRoutes(parent.id);
+  };
+
+  const handleUpdateColor = (event) => {
+    updateComponent({ color: event.target.value, index, id });
+  };
+
+  const RouteComponent = router ? (<RoutesContainer
+    component={component}
+    classes={classes}
+    selectableRoutes = {selectableRoutes}
+    id = {id}
+  />) : null;
 
   return (
     <div className={classes.root}>
@@ -105,38 +137,61 @@ const LeftColExpansionPanel = (props) => {
         onChange={() => onExpansionPanelChange(component)}
         elevation={4}
       >
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon style={{ color }} />}>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon style={{ color }} />}
+        >
           <Typography className={classes.light}>{title}</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails className={classes.details}>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='stateful'>Stateful?</InputLabel>
+            <InputLabel className={classes.label} htmlFor="stateful">
+              Stateful?
+            </InputLabel>
             <Switch
               checked={stateful}
-              onChange={event => updateComponent({ stateful: event.target.checked, index, id })}
-              value='stateful'
-              color='primary'
-              id='stateful'
+              onChange={event => updateComponent({ stateful: event.target.checked, index, id })
+              }
+              value="stateful"
+              color="primary"
+              id="stateful"
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='boxColor'>Box Color</InputLabel>
+            <InputLabel className={classes.label} htmlFor="router">
+              Router?
+            </InputLabel>
+            <Switch
+              checked={router}
+              onChange={(event) => {
+                updateComponent({ router: event.target.checked, index, id });
+              }}
+              value="router"
+              color="primary"
+              id="router"
+            />
+          </div>
+          <div className={classes.column}>
+            <InputLabel className={classes.label} htmlFor="boxColor">
+              Box Color
+            </InputLabel>
             <Input
-              type='color'
-              id='boxColor'
+              type="color"
+              id="boxColor"
               disableUnderline={true}
               value={color}
-              onChange={event => updateComponent({ color: event.target.value, index, id })}
+              onChange={handleUpdateColor}
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='parentSelect'>Parent</InputLabel>
+            <InputLabel className={classes.label} htmlFor="parentSelect">
+              Parent
+            </InputLabel>
             <Select
               className={classes.light}
               native
               value={parent.id}
-              id='parentSelect'
-              name='parentName'
+              id="parentSelect"
+              name="parentName"
               onChange={(event) => {
                 const newParentId = event.target.value;
                 updateComponent({
@@ -150,6 +205,9 @@ const LeftColExpansionPanel = (props) => {
               {parentOptions}
             </Select>
           </div>
+          <div className="classes.column">
+            {RouteComponent}
+          </div>
         </ExpansionPanelDetails>
         <Divider />
         <ExpansionPanelActions className={classes.actions}>
@@ -157,7 +215,8 @@ const LeftColExpansionPanel = (props) => {
             <IconButton
               className={classes.button}
               onClick={() => moveToTop(id)}
-              aria-label='Flip to back'>
+              aria-label="Flip to back"
+            >
               <FlipToFrontIcon className={classes.light} />
             </IconButton>
           </Tooltip>
@@ -165,29 +224,27 @@ const LeftColExpansionPanel = (props) => {
             <IconButton
               className={classes.button}
               onClick={() => moveToBottom(id)}
-              aria-label='Flip to back'>
+              aria-label="Flip to back"
+            >
               <FlipToBackIcon className={classes.light} />
             </IconButton>
           </Tooltip>
           <IconButton
             className={classes.button}
-            onClick={() => {
-              deleteComponent({
-                index, id, parent,
-              });
-            }}
-            aria-label='Delete'>
+            onClick={handleDeleteComp}
+            aria-label="Delete"
+          >
             <DeleteIcon className={classes.light} />
           </IconButton>
         </ExpansionPanelActions>
       </ExpansionPanel>
-    </div >
+    </div>
   );
 };
 
-export default withStyles(styles)(LeftColExpansionPanel);
+export default withStyles(styles)(LeftComponentContainer);
 
-LeftColExpansionPanel.propTypes = {
+LeftComponentContainer.propTypes = {
   classes: PropTypes.object.isRequired,
   component: PropTypes.object,
   index: PropTypes.number,
@@ -197,4 +254,7 @@ LeftColExpansionPanel.propTypes = {
   deleteComponent: PropTypes.func,
   moveToBottom: PropTypes.func,
   moveToTop: PropTypes.func,
+  routes: PropTypes.object,
+  setVisible: PropTypes.func.isRequired,
+  setSelectableRoutes: PropTypes.func.isRequired,
 };

@@ -7,6 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Props from './Props.jsx';
 import SortableComponent from './SortableComponent.jsx';
 
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -74,9 +75,10 @@ class RightTabs extends Component {
       classes,
       components,
       focusComponent,
-      deleteProp,
-      addProp,
       rightColumnOpen,
+      setVisible,
+      onExpansionPanelChange,
+      setSelectableParents,
     } = this.props;
     const { value } = this.state;
 
@@ -102,17 +104,21 @@ class RightTabs extends Component {
                   color='primary'
                   badgeContent={focusComponent.props.length}
                 >
-                  Props
-                </Badge> : 'Props'
+                  State
+                </Badge> : 'State'
             }
           />
         </Tabs>
-        {value === 0 && <SortableComponent components={components} />}
+        {value === 0 && <SortableComponent
+          components={components}
+          setVisible={setVisible}
+          setSelectableParents={setSelectableParents}
+          onExpansionPanelChange={onExpansionPanelChange}
+        />}
         {value === 1 && <Props
           rightColumnOpen={rightColumnOpen}
           focusComponent={focusComponent}
-          deleteProp={deleteProp}
-          addProp={addProp}
+          components = {components}
         />
         }
       </div>
@@ -124,9 +130,10 @@ RightTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   components: PropTypes.array.isRequired,
   focusComponent: PropTypes.object.isRequired,
-  deleteProp: PropTypes.func.isRequired,
-  addProp: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  onExpansionPanelChange: PropTypes.func,
+  setSelectableParents: PropTypes.func,
 };
 
 export default withStyles(styles)(RightTabs);

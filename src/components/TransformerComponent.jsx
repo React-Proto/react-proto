@@ -31,6 +31,7 @@ export default class TransformerComponent extends Component {
     return (
       <Transformer
         rotateEnabled={false}
+        ignoreStroke={true}
         onMouseUp={this.handleMouseUp}
         ref={(node) => {
           this.transformer = node;

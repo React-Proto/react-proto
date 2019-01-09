@@ -50,7 +50,6 @@ class KonvaStage extends Component {
 
   //   // const componentX = (mainWindowWidth / 2) - groupX;
   //   // const componentY = (mainWindowHeight / 2) - groupY;
-  //   // console.log(componentX, componentY);
   // }
 
   componentDidMount() {
@@ -81,7 +80,9 @@ class KonvaStage extends Component {
             }}
             draggable={draggable}>
             <Image image={image} />
-            {components.map((comp, i) => <Rectangle
+            {components
+              .filter(comp => comp.visible)
+              .map((comp, i) => <Rectangle
               draggable={comp.draggable}
               selectedShapeName={selectedShapeName}
               key={i}
