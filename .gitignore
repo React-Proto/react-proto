@@ -483,4 +483,7 @@ ASALocalRun/
 React-Proto.dmg
 installers/
 
+# yarn primary pkg mgr. npm lock file
+package-lock.json
+
 # End of https://www.gitignore.io/api/node,linux,macos,windows,visualstudio,yarn
