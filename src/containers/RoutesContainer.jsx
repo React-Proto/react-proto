@@ -24,7 +24,7 @@ const mapStateToProps = ({ workspace: { components } }) => ({
   components,
 });
 
-class RoutesContainer extends Component {
+export class RoutesContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
