@@ -240,7 +240,7 @@ export const createApplication = ({
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
-        dispatch(exportFiles({ path: `${path}/${appName}`, components }));
+        dispatch(exportFiles({ path: `${path}/${appName}`, components, compProps }));
       })
       .catch(err => dispatch({
         type: CREATE_APPLICATION_ERROR,

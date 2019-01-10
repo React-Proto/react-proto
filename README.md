@@ -6,7 +6,10 @@
 
 React-Proto allows the user to visualize/setup their application architecture upfront and eject this architecture as application files either into a previous project or a new create-react-app project or a starter template from any repository.
 
-Download for [MacOS](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto-1.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto.Web.Setup.1.0.0.exe), [Linux](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/react-proto_1.0.0_amd64.deb).
+Download for v1.0.0 [MacOS](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto-1.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/React-Proto.Web.Setup.1.0.0.exe), [Linux](https://github.com/React-Proto/react-proto/releases/download/v1.0.0/react-proto_1.0.0_amd64.deb).
+
+Download for v2.0.0-beta [MacOS](https://github.com/React-Proto/react-proto/releases/download/v2.0.0-beta/React-Proto-2.0.0.dmg), [Windows](https://github.com/React-Proto/react-proto/releases/download/v2.0.0-beta/react-proto-2.0.0-x86_64.AppImage), [Linux](https://github.com/React-Proto/react-proto/releases/download/v2.0.0-beta/react-proto_2.0.0_amd64.deb).
+
 * Mac users only: for now you might need to go to your security settings to allow the app run on your system as we do not have an Apple license yet.
 
 If you find any issues, [file issue](https://github.com/React-Proto/react-proto/issues)
@@ -47,6 +50,12 @@ If you find any issues, [file issue](https://github.com/React-Proto/react-proto/
 [Brian Taylor](https://www.linkedin.com/in/brianwtaylor/) [@brianwtaylor](https://github.com/brianwtaylor)
 
 [Erik Guntner](https://www.linkedin.com/in/erik-guntner-9aa324b9/) [@erikguntner](https://github.com/erikguntner)
+
+[Adrian Sun](https://www.linkedin.com/in/adrian-sun/) [@adriansun1](https://github.com/adriansun1)
+
+[Darryl Amour](https://www.linkedin.com/in/darryl-amour/) [@darryl-amour](https://github.com/darryl-amour)
+
+[Frank Ma](https://www.linkedin.com/in/frankma2/) [@frankyma](https://github.com/frankyma)
 
 ## Running Your Own Version
 
