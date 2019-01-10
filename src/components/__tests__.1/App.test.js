@@ -1,6 +1,6 @@
 import React from 'react';
 // import '../../setupTests';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import App from '../App.jsx';
 import AppContainer from '../../containers/AppContainer.jsx';
 

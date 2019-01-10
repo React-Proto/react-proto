@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`React unit tests RouteDisplay snapshot test 1`] = `
+<div
+  align="stretch"
+  className="MuiGrid-container-1 MuiGrid-align-items-xs-baseline-12"
+>
+  <div
+    className="MuiGrid-item-2 MuiGrid-grid-xs-10-39"
+  >
+    Path: / 
+    TestPath
+    <br />
+    Component: 
+    TestComp
+  </div>
+  <div
+    className="MuiGrid-item-2 MuiGrid-grid-xs-2-31"
+  >
+    <button
+      aria-label="Delete"
+      className="MuiButtonBase-root-104 MuiIconButton-root-98"
+      disabled={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex="0"
+      type="button"
+    >
+      <span
+        className="MuiIconButton-label-103"
+      >
+        <svg
+          aria-hidden="true"
+          className="MuiSvgIcon-root-107"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+          />
+          <path
+            d="M0 0h24v24H0z"
+            fill="none"
+          />
+        </svg>
+      </span>
+      <span
+        className="MuiTouchRipple-root-114"
+      />
+    </button>
+  </div>
+</div>
+`;

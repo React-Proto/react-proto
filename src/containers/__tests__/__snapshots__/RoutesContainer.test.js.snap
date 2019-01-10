@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Routes Container Tests snapshot test 1`] = `
+<div>
+  <div
+    className="MuiFormControl-root-1 MuiFormControl-fullWidth-4"
+  >
+    <div
+      align="stretch"
+      className="MuiGrid-container-5 MuiGrid-align-items-xs-baseline-16"
+    >
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-10-43"
+      >
+        <label
+          className="MuiFormLabel-root-107 MuiInputLabel-root-102 MuiInputLabel-formControl-103 MuiInputLabel-animated-106"
+          data-shrink={false}
+          htmlFor="stateful"
+        >
+          Path: /
+        </label>
+      </div>
+      <br />
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-10-43"
+      >
+        <div
+          className="MuiFormControl-root-1 MuiFormControl-marginNormal-2"
+        >
+          <div
+            className="MuiInput-root-114 MuiInput-formControl-115 MuiInput-underline-118"
+          >
+            <input
+              aria-invalid={false}
+              autoFocus={true}
+              className="MuiInput-input-122"
+              disabled={false}
+              id="title-input"
+              name="pathName"
+              onBlur={[Function]}
+              onChange={[Function]}
+              onFocus={[Function]}
+              placeholder="RouteName"
+              required={false}
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-2-35"
+      >
+        <button
+          aria-label="Add"
+          className="MuiButtonBase-root-153 MuiButton-root-127 MuiButton-fab-144 MuiButton-mini-149 MuiButton-contained-138 MuiButton-containedPrimary-139 MuiButton-raised-141 MuiButton-raisedPrimary-142"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex="0"
+          type="button"
+        >
+          <span
+            className="MuiButton-label-128"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-156"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root-163"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <label
+      className="MuiFormLabel-root-107 MuiInputLabel-root-102 MuiInputLabel-animated-106"
+      htmlFor="parentSelect"
+    >
+      Route Child
+    </label>
+    <div
+      className="MuiInput-root-114 MuiInput-underline-118"
+    >
+      <div
+        className="MuiSelect-root-170"
+      >
+        <select
+          className="MuiSelect-select-171 MuiInput-input-122"
+          id="componentSelect"
+          name="componentName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+        >
+          <option
+            value=""
+          >
+            None
+          </option>
+          <option
+            value="1"
+          >
+            route1
+          </option>
+          <option
+            value="2"
+          >
+            route2
+          </option>
+        </select>
+        <svg
+          aria-hidden="true"
+          className="MuiSvgIcon-root-156 MuiSelect-icon-174"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div>
+    Routes:
+    <br />
+    <div
+      align="stretch"
+      className="MuiGrid-container-5 MuiGrid-align-items-xs-baseline-16"
+    >
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-10-43"
+      >
+        Path: / 
+        <br />
+        Component: 
+      </div>
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-2-35"
+      >
+        <button
+          aria-label="Delete"
+          className="MuiButtonBase-root-153 MuiIconButton-root-175"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex="0"
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label-180"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-156"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root-163"
+          />
+        </button>
+      </div>
+    </div>
+    <div
+      align="stretch"
+      className="MuiGrid-container-5 MuiGrid-align-items-xs-baseline-16"
+    >
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-10-43"
+      >
+        Path: / 
+        <br />
+        Component: 
+      </div>
+      <div
+        className="MuiGrid-item-6 MuiGrid-grid-xs-2-35"
+      >
+        <button
+          aria-label="Delete"
+          className="MuiButtonBase-root-153 MuiIconButton-root-175"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          tabIndex="0"
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label-180"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-156"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+              />
+              <path
+                d="M0 0h24v24H0z"
+                fill="none"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root-163"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
