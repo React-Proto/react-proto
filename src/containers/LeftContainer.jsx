@@ -16,20 +16,20 @@ const mapDispatchToProps = dispatch => ({
   addComponent: ({ title }) => dispatch(actions.addComponent({ title })),
   updateComponent:
     ({
-      id, index, newParentId = null, color = null, stateful = null,
+      id, index, parent = null, newParentId = null, color = null, stateful = null,
     }) => dispatch(actions.updateComponent({
-      id, index, newParentId, color, stateful,
+      id, index, parent, newParentId, color, stateful,
     })),
   deleteComponent: ({
-    index, id, parentIds,
-  }) => dispatch(actions.deleteComponent({ index, id, parentIds })),
+    index, id, parent,
+  }) => dispatch(actions.deleteComponent({ index, id, parent })),
   moveToBottom: componentId => dispatch(actions.moveToBottom(componentId)),
   moveToTop: componentId => dispatch(actions.moveToTop(componentId)),
   openExpansionPanel: component => dispatch(actions.openExpansionPanel(component)),
   deleteAllData: () => dispatch(actions.deleteAllData()),
 });
 
-const styles = () => ({
+const styles = theme => ({
   cssLabel: {
     color: 'white',
 
