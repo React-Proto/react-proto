@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 
 class Rectangle extends Component {
   extractPositionInfo(componentId, target) {
+
     const transformation = {
       x: target.x(),
       y: target.y(),
-      width: target.width(),
-      height: target.height(),
+      width: target.width() * target.scaleX(),
+      height: target.height() * target.scaleY(),
     };
 
     this.props.handleTransform(componentId, transformation);
@@ -25,8 +26,10 @@ class Rectangle extends Component {
         x={x}
         y={y}
         componentid={componentId}
-        scaleX={1}
-        scaleY={1}
+        scale={{
+          x: 1,
+          y: 1,
+        }}
         width={width}
         height={height}
         stroke={color}
