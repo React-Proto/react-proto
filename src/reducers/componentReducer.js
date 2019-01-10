@@ -67,9 +67,9 @@ import {
   setVisible,
 } from '../utils/componentReducer.util';
 
-const initialApplicationState = {
+export const initialApplicationState = {
   totalComponents: 0,
-  nextId: 1,
+  nextId: 0,
   nextPropId: 0,
   imagePath: '',
   successOpen: false,
