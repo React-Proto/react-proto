@@ -130,7 +130,8 @@ const LeftComponentContainer = (props) => {
   />) : null;
 
   return (
-    <div className={classes.root}>
+    // <div className={classes.root}>
+    <div>
       <ExpansionPanel
         className={classes.panel}
         expanded={focusComponent.id === id}
