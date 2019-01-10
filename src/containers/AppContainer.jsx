@@ -6,7 +6,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import LeftContainer from './LeftContainer.jsx';
 import MainContainer from './MainContainer.jsx';
 import RightContainer from './RightContainer.jsx';
-import convertIdToObjs from '../utils/convertIdsToObjs.util';
+import convertIdsToObjs from '../utils/convertIdsToObjs.util';
 import theme from '../components/theme';
 import { loadInitData } from '../actions/components';
 
@@ -51,7 +51,7 @@ class AppContainer extends Component {
       loading,
     } = this.props;
     const { width, rightColumnOpen } = this.state;
-    const updatedComponents = convertIdToObjs(components);
+    const updatedComponents = convertIdsToObjs(components);
 
     return (
       <MuiThemeProvider theme={theme}>

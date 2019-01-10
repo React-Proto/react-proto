@@ -7,8 +7,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
+import MenuItem from '@material-ui/core/MenuItem';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import ListItemText from '@material-ui/core/ListItemText';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Switch from '@material-ui/core/Switch';
+import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FlipToBackIcon from '@material-ui/icons/FlipToBack';
@@ -27,6 +31,13 @@ const styles = theme => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: theme.spacing.unit / 4,
   },
   panel: {
     backgroundColor: '#333333',
@@ -60,6 +71,15 @@ const styles = theme => ({
   group: {
     margin: `${theme.spacing.unit}px 0`,
   },
+  icon: {
+    fontSize: '20px',
+    color: '#000',
+    transition: 'all .2s ease',
+
+    '&:hover': {
+      color: 'red',
+    },
+  },
 });
 
 const LeftColExpansionPanel = (props) => {
@@ -79,23 +99,24 @@ const LeftColExpansionPanel = (props) => {
     id,
     stateful,
     color,
-    parent,
+    parents,
+    parentIds,
     selectableParents,
   } = component;
 
-  const parentOptions = [
-    <option value='null' key=''>
-      None
-    </option>,
-    ...selectableParents.map(
-      selectableParent => <option
-        value={selectableParent.id}
-        key={selectableParent.id}
-      >
-        {selectableParent.title}
-      </option>,
-    ),
-  ];
+  const handleParentChange = (event, parentId = null) => {
+    let newParentId = parentId;
+    if (event) {
+      const selectedParents = event.target.value;
+      newParentId = selectedParents[selectedParents.length - 1].id;
+    }
+
+    return updateComponent({
+      index,
+      id,
+      newParentId,
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -130,24 +151,35 @@ const LeftColExpansionPanel = (props) => {
             />
           </div>
           <div className={classes.column}>
-            <InputLabel className={classes.label} htmlFor='parentSelect'>Parent</InputLabel>
+            <InputLabel className={classes.label} htmlFor='parentSelect'>selectedParents</InputLabel>
             <Select
               className={classes.light}
-              native
-              value={parent.id}
+              multiple
+              value={parents}
               id='parentSelect'
               name='parentName'
-              onChange={(event) => {
-                const newParentId = event.target.value;
-                updateComponent({
-                  newParentId,
-                  index,
-                  id,
-                  parent,
-                });
-              }}
+              disabled={selectableParents.length < 1}
+              onChange={handleParentChange}
+              input={<Input id='parentSelect' />}
+              renderValue={selectedP => (
+                <div className={classes.chips}>
+                  {selectedP.map(parent => (
+                    <Chip
+                      key={parent.id}
+                      label={parent.title}
+                      className={classes.chip}
+                      onDelete={() => handleParentChange(null, parent.id)}
+                      deleteIcon={<RemoveCircleOutlineIcon className={classes.icon} />}
+                      />
+                  ))}
+                </div>
+              )}
             >
-              {parentOptions}
+            {selectableParents.map(parentObj => (
+              <MenuItem key={parentObj.id} value={parentObj}>
+                <ListItemText primary={parentObj.title} />
+              </MenuItem>
+            ))}
             </Select>
           </div>
         </ExpansionPanelDetails>
@@ -173,7 +205,7 @@ const LeftColExpansionPanel = (props) => {
             className={classes.button}
             onClick={() => {
               deleteComponent({
-                index, id, parent,
+                index, id, parentIds,
               });
             }}
             aria-label='Delete'>

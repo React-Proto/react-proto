@@ -5,7 +5,7 @@ const initialComponentState = {
   id: null,
   stateful: false,
   title: '',
-  parentId: '',
+  parentIds: [],
   color: getColor(),
   draggable: true,
   childrenIds: [],
@@ -57,10 +57,14 @@ export const updateComponent = ((state, {
   const components = state.components.map((comp) => {
     if (comp.id === id) {
       component = { ...comp };
-      if (newParentId === 'null') {
-        component.parentId = '';
-      } else if (newParentId) {
-        component.parentId = newParentId;
+      if (newParentId) {
+        const parentIdsSet = new Set(component.parentIds);
+        if (parentIdsSet.has(newParentId)) {
+          parentIdsSet.delete(newParentId);
+        } else {
+          parentIdsSet.add(newParentId);
+        }
+        component.parentIds = [...parentIdsSet];
       }
       if (props) {
         component.props = props;
@@ -98,27 +102,20 @@ export const deleteComponent = (state, { index, id }) => {
   };
 };
 
-export const addChild = ((state, { id, childId }) => {
+// Add or remove children
+export const updateChildren = ((state, { parentIds, childId }) => {
   const components = state.components.map((component) => {
-    if (component.id === id) {
-      const { childrenIds } = component;
-      return { ...component, childrenIds: [...childrenIds, childId] };
-    }
-    return component;
-  });
+    if (parentIds.includes(component.id)) {
+      const parentComp = { ...component };
+      const childrenIdsSet = new Set(parentComp.childrenIds);
+      if (childrenIdsSet.has(childId)) {
+        childrenIdsSet.delete(childId);
+      } else {
+        childrenIdsSet.add(childId);
+      }
 
-  return {
-    ...state,
-    components,
-  };
-});
-
-export const deleteChild = ((state, { parent, childId }) => {
-  const components = state.components.map((component) => {
-    if (component.id === parent.id) {
-      // Find child with matching id and remove from children
-      const childrenIds = component.childrenIds.filter(id => id !== childId);
-      return { ...component, childrenIds };
+      parentComp.childrenIds = [...childrenIdsSet];
+      return parentComp;
     }
     return component;
   });
@@ -158,16 +155,22 @@ export const changeImagePath = (state, imagePath) => ({
   imagePath,
 });
 
-export const reassignParent = ((state, { index, parent = {} }) => {
+
+// Assign comp's children to comp's parent
+export const reassignParent = ((state, { index, id, parentIds = [] }) => {
   // Get all childrenIds of the component to be deleted
   const { childrenIds } = state.components[index];
   const components = state.components.map((comp) => {
     // Give each child their previous parent's parent
     if (childrenIds.includes(comp.id)) {
-      return { ...comp, parentId: parent.id || '' };
+      const prevParentIds = comp.parentIds.filter(parentId => parentId !== id);
+      return {
+        ...comp,
+        parentIds: [...new Set(prevParentIds.concat(parentIds))],
+      };
     }
     // Give the parent all children of it's to be deleted child
-    if (parent.id === comp.id) {
+    if (parentIds.includes(comp.id)) {
       const prevChildrenIds = comp.childrenIds;
       return { ...comp, childrenIds: [...new Set(prevChildrenIds.concat(childrenIds))] };
     }
