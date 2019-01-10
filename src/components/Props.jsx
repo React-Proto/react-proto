@@ -12,12 +12,16 @@ import {
   Switch,
   InputLabel,
   Typography,
+  Paper,
 } from '@material-ui/core';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import {
-  deleteProp, addProp, addPropToDisplayed, removePropFromDisplayed,
+  deleteProp,
+  addProp,
+  addPropToDisplayed,
+  removePropFromDisplayed,
 } from '../actions/components';
 
 const mapDispatchToProps = dispatch => ({
@@ -45,7 +49,7 @@ const styles = theme => ({
   chip: {
     margin: theme.spacing.unit,
     color: '#eee',
-    backgroundColor: '#333333',
+    backgroundColor: '#262627',
   },
   column: {
     display: 'inline-flex',
@@ -80,6 +84,16 @@ const styles = theme => ({
   avatar: {
     color: '#eee',
     fontSize: '10px',
+  },
+  panel: {
+    backgroundColor: '#333333',
+    minHeight: '100px',
+    marginTop: '20px',
+  },
+  panelTitle: {
+    margin: '10px',
+    padding: '5px',
+    color: '#eee',
   },
 });
 
@@ -184,10 +198,7 @@ class Props extends Component {
 
   render() {
     const {
-      focusComponent,
-      classes,
-      rightColumnOpen,
-      compProps,
+      focusComponent, classes, rightColumnOpen, compProps,
     } = this.props;
 
     return (
@@ -199,89 +210,99 @@ class Props extends Component {
           </div>
         ) : (
           <div className="props-container">
-            <form className="props-input" onSubmit={this.handleAddProp}>
-              <Grid container spacing={24}>
-                <Grid item xs={6}>
-                  <TextField
-                    id="propKey"
-                    label="Key"
-                    margin="normal"
-                    autoFocus
-                    onChange={this.handleChange}
-                    value={this.state.propKey}
-                    required
-                    InputProps={{
-                      className: classes.input,
-                    }}
-                    InputLabelProps={{
-                      className: classes.input,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    id="propValue"
-                    label="Value"
-                    margin="normal"
-                    onChange={this.handleChange}
-                    InputProps={{
-                      className: classes.input,
-                    }}
-                    InputLabelProps={{
-                      className: classes.input,
-                    }}
-                    value={this.state.propValue}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormControl required>
-                    <InputLabel className={classes.light} htmlFor="propType">
-                      Type
-                    </InputLabel>
-                    <Select
-                      native
-                      className={classes.light}
-                      id="propType"
-                      placeholder="title"
-                      onChange={this.handleChange}
-                      value={this.state.propType}
-                      required
-                    >
-                      {typeOptions}
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <div className={classes.column}>
-                    <InputLabel
-                      className={classes.light}
-                      htmlFor="propRequired"
-                    >
-                      Required?
-                    </InputLabel>
-                    <Switch
-                      checked={this.state.propRequired}
-                      onChange={this.togglePropRequired}
-                      value="propRequired"
-                      color="secondary"
-                      id="propRequired"
-                    />
-                  </div>
-                </Grid>
-                <Grid item>
-                  <Button
-                    color="primary"
-                    aria-label="Add"
-                    type="submit"
-                    disabled={!this.state.propKey || !this.state.propType}
-                    variant="contained"
-                    size="large"
-                  >
-                    ADD PROP
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
+          {focusComponent.stateful
+            ? <form className="props-input" onSubmit={this.handleAddProp}>
+          <Grid
+            container
+            spacing={24}
+            justify="space-evenly"
+            alignItems="baseline"
+          >
+            <Grid item xs={6}>
+              <TextField
+                id="propKey"
+                label="Key"
+                margin="normal"
+                autoFocus
+                onChange={this.handleChange}
+                value={this.state.propKey}
+                required
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  className: classes.input,
+                }}
+              />
+            </Grid>
+            {/* <Grid item xs={6}>
+              <TextField
+                id="propValue"
+                label="Value"
+                margin="normal"
+                onChange={this.handleChange}
+                InputProps={{
+                  className: classes.input,
+                }}
+                InputLabelProps={{
+                  className: classes.input,
+                }}
+                value={this.state.propValue}
+              />
+            </Grid> */}
+            <Grid item xs={6}>
+              <FormControl required>
+                <InputLabel className={classes.light} htmlFor="propType">
+                  Type
+                </InputLabel>
+                <Select
+                  native
+                  className={classes.light}
+                  id="propType"
+                  placeholder="title"
+                  onChange={this.handleChange}
+                  value={this.state.propType}
+                  required
+                >
+                  {typeOptions}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <div className={classes.column}>
+                <InputLabel
+                  className={classes.light}
+                  htmlFor="propRequired"
+                >
+                  Required?
+                </InputLabel>
+                <Switch
+                  checked={this.state.propRequired}
+                  onChange={this.togglePropRequired}
+                  value="propRequired"
+                  color="secondary"
+                  id="propRequired"
+                />
+              </div>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                color="primary"
+                aria-label="Add"
+                type="submit"
+                disabled={!this.state.propKey || !this.state.propType}
+                variant="contained"
+                size="large"
+              >
+                ADD PROP
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+            : ''
+        }
+            <Paper className={classes.panel}>
+              <Typography className={classes.panelTitle}>State and Props</Typography>
             <div className="chips">
               {compProps
                 .filter(
@@ -318,41 +339,46 @@ class Props extends Component {
                   );
                 })}
             </div>
-            <Typography className={classes.label}>Parent Props</Typography>
-            {compProps
-              // display if the parents contain it and the prop doesnt contain the current id
-              .filter(el => (focusComponent.parentId === el.origin
-                || el.displayedAt.indexOf(focusComponent.parentId) >= 0)
-                && el.displayedAt.indexOf(focusComponent.id) < 0)
-              .map((el) => {
-                const {
-                  id, key, value, required, type,
-                } = el;
-                return (
-                  <Chip
-                    key={id}
-                    avatar={
-                      <Avatar className={classes.avatar}>
-                        {availablePropTypes[type]}
-                      </Avatar>
-                    }
-                    label={`${key}: ${value}`}
-                    onClick={() => {
-                      this.parentPropHandler({ id }, focusComponent.id);
-                    }}
-                    className={classes.chip}
-                    elevation={6}
-                    disabled={
-                      el.origin !== focusComponent.id
-                      || el.availableAt.indexOf(focusComponent.id) < 0
-                    }
-                    color={required ? 'secondary' : 'primary'}
-                    deleteIcon={
-                      <RemoveCircleOutlineIcon className={classes.icon} />
-                    }
-                  />
-                );
-              })}
+            </Paper>
+            <Paper className={classes.panel}>
+              <Typography className={classes.panelTitle}>Parent</Typography>
+              {compProps
+                // display if the parents contain it and the prop doesnt contain the current id
+                .filter(
+                  el => (focusComponent.parentId === el.origin
+                      || el.displayedAt.indexOf(focusComponent.parentId) >= 0)
+                    && el.displayedAt.indexOf(focusComponent.id) < 0,
+                )
+                .map((el) => {
+                  const {
+                    id, key, value, required, type,
+                  } = el;
+                  return (
+                    <Chip
+                      key={id}
+                      avatar={
+                        <Avatar className={classes.avatar}>
+                          {availablePropTypes[type]}
+                        </Avatar>
+                      }
+                      label={`${key}: ${value}`}
+                      onClick={() => {
+                        this.parentPropHandler({ id }, focusComponent.id);
+                      }}
+                      className={classes.chip}
+                      elevation={6}
+                      disabled={
+                        el.origin !== focusComponent.id
+                        || el.availableAt.indexOf(focusComponent.id) < 0
+                      }
+                      color={required ? 'secondary' : 'primary'}
+                      deleteIcon={
+                        <RemoveCircleOutlineIcon className={classes.icon} />
+                      }
+                    />
+                  );
+                })}
+            </Paper>
           </div>
         )}
       </div>
