@@ -9,6 +9,8 @@ import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -85,6 +87,8 @@ const MainContainerHeader = (props) => {
     collapseColumn,
     rightColumnOpen,
     toggleClass,
+    openWorkspace,
+    saveWorkspace,
   } = props;
 
   return (
@@ -108,6 +112,22 @@ const MainContainerHeader = (props) => {
           <div>
             <Button disabled={!image} color="default" className={toggleDrag ? classes.buttonDrag : classes.buttonDragDark} onClick={toggleDrag}>
               <OpenWithIcon className={toggleClass ? classes.light : classes.dark} />
+            </Button>
+          </div>
+        </Tooltip>
+      </div>
+      <div className="main-header-buttons" >
+        <Tooltip title="save workspace as">
+          <div>
+            <Button color="default" className={classes.button} onClick={saveWorkspace}>
+              <SaveAltIcon className={classes.light} />
+            </Button>
+          </div>
+        </Tooltip>
+        <Tooltip title="open workspace">
+          <div>
+            <Button color="default" className={classes.button} onClick={openWorkspace}>
+              <OpenInBrowserIcon className={classes.light} />
             </Button>
           </div>
         </Tooltip>
@@ -164,6 +184,8 @@ MainContainerHeader.propTypes = {
   collapseColumn: PropTypes.func.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
   toggleClass: PropTypes.bool.isRequired,
+  openWorkspace: PropTypes.func.isRequired,
+  saveWorkspace: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(MainContainerHeader);

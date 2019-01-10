@@ -8,11 +8,39 @@ import { saveState } from './localStorage';
 
 let composer;
 
+const stateSanitizer = (state) => {
+  const { components, focusComponent } = state.workspace;
+  let slimComponents = [];
+  let slimFocusComponent = {};
+  let slimWorkspace = {};
+
+  if (focusComponent) {
+    slimFocusComponent = { ...focusComponent, parent: '<<OBJ_REF>>', children: '<<OBJ_REF>>' };
+  }
+
+  if (components) {
+    slimComponents = components.map(component => (
+      { ...component, parent: '<<OBJ_REF>>', children: '<<OBJ_REF>>' }
+    ));
+  }
+
+  slimWorkspace = {
+    ...state.workspace,
+    components: slimComponents,
+    focusComponent: slimFocusComponent,
+  };
+
+  return { ...state, workspace: slimWorkspace };
+};
+
+
 if (process.env.NODE_ENV === 'development') {
-  composer = compose(
-    applyMiddleware(logger, thunk),
-    composeWithDevTools(),
-  );
+  composer = composeWithDevTools({
+    maxAge: 20,
+    serialize: false,
+    stateSanitizer,
+  });
+  composer = composer(applyMiddleware(logger, thunk));
 } else {
   composer = compose(applyMiddleware(thunk));
 }

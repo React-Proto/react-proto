@@ -8,7 +8,9 @@ import TextField from '@material-ui/core/TextField';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '../components/theme';
 import {
-  toggleDragging, openExpansionPanel, handleTransform, createApplication, changeImagePath,
+  toggleDragging, openExpansionPanel, handleTransform,
+  createApplication, changeImagePath, exportWorkspace,
+  importWorkspace,
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage.jsx';
 import MainContainerHeader from '../components/MainContainerHeader.jsx';
@@ -19,24 +21,47 @@ const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = dispatch => ({
   handleTransformation: (id, {
-    x, y, width, height,
+    x,
+    y,
+    width,
+    height,
   }) => dispatch(handleTransform(id, {
-    x, y, width, height,
+    x,
+    y,
+    width,
+    height,
   })),
   toggleComponetDragging: status => dispatch(toggleDragging(status)),
   openPanel: component => dispatch(openExpansionPanel(component)),
-  createApp: ({
-    path, components, genOption, repoUrl,
-  }) => dispatch(createApplication({
-    path, components, genOption, repoUrl,
-  })),
+  createApplication: data => dispatch(createApplication(data)),
   changeImagePath: path => dispatch(changeImagePath(path)),
+  exportWorkspace: ({
+    workspaceFilePath, totalComponents, nextId,
+    imagePath, focusComponent, components, nextPropId,
+    compProps,
+  }) => dispatch(
+    exportWorkspace({
+      workspaceFilePath,
+      totalComponents,
+      nextId,
+      imagePath,
+      focusComponent,
+      components,
+      nextPropId,
+      compProps,
+    }),
+  ),
+  importWorkspace: ({ workspaceFilePath }) => dispatch(importWorkspace({ workspaceFilePath })),
 });
 
 const mapStateToProps = store => ({
   totalComponents: store.workspace.totalComponents,
   imagePath: store.workspace.imagePath,
   focusComponent: store.workspace.focusComponent,
+  nextId: store.workspace.nextId,
+  components: store.workspace.components,
+  compProps: store.workspace.compProps,
+  nextPropId: store.workspace.nextPropId,
 });
 
 class MainContainer extends Component {
@@ -68,10 +93,36 @@ class MainContainer extends Component {
     });
 
     IPC.on('app_dir_selected', (event, path) => {
-      const { components } = this.props;
+      const { components, compProps } = this.props;
       const { genOption, repoUrl } = this.state;
-      this.props.createApp({
-        path, components, genOption, repoUrl,
+      this.props.createApplication({
+        path, components, compProps, genOption, repoUrl,
+      });
+    });
+
+    IPC.on('chosen-workspace', (event, workspaceFilePath) => {
+      // Trigger importWorkspace handler via this.props
+      this.props.importWorkspace({
+        workspaceFilePath,
+      });
+    });
+
+    IPC.on('new-workspace', (event, workspaceFilePath) => {
+      const {
+        totalComponents, nextId, imagePath,
+        focusComponent, components, nextPropId,
+        compProps,
+      } = this.props;
+      // Trigger exportWorkspace handler via this.props
+      this.props.exportWorkspace({
+        workspaceFilePath,
+        totalComponents,
+        nextId,
+        imagePath,
+        focusComponent,
+        components,
+        nextPropId,
+        compProps,
       });
     });
   }
@@ -92,12 +143,38 @@ class MainContainer extends Component {
     this.setImage();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.imagePath !== prevProps.imagePath) {
+      if (this.props.imagePath === '') {
+        this.deleteImage();
+      } else {
+        this.setImage();
+      }
+    }
+  }
+
   handleChange = (event) => {
     this.setState({ repoUrl: event.target.value.trim() });
   }
 
   updateImage = () => {
     IPC.send('update-file');
+  }
+
+  /*
+   * openWorkspace: Emit an event 'open_workspace'
+   *                via IPC to electron menus
+   */
+  openWorkspace = () => {
+    IPC.send('open_workspace');
+  }
+
+  /*
+   * saveWorkspace: Emit an event 'save_workspace'
+   *                via IPC to electron menus
+   */
+  saveWorkspace = () => {
+    IPC.send('save_workspace');
   }
 
   increaseHeight = () => {
@@ -220,6 +297,8 @@ class MainContainer extends Component {
       showImageDeleteModal,
       showGenerateAppModal,
       setImage,
+      openWorkspace,
+      saveWorkspace,
     } = this;
 
     return (
@@ -238,6 +317,8 @@ class MainContainer extends Component {
             rightColumnOpen={rightColumnOpen}
             components={components}
             toggleClass={toggleClass}
+            openWorkspace={openWorkspace}
+            saveWorkspace={saveWorkspace}
           />
           <div className="main" ref={main}>
             {
@@ -265,16 +346,21 @@ class MainContainer extends Component {
 
 MainContainer.propTypes = {
   components: PropTypes.array.isRequired,
+  compProps: PropTypes.array.isRequired,
   handleTransformation: PropTypes.func.isRequired,
   toggleComponetDragging: PropTypes.func.isRequired,
   totalComponents: PropTypes.number.isRequired,
   openPanel: PropTypes.func.isRequired,
   collapseColumn: PropTypes.func.isRequired,
-  createApp: PropTypes.func.isRequired,
+  createApplication: PropTypes.func.isRequired,
   changeImagePath: PropTypes.func.isRequired,
   imagePath: PropTypes.string.isRequired,
   rightColumnOpen: PropTypes.bool.isRequired,
   focusComponent: PropTypes.object.isRequired,
+  importWorkspace: PropTypes.func.isRequired,
+  exportWorkspace: PropTypes.func.isRequired,
+  nextId: PropTypes.number.isRequired,
+  nextPropId: PropTypes.number.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);

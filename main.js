@@ -31,6 +31,85 @@ function openFile() {
   mainWindow.webContents.send('new-file', file);
 }
 
+/*
+ *  openWorkspace:  Verify the user wants to perform Open Workspace
+ *                  as any unsaved work will be lost. If user proceeds
+ *                  opens file dialog looking for workspace file with extension
+ *                  '*.rproto'.
+ */
+const openWorkspace = () => {
+  // Prompt user to verify they want to move continue
+  dialog.showMessageBox(
+    mainWindow,
+    {
+      type: 'warning',
+      buttons: ['Go Back', 'Continue'],
+      defaultId: 0,
+      cancelId: 0,
+      title: 'Open Workspace',
+      message: 'Are you sure you want to open another Workspace?',
+      detail: 'Current work will be lost if not saved',
+    },
+    (response) => {
+      if (response === 0) return; // If 'Go Back' return to main window w/ no changes
+      if (response === 1) {
+        // If 'Continue' allow user to select workspace file
+        dialog.showOpenDialog(
+          mainWindow,
+          {
+            properties: ['openFile'],
+            title: 'Open Workspace',
+            filters: [{
+              name: 'Workspaces',
+              extensions: ['rproto'],
+            }],
+          },
+          (filePaths) => {
+            if (!filePaths) return; // if no files return to main window
+            const workspaceFilePath = filePaths[0];
+            // send selected file back to React application
+            mainWindow.webContents.send('chosen-workspace', workspaceFilePath);
+          },
+        );
+      }
+    },
+  );
+};
+
+
+/*
+ *  saveWorkspace:  Opens file save dialog allowing user to specify file name and
+ *                  location for workspace file with extension '*.rproto'.
+ */
+const saveWorkspace = () => {
+  dialog.showSaveDialog(
+    mainWindow,
+    {
+      title: 'Save Workspace As',
+      nameFieldLabel: 'Workspace',
+      filters: [{
+        name: 'Workspace',
+        extensions: ['rproto'],
+      }],
+    },
+    (filename) => {
+      if (!filename) return; // if no file return to main window
+      // send identified new file path back to React application
+      mainWindow.webContents.send('new-workspace', filename);
+    },
+  );
+};
+
+// Receive message from React main-header-buttons palette
+ipcMain.on('save_workspace', () => {
+  saveWorkspace();
+});
+
+// Receive message from React main-header-buttons palette
+ipcMain.on('open_workspace', () => {
+  openWorkspace();
+});
+
 // Choose directory
 ipcMain.on('choose_app_dir', (event) => {
   const directory = dialog.showOpenDialog(mainWindow, {
@@ -57,6 +136,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width,
     height,
+    webPreferences: {
+      nodeIntegration: true,
+      webSecurity: true,
+    },
   });
 
   // and load the index.html of the app.
@@ -65,10 +148,27 @@ const createWindow = () => {
   const template = [{
     label: 'File',
     submenu: [{
-      label: 'Open File',
-      accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
+      label: 'Update Image',
+      accelerator: process.platform === 'darwin' ? 'Cmd+U' : 'Ctrl+Shift+U',
       click() {
         openFile();
+      },
+    },
+    {
+      type: 'separator',
+    },
+    {
+      label: 'Open Workspace...',
+      accelerator: process.platform === 'darwin' ? 'Cmd+O' : 'Ctrl+Shift+O',
+      click() {
+        openWorkspace();
+      },
+    },
+    {
+      label: 'Save Workspace As...',
+      accelerator: process.platform === 'darwin' ? 'Cmd+S' : 'Ctrl+Shift+S',
+      click() {
+        saveWorkspace();
       },
     }],
   },
