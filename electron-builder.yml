@@ -2,7 +2,7 @@ directories:
   output: dist
   buildResources: build
 appId: com.eevee.react-proto
-copyright: Copyright © 2018
+copyright: Copyright © 2019
 linux:
   target:
     - AppImage
@@ -29,4 +29,4 @@ dmg:
       'y': 150
       type: link
       path: /Applications
-electronVersion: 2.0.7
+electronVersion: 3.1.0
